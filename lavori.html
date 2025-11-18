@@ -62,7 +62,46 @@
 	  }
 
 	  .page-hero{padding:3.5rem 0;}
-		</style>
+        /* Lavori page: showreel-inspired cards but distinct styling */
+        .filters {
+          display:flex;
+          gap:.5rem;
+          justify-content:center;
+          margin-bottom:1rem;
+          flex-wrap:wrap;
+          padding:.25rem 0;
+        }
+        .tag { font-size:.82rem; padding:.26rem .7rem; border-radius:999px; border:1px solid #eef2f7; background:#fff; white-space:nowrap; flex:0 0 auto; }
+
+        @media (max-width:520px){
+          .filters{ justify-content:center; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:0 .5rem; }
+          .filters::-webkit-scrollbar{ height:6px; }
+          .filters::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.06); border-radius:3px; }
+        }
+
+        /* grid with centered flow like showreel but different column sizes */
+        .gallery-wrap{ display:flex; flex-wrap:wrap; justify-content:center; gap:1.25rem; padding:2rem 0; }
+        .gallery-wrap .proj{ flex: 0 0 calc(33.333% - 0.833rem); max-width:420px; border-radius:12px; overflow:visible; }
+        @media (max-width:991px){ .gallery-wrap .proj{ flex:0 0 calc(50% - 0.625rem);} }
+        @media (max-width:767px){ .gallery-wrap .proj{ flex:0 0 100%; max-width:100%; } }
+
+        .proj .thumb{ border-radius:12px; overflow:hidden; position:relative; display:block; }
+        .proj img{ width:100%; height:100%; display:block; object-fit:cover; transition: transform .36s cubic-bezier(.2,.9,.3,1); }
+        .proj:hover img{ transform: scale(1.04); }
+
+        .overlay-label{ position:absolute; left:12px; bottom:12px; background: rgba(255,255,255,0.92); color:#0f172a; padding:.45rem .6rem; border-radius:10px; font-size:.92rem; display:inline-flex; gap:.5rem; align-items:center; box-shadow: 0 8px 22px rgba(2,6,23,0.06); }
+        .overlay-label strong{ font-weight:700; }
+        .overlay-cta{ position:absolute; right:12px; top:12px; background:transparent; border:none; }
+
+        .card-body{ padding:.8rem .9rem; }
+        .card-title{ font-size:1.05rem; margin-bottom:.25rem; }
+        .card-text{ color:#475569; font-size:.92rem; }
+
+        /* subtle entrance */
+        .proj{ opacity:0; transform: translateY(10px); transition: opacity .48s ease, transform .48s cubic-bezier(.2,.9,.3,1); }
+        .proj.show{ opacity:1; transform:none; }
+
+      </style>
   </head>
   <body>
 		<!-- Navbar -->
@@ -94,43 +133,82 @@
     <header class="page-hero text-center bg-light">
       <div class="container">
         <h1 class="display-6">LAVORI</h1>
-        <p class="lead">Portfolio — selezione dei progetti recenti.</p>
+        <p class="lead">Portfolio — selezione dei progetti recenti. Un racconto visivo per ogni lavoro: immagini, ritmo e scelte di montaggio.</p>
+        <div class="filters" aria-hidden="true">
+          <button class="btn btn-outline-secondary btn-sm tag" data-filter="all">Tutti</button>
+          <button class="btn btn-outline-secondary btn-sm tag" data-filter="commercial">Commercial</button>
+          <button class="btn btn-outline-secondary btn-sm tag" data-filter="music">Music</button>
+          <button class="btn btn-outline-secondary btn-sm tag" data-filter="short">Short film</button>
+          <button class="btn btn-outline-secondary btn-sm tag" data-filter="experimental">Experimental</button>
+        </div>
       </div>
     </header>
 
     <main class="py-5">
       <div class="container">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img src="https://picsum.photos/600/400?random=11" class="card-img-top" alt="PILIPU">
-              <div class="card-body">
-                <h5 class="card-title">PILIPU</h5>
-                <p class="card-text">Short description of the project.</p>
-                <a href="progetto-pilipu.html" class="btn btn-outline-primary">Apri progetto</a>
-              </div>
+        <div class="gallery-wrap" id="projectsContainer" aria-hidden="false">
+          <!-- project cards -->
+          <article class="proj" data-cats="commercial">
+            <a class="thumb" href="progetto-pilipu.html">
+              <img src="https://picsum.photos/900/600?random=21" alt="PILIPU">
+              <div class="overlay-label"><strong>PILIPU</strong><span> • 2024</span></div>
+            </a>
+            <div class="card-body">
+              <div class="card-title">PILIPU</div>
+              <p class="card-text">Un cortometraggio che esplora il ritmo del quotidiano e la suddivisione del tempo.</p>
+              <a href="progetto-pilipu.html" class="btn btn-sm btn-outline-primary mt-2">Apri progetto</a>
             </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="https://picsum.photos/600/400?random=12" class="card-img-top" alt="Progetto B">
-              <div class="card-body">
-                <h5 class="card-title">Progetto B</h5>
-                <p class="card-text">Breve descrizione.</p>
-                <a href="#" class="btn btn-outline-primary">Apri progetto</a>
-              </div>
+          </article>
+
+          <article class="proj" data-cats="music">
+            <a class="thumb" href="#">
+              <img src="https://picsum.photos/900/600?random=22" alt="Video Music">
+              <div class="overlay-label"><strong>Music Video</strong><span> • 2023</span></div>
+            </a>
+            <div class="card-body">
+              <div class="card-title">Music Video</div>
+              <p class="card-text">Montaggio serrato e palette cromatica per una track energica.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary mt-2">Apri progetto</a>
             </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="https://picsum.photos/600/400?random=13" class="card-img-top" alt="Progetto C">
-              <div class="card-body">
-                <h5 class="card-title">Progetto C</h5>
-                <p class="card-text">Breve descrizione.</p>
-                <a href="#" class="btn btn-outline-primary">Apri progetto</a>
-              </div>
+          </article>
+
+          <article class="proj" data-cats="short experimental">
+            <a class="thumb" href="#">
+              <img src="https://picsum.photos/900/600?random=23" alt="Short">
+              <div class="overlay-label"><strong>Short</strong><span> • 2022</span></div>
+            </a>
+            <div class="card-body">
+              <div class="card-title">Short</div>
+              <p class="card-text">Sperimentazione visiva e sonica per un corto di ricerca.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary mt-2">Apri progetto</a>
             </div>
-          </div>
+          </article>
+
+          <article class="proj" data-cats="commercial">
+            <a class="thumb" href="#">
+              <img src="https://picsum.photos/900/600?random=24" alt="Brand Film">
+              <div class="overlay-label"><strong>Brand Film</strong><span> • 2021</span></div>
+            </a>
+            <div class="card-body">
+              <div class="card-title">Brand Film</div>
+              <p class="card-text">Racconto emozionale per un marchio, girato in location naturali.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary mt-2">Apri progetto</a>
+            </div>
+          </article>
+
+          <article class="proj" data-cats="experimental">
+            <a class="thumb" href="#">
+              <img src="https://picsum.photos/900/600?random=25" alt="Experimental">
+              <div class="overlay-label"><strong>Experimental</strong><span> • 2020</span></div>
+            </a>
+            <div class="card-body">
+              <div class="card-title">Experimental</div>
+              <p class="card-text">Installazione video e loop che esplora texture visive.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary mt-2">Apri progetto</a>
+            </div>
+          </article>
+
+          <div id="noMatches" class="no-matches" style="display:none">Nessun risultato per il filtro selezionato.</div>
         </div>
       </div>
     </main>
@@ -147,5 +225,91 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+    <!-- load projects data (global) -->
+    <script src="data/projects-data.js"></script>
+
+  <script>
+  // data-driven client-side filtering for lavori
+  window.addEventListener('load', function(){
+    const filters = Array.from(document.querySelectorAll('.filters [data-filter]'));
+    let projects = Array.from(document.querySelectorAll('.proj'));
+    const container = document.getElementById('projectsContainer');
+    let active = 'all';
+
+    // if no static projects exist, render from data/projects-data.js (window.PROJECTS)
+    if((!projects || !projects.length) && window.PROJECTS && Array.isArray(window.PROJECTS)){
+      (window.PROJECTS||[]).forEach((p, i)=>{
+        const art = document.createElement('article');
+        art.className = 'proj';
+        art.dataset.cats = (p.categories || []).join(' ');
+
+        const a = document.createElement('a');
+        a.className = 'thumb';
+        a.href = p.url || '#';
+
+        const img = document.createElement('img');
+        img.src = p.thumb || '';
+        img.alt = p.title || '';
+        a.appendChild(img);
+
+        const label = document.createElement('div');
+        label.className = 'overlay-label';
+        label.innerHTML = `<strong>${p.title}</strong><span> • ${p.year || ''}</span>`;
+        a.appendChild(label);
+
+        art.appendChild(a);
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        body.innerHTML = `<div class="card-title">${p.title}</div><p class="card-text">${p.description || ''}</p><a class="btn btn-sm btn-outline-primary mt-2" href="${p.url||'#'}">Apri progetto</a>`;
+        art.appendChild(body);
+
+        container.insertBefore(art, document.getElementById('noMatches'));
+      });
+      // re-query projects
+      projects = Array.from(document.querySelectorAll('.proj'));
+    }
+
+    function apply(f){
+      let visible = 0;
+      projects.forEach((p, i)=>{
+        const cats = (p.dataset.cats||'').toLowerCase().split(' ').map(s=>s.trim()).filter(Boolean);
+        const match = (f==='all') || cats.includes(f);
+        if(match){
+          p.style.display = '';
+          setTimeout(()=> p.classList.add('show'), 40 + i*40);
+          visible++;
+        } else {
+          p.classList.remove('show');
+          setTimeout(()=> p.style.display = 'none', 320);
+        }
+      });
+      const nm = document.getElementById('noMatches');
+      if(nm){ nm.style.display = visible? 'none':'block'; }
+    }
+
+    filters.forEach(b=> b.addEventListener('click', ()=>{
+      const f = b.dataset.filter;
+      if(f === active) active='all'; else active = f;
+      filters.forEach(x=> x.classList.remove('btn-primary'));
+      if(active!=='all'){ const act = filters.find(x=> x.dataset.filter===active); if(act) act.classList.add('btn-primary'); }
+      else{ const all = filters.find(x=> x.dataset.filter==='all'); if(all) all.classList.add('btn-primary'); }
+      apply(active);
+    }));
+
+    // init
+    const allBtn = filters.find(b=> b.dataset.filter==='all'); if(allBtn) allBtn.classList.add('btn-primary');
+    apply('all');
+
+    // center filter scroll when overflowing
+    function centerFiltersScroll(){
+      const f = document.querySelector('.filters'); if(!f) return;
+      if(f.scrollWidth > f.clientWidth){ try{ f.scrollLeft = Math.round((f.scrollWidth - f.clientWidth)/2); }catch(e){} }
+    }
+    centerFiltersScroll(); let _t;
+    window.addEventListener('resize', ()=>{ clearTimeout(_t); _t = setTimeout(centerFiltersScroll, 140); });
+  });
+  </script>
   </body>
 </html>
