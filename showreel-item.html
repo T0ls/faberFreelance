@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Showreel — Dettaglio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body{font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Inria Serif', Georgia, serif; color:#0f172a}
+      .hero{padding:2.5rem 0 1rem 0}
+      .meta{color:#475569}
+      .video-wrap{background:#000;border-radius:12px;overflow:hidden}
+      .detail-title{font-family:'Inria Serif', serif; font-size:1.75rem}
+      .gallery img{width:120px;height:68px;object-fit:cover;border-radius:8px;cursor:pointer}
+      .back-link{font-size:.95rem}
+      @media(min-width:768px){ .video-wrap .player{height:480px} }
+      @media(max-width:767px){ .video-wrap .player{height:220px} }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md sticky-top shadow-sm bg-body">
+      <div class="container">
+        <a class="navbar-brand" href="homepage.html">FaberFreelance</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="showreel.html">Showreel</a></li>
+            <li class="nav-item"><a class="nav-link" href="lavori.html">Lavori</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      <div id="content">
+        <div class="hero text-center">
+          <a class="back-link" href="showreel.html">← Torna allo showreel</a>
+          <h1 id="title" class="detail-title mt-3">Titolo</h1>
+          <div id="subtitle" class="meta"></div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-12 col-lg-8">
+            <div class="video-wrap mb-2">
+              <div id="playerAnchor" class="player"></div>
+            </div>
+            <p id="description" class="lead"></p>
+            <div id="credits" class="mb-3"></div>
+          </div>
+
+          <aside class="col-12 col-lg-4">
+            <div class="card p-3">
+              <h5 class="mb-2">Info</h5>
+              <ul class="list-unstyled mb-3 meta" id="infoList"></ul>
+              <h6>Gallery</h6>
+              <div id="gallery" class="gallery d-flex gap-2 flex-wrap"></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <footer class="py-4 mt-5 bg-light">
+      <div class="container small text-muted">© <span id="year"></span> Fabrizio Arrigo</div>
+    </footer>
+
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    <script>
+      // helper to read ?slug= from URL
+      function readSlug(){
+        const p = new URLSearchParams(window.location.search);
+        return p.get('slug') || '';
+      }
+
+      async function loadDetails(){
+        // try to fetch JSON (works when served over HTTP)
+        try{
+          const resp = await fetch('data/showreel-details.json', {cache:'no-store'});
+          if(resp.ok){ const data = await resp.json(); return data; }
+        }catch(e){/* fall back to JS global */}
+
+        // fallback: load JS file which defines window.SHOWREEL_DETAILS
+        try{
+          await new Promise((resolve, reject)=>{
+            const s = document.createElement('script'); s.src='data/showreel-details.js'; s.onload=resolve; s.onerror=reject; document.head.appendChild(s);
+          });
+          return window.SHOWREEL_DETAILS || [];
+        }catch(e){ console.error('Failed to load details data', e); return []; }
+      }
+
+      function renderItem(item){
+        if(!item) { document.getElementById('content').innerHTML = '<p class="lead text-center">Elemento non trovato.</p>'; return; }
+        document.getElementById('title').textContent = item.title || '';
+        document.getElementById('subtitle').textContent = [item.year, (item.categories||[]).join(' • ')].filter(Boolean).join(' — ');
+        document.getElementById('description').textContent = item.longDescription || item.description || '';
+
+        // info list
+        const info = [];
+        if(item.client) info.push(['Client', item.client]);
+        if(item.role) info.push(['Ruolo', item.role]);
+        if(item.duration) info.push(['Durata', item.duration]);
+        if(item.tags) info.push(['Tags', item.tags.join(', ')]);
+        const infoList = document.getElementById('infoList'); infoList.innerHTML='';
+        info.forEach(([k,v]) => { const li = document.createElement('li'); li.innerHTML = `<strong>${k}:</strong> ${v}`; infoList.appendChild(li); });
+
+        // credits
+        const creditsWrap = document.getElementById('credits'); creditsWrap.innerHTML='';
+        if(item.credits && item.credits.length){
+          const h = document.createElement('h5'); h.textContent='Credits'; creditsWrap.appendChild(h);
+          const ul = document.createElement('ul'); ul.className='small';
+          item.credits.forEach(c=>{ const li = document.createElement('li'); li.textContent = c; ul.appendChild(li); });
+          creditsWrap.appendChild(ul);
+        }
+
+        // player: if video exists, embed <video>, otherwise show placeholder image
+        const playerAnchor = document.getElementById('playerAnchor'); playerAnchor.innerHTML='';
+        if(item.video && item.video.length){
+          const video = document.createElement('video');
+          video.controls = true; video.autoplay = false; video.muted = false; video.playsInline = true; video.className='w-100';
+          const src = document.createElement('source'); src.src = item.video[0]; src.type='video/mp4'; video.appendChild(src);
+          playerAnchor.appendChild(video);
+        }else{
+          const img = document.createElement('img'); img.className='w-100'; img.alt = item.title || ''; img.style.borderRadius='8px';
+          img.src = item.poster || 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900"><rect width="100%" height="100%" fill="#f8fafc"/><text x="50%" y="50%" fill="#64748b" font-family="Arial" font-size="36" text-anchor="middle">Video non disponibile</text></svg>');
+          playerAnchor.appendChild(img);
+        }
+
+        // gallery
+        const gallery = document.getElementById('gallery'); gallery.innerHTML = '';
+        (item.gallery || []).forEach(url=>{
+          const img = document.createElement('img'); img.src = url; img.alt = item.title || ''; img.addEventListener('click', ()=> window.open(url, '_blank'));
+          gallery.appendChild(img);
+        });
+      }
+
+      (async function(){
+        const slug = readSlug();
+        const data = await loadDetails();
+        const item = (data || []).find(d => d.slug === slug || String(d.id) === slug);
+        renderItem(item);
+      })();
+    </script>
+  </body>
+</html>
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Showreel • dettaglio</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+      .page-hero{padding:3.5rem 0}
+      .logo-mark{display:inline-flex;align-items:flex-end;gap:.3rem;margin-left:25px}
+      .card-video{ width:100%; height:auto; display:block; object-fit:cover; }
+      .detail-hero{ max-width:980px;margin:0 auto 2rem auto }
+      .back-link{ font-size:.95rem }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md sticky-top shadow-sm bg-body">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="homepage.html">
+          <span class="logo-mark">
+            <span class="logo-color logo-F">F</span>
+            <span class="logo-stack">
+              <span class="logo-color logo-line">aber</span>
+              <span class="logo-color logo-line">reelance</span>
+            </span>
+          </span>
+        </a>
+      </div>
+    </nav>
+
+    <main class="py-5">
+      <div class="container">
+        <div id="detail" class="detail-hero text-center">
+          <div class="spinner-border text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="py-4 mt-5">
+      <div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+        <div class="small">© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati</div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      function qs(name){
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      async function loadDetail(){
+        const slug = qs('slug');
+        try{
+          const items = window.SHOWREELS || [];
+          const item = items.find(i=>i.slug === slug);
+          const container = document.getElementById('detail');
+          if(!item){
+            container.innerHTML = '<p class="lead">Showreel non trovato.</p><p><a class="back-link" href="showreel.html">← Torna allo showreel</a></p>';
+            return;
+          }
+          container.innerHTML = `
+            <p class="mb-2"><a class="back-link" href="showreel.html">← Torna allo showreel</a></p>
+            <h1 class="display-6">${item.title} <small class="text-muted">${item.year}</small></h1>
+            <p class="lead text-muted">${item.description || ''}</p>
+            <div style="max-width:980px;margin:1.5rem auto;">
+              <video class="card-video" controls poster="${item.poster}">
+                <source src="${item.video}" type="video/mp4">
+                Il tuo browser non supporta il video.
+              </video>
+            </div>
+          `;
+        }catch(err){
+          document.getElementById('detail').innerHTML = '<p class="lead">Errore caricamento showreel.</p>';
+          console.error(err);
+        }
+      }
+
+      window.addEventListener('load', loadDetail);
+    </script>
+  </body>
+</html>

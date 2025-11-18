@@ -10,12 +10,11 @@
 		<!-- Bootstrap Icons -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover.css"/>
+
 		<link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
 
 		<style>
-		      /* Obra Letra: se lo hai installato localmente, verrà usato.
-         In alternativa puoi auto-ospitarlo: metti i file in /fonts e
-         decommenta le righe con url(...) sotto. */
       @font-face{
         font-family: "Obra Letra";
         src: local("Obra Letra")
@@ -44,14 +43,15 @@
         font-family: "Inria Serif", serif;
         font-weight: 700;
         /* F alta ~ due righe */
-        font-size: 2em;
-        line-height: .95;
+        font-size: 2.5em;
+        line-height: .85;
         margin-right:.05rem;
       }
       .logo-stack{
         display:flex;
         flex-direction:column;
         line-height:1;
+		margin-left: -5px;
       }
       .logo-line{
         font-family: "Inria Serif", serif;
@@ -59,6 +59,27 @@
         line-height:1;
         letter-spacing: .005em; /* micro aggiustamento */
       }
+	  .nav-link{
+		  font-size: 20px;
+	  }
+
+	  .page-hero{padding:3.5rem 0; padding-bottom:10px;}
+
+			/* Pulse animation for homepage images */
+			.pulse-target {
+				display: inline-block;
+				will-change: transform, box-shadow;
+			}
+
+			@keyframes pulse {
+				0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+				50% { transform: scale(1.06); box-shadow: 0 18px 36px rgba(0,0,0,0.16); }
+				100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+			}
+
+			.pulse {
+				animation: pulse 1.2s ease-in-out both;
+			}
 		</style>
 	</head>
 	<body>
@@ -79,33 +100,39 @@
 				</button>
 				<div class="collapse navbar-collapse" id="mainNav">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-						<li class="nav-item"><a class="nav-link" href="showreel.html">Showreel</a></li>
-						<li class="nav-item"><a class="nav-link" href="lavori.html">Lavori</a></li>
-						<li class="nav-item"><a class="nav-link" href="contatti.html">Contatti</a></li>
+						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
+						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
+						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
+						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 
+		<header class="page-hero text-center bg-light">
+			<div class="container">
+				<h1 class="display-6">FABRIZIO ARRIGO</h1>
+				<p class="lead">Montatore regista videomaker...</p>
+			</div>
+		</header>
 		<!-- Immagini -->
-		<section class="py-5 bg-light">
+		<section class="py-1 bg-light">
 			<div class="container">
 				<div class="row justify-content-center align-items-center g-3">
 
 					<!-- Immagine sinistra -->
 					<div class="col-12 col-md-3 text-center">
-						<img src="https://picsum.photos/300/300" class="img-fluid rounded shadow-sm" alt="Immagine sinistra">
+						<img src="https://picsum.photos/300/300" class="img-fluid rounded shadow-sm pulse-target" alt="Immagine sinistra">
 					</div>
 
 					<!-- Immagine centrale (più grande) -->
 					<div class="col-12 col-md-6 text-center">
-						<img src="https://picsum.photos/300/300" class="img-fluid rounded shadow" alt="Immagine centrale">
+						<img src="https://picsum.photos/300/300" class="img-fluid rounded shadow pulse-target" alt="Immagine centrale">
 					</div>
 
 					<!-- Immagine destra -->
 					<div class="col-12 col-md-3 text-center">
-						<img src="https://picsum.photos/300/300" class="img-fluid rounded shadow-sm" alt="Immagine destra">
+						<img src="https://picsum.photos/300/300" class="img-fluid rounded shadow-sm pulse-target" alt="Immagine destra">
 					</div>
 
 				</div>
@@ -128,6 +155,39 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script>
 		document.getElementById('year').textContent = new Date().getFullYear();
+
+		// Random alternating pulse for the three homepage images
+		(function(){
+		  const imgs = Array.from(document.querySelectorAll('.pulse-target'));
+		  if (!imgs.length) return;
+		  const ANIM_MS = 1200; // matches CSS animation duration
+		  let last = -1;
+
+		  function pickRandomDifferent(){
+		    if (imgs.length === 1) return 0;
+		    let idx;
+		    do { idx = Math.floor(Math.random() * imgs.length); } while(idx === last);
+		    return idx;
+		  }
+
+		  function pulseOnce(el){
+		    // add class, remove after animation to allow retriggering later
+		    el.classList.add('pulse');
+		    setTimeout(()=> el.classList.remove('pulse'), ANIM_MS + 20);
+		  }
+
+		  // Start: trigger one immediately
+		  const first = pickRandomDifferent();
+		  last = first;
+		  pulseOnce(imgs[first]);
+
+		  // Repeatedly pick a different image and pulse it.
+		  setInterval(()=>{
+		    const idx = pickRandomDifferent();
+		    last = idx;
+		    pulseOnce(imgs[idx]);
+		  }, ANIM_MS + 400); // small gap between pulses
+		})();
 		</script>
 	</body>
 </html>
