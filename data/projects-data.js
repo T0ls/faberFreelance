@@ -8,8 +8,33 @@ window.PROJECTS = [
     year: '2024',
     categories: ['commercial'],
     thumb: 'https://picsum.photos/900/600?random=21',
+    // extended/demo fields for project-item.html
+    images: [
+      'https://picsum.photos/1200/800?random=101',
+      'https://picsum.photos/1200/800?random=102'
+    ],
+    video: [
+      // public demo MP4 so the detail page can play immediately
+      'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
+    ],
     description: 'Un cortometraggio che esplora il ritmo del quotidiano e la suddivisione del tempo.',
-    url: 'progetto-pilipu.html'
+    role: 'Regia, montaggio',
+    client: 'Autoproduzione',
+    duration: '12:34',
+    tags: ['ritmo','montaggio','dramma'],
+    awards: {
+      wins: ['Miglior montaggio — Festival X 2024'],
+      nominations: ['Miglior cortometraggio — Festival Y 2024']
+    },
+    cast: [
+      { name: 'Anna Rossi', role: 'Protagonista' },
+      { name: 'Luca Bianchi', role: 'Supporto' }
+    ],
+    crew: [
+      { name: 'Marco Verdi', role: 'Direttore della fotografia' },
+      { name: 'Giulia Neri', role: 'Sound designer' }
+    ],
+    description_short: 'Corto sperimentale sul tempo e la quotidianità.',
   },
   {
     id: 'music-video',
@@ -19,7 +44,7 @@ window.PROJECTS = [
     categories: ['music'],
     thumb: 'https://picsum.photos/900/600?random=22',
     description: 'Montaggio serrato e palette cromatica per una track energica.',
-    url: '#'
+    description_short: 'Montaggio energico e colore deciso.',
   },
   {
     id: 'short',
@@ -29,7 +54,7 @@ window.PROJECTS = [
     categories: ['short', 'experimental'],
     thumb: 'https://picsum.photos/900/600?random=23',
     description: 'Sperimentazione visiva e sonica per un corto di ricerca.',
-    url: '#'
+    description_short: 'Corto di ricerca con sperimentazioni visive.',
   },
   {
     id: 'brand-film',
@@ -39,7 +64,7 @@ window.PROJECTS = [
     categories: ['commercial'],
     thumb: 'https://picsum.photos/900/600?random=24',
     description: "Racconto emozionale per un marchio, girato in location naturali.",
-    url: '#'
+    description_short: 'Racconto emozionale per brand, location naturali.',
   },
   {
     id: 'experimental',
@@ -49,7 +74,7 @@ window.PROJECTS = [
     categories: ['experimental'],
     thumb: 'https://picsum.photos/900/600?random=25',
     description: 'Installazione video e loop che esplora texture visive.',
-    url: '#'
+    description_short: 'Installazione video che esplora texture visive.',
   }
 ];
 

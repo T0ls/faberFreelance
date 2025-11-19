@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Progetto • Dettagli</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      /* Minimal, clean page styles matching other pages */
+      :root{ --muted:#6b7280; --text:#0b1220; --accent:#0b5fff; --surface: #ffffff; --edge: rgba(2,6,23,0.06); }
+      body{ font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:var(--text); background: #fff; }
+      .back-link{ font-size:.9rem; color:var(--muted); text-decoration:none; }
+      .back-link:hover{ color:var(--accent); }
+
+      h1#projTitle{ font-size:1.6rem; margin:0.35rem 0 0.6rem; letter-spacing: -0.01em; }
+
+      .project-hero{ display:grid; grid-template-columns: 1fr 360px; gap:1.25rem; align-items:start; }
+      @media (max-width:900px){ .project-hero{ grid-template-columns: 1fr; } }
+
+      /* Media stage: clean, edge, and gentle radius */
+      .media-stage{ background:var(--surface); border-radius:10px; padding:0; border:1px solid var(--edge); overflow:hidden; }
+      .media-stage img, .media-stage video{ display:block; width:100%; height:auto; object-fit:cover; }
+      .carousel-img{ width:100%; height:100%; object-fit:cover; }
+
+      /* Sidebar card (tabs) */
+      aside .card.tabs-card{ border:1px solid var(--edge); border-radius:10px; box-shadow:none; padding:.6rem; }
+      .tabs-row{ margin:0; }
+
+  /* Tabs: compact, minimal underline for active. Keep a surrounding card border. */
+  .nav-tabs{ border-bottom: 1px solid var(--edge); margin:0; }
+  .nav-tabs .nav-link{ color:var(--text); padding:.45rem .6rem; font-size:.95rem; border:0; border-bottom:2px solid transparent; }
+  .nav-tabs .nav-link.active{ color:var(--accent); border-bottom-color:var(--accent); background:transparent; }
+  .tab-content{ padding-top:.6rem; }
+
+  /* Fade micro-animation for tab panels */
+  .tab-pane.fade{ opacity:0; transition: opacity .28s ease; }
+  .tab-pane.fade.show{ opacity:1; }
+
+      .no-data{ color:var(--muted); font-style:italic; }
+      .meta-item{ display:flex; gap:.5rem; color:var(--muted); font-size:.95rem; }
+      .meta-item strong{ width:5.25rem; color:var(--text); font-weight:600; }
+
+      /* optional panel
+         small note area under tabs for downloads or related links */
+      #optionalPanel{ font-size:.95rem; color:var(--muted); }
+
+      @font-face{
+        font-family: "Obra Letra";
+        src: local("Obra Letra")
+             /* , url("/fonts/ObraLetra.woff2") format("woff2"),
+                url("/fonts/ObraLetra.woff") format("woff") */;
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Navbar con sfondo pieno per evitare trasparenza */
+      .navbar { background-color: #fff; }
+
+      /* LOGO */
+      .logo-mark{
+        display:inline-flex;
+        align-items:flex-end;
+        gap:.3rem;
+        margin-left:25px;
+        /* scala globale del logo: aumenta/diminuisci qui */
+        --logo-size: 38px;
+        font-size: var(--logo-size);
+        color:#000;
+      }
+      .logo-F{
+        font-family: "Inria Serif", serif;
+        font-weight: 700;
+        /* F alta ~ due righe */
+        font-size: 2.5em;
+        line-height: .85;
+        margin-right:.05rem;
+      }
+      .logo-stack{
+        display:flex;
+        flex-direction:column;
+        line-height:1;
+		margin-left: -5px;
+      }
+      .logo-line{
+        font-family: "Inria Serif", serif;
+        font-size:1em;
+        line-height:1;
+        letter-spacing: .005em; /* micro aggiustamento */
+      }
+	  .nav-link{
+		  font-size: 20px;
+	  }
+    </style>
+  </head>
+  <body>
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-md sticky-top shadow-sm bg-body">
+			<div class="container">
+				<a class="navbar-brand d-flex align-items-center gap-2" href="homepage.html">
+					<span class="logo-mark logo-theme-iceNavy">
+						<span class="logo-color logo-F">F</span>
+						<span class="logo-stack">
+							<span class="logo-color logo-line">aber</span>
+							<span class="logo-color logo-line">reelance</span>
+						</span>
+					</span>
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="mainNav">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
+						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
+						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
+						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+    <main class="container py-5">
+      <div id="notFound" style="display:none" class="alert alert-warning">Progetto non trovato. Controlla lo slug nell'URL.</div>
+
+      <div id="projectRoot" style="display:none">
+        <a class="back-link" href="lavori.html">← Torna a Lavori</a>
+        <h1 id="projTitle" class="mt-3"></h1>
+        <div class="project-hero mt-3">
+          <div>
+            <div id="mediaArea" class="media-stage"></div>
+          </div>
+          <aside>
+            <div id="tabsArea" class="tabs-row"></div>
+            <div id="optionalPanel" class="mt-3"></div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+		<!-- Footer -->
+		<footer class="py-4 mt-5">
+			<div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+				<div class="small">
+					© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati
+				</div>
+				<div class="d-flex gap-3 small">
+					<a href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+					<a href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+				</div>
+			</div>
+		</footer>
+
+  <!-- Image modal: used to show enlarged photos. Clicking the backdrop closes the modal. -->
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body p-0" style="background:transparent;">
+          <img id="imageModalImg" src="" alt="" style="width:100%; height:auto; display:block; border-radius:6px;" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- load projects data so window.PROJECTS and window.PROJECTS_BY_SLUG are available -->
+  <script src="data/projects-data.js"></script>
+  <script>
+    // Helper: get slug from ?slug= or from filename (progetto-pilipu.html -> progetto-pilipu)
+    function getSlug(){
+      const params = new URLSearchParams(location.search);
+      if(params.get('slug')) return params.get('slug');
+      const last = location.pathname.split('/').pop() || '';
+      return last.replace(/\.html?$/i,'') || null;
+    }
+
+    function createMetaItem(label, value){
+      const li = document.createElement('li'); li.className='meta-item';
+      li.innerHTML = `<strong style="width:4.5rem;display:inline-block;color:#0b1220">${label}</strong><span>${value||''}</span>`;
+      return li;
+    }
+
+    function renderMedia(project, container){
+      container.innerHTML='';
+      // priority: video if present, otherwise images (carousel if multiple), otherwise thumb
+      if(project.video && project.video.length){
+        const v = document.createElement('video');
+        v.controls = true; v.playsInline = true; v.muted = false; v.style.width='100%';
+        project.video.forEach(src => {
+          const s = document.createElement('source'); s.src = src; v.appendChild(s);
+        });
+        container.appendChild(v);
+        return;
+      }
+      const imgs = project.images || (project.gallery || []);
+      if(imgs && imgs.length>1){
+        const id = 'projCarousel';
+        const wrap = document.createElement('div');
+        wrap.id = id; wrap.className='carousel slide'; wrap.setAttribute('data-bs-ride','carousel');
+        const inner = document.createElement('div'); inner.className='carousel-inner';
+        imgs.forEach((u,i)=>{
+          const it = document.createElement('div'); it.className = 'carousel-item' + (i===0? ' active':'');
+          const img = document.createElement('img'); img.src = u; img.className='d-block w-100 carousel-img'; img.alt = project.title + ' image ' + (i+1);
+          it.appendChild(img); inner.appendChild(it);
+        });
+        wrap.appendChild(inner);
+        wrap.innerHTML += `\n<button class="carousel-control-prev" type="button" data-bs-target="#${id}" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>\n<button class="carousel-control-next" type="button" data-bs-target="#${id}" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>`;
+        // ensure carousel auto-starts after being added to the DOM
+        container.appendChild(wrap);
+        try{
+          // prefer 3s interval; use existing bootstrap bundle
+          const carousel = bootstrap.Carousel.getOrCreateInstance(wrap, { interval: 3000, wrap: true });
+          carousel.cycle();
+        }catch(e){ /* bootstrap not available or older; ignore */ }
+        // make images open in modal when clicked; also allow clicking the visible carousel area to open the current image
+        inner.querySelectorAll('img').forEach(img => { img.style.cursor = 'zoom-in'; img.addEventListener('click', (ev)=>{ ev.stopPropagation(); openImageModal(img.src); }); });
+        // clicking the carousel card (outside controls) opens the modal for the active slide
+        wrap.style.cursor = 'zoom-in';
+        wrap.addEventListener('click', (ev)=>{
+          // ignore clicks on controls
+          if(ev.target.closest('.carousel-control-prev') || ev.target.closest('.carousel-control-next')) return;
+          const activeImg = wrap.querySelector('.carousel-item.active img') || wrap.querySelector('img');
+          if(activeImg) openImageModal(activeImg.src);
+        });
+        return;
+      }
+      if(imgs && imgs.length===1){
+        const img = document.createElement('img'); img.src = imgs[0]; img.alt = project.title; img.style.width='100%'; img.style.borderRadius='6px';
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', ()=> openImageModal(img.src));
+        container.appendChild(img); return;
+      }
+      // fallback to thumb
+  if(project.thumb){ const img = document.createElement('img'); img.src = project.thumb; img.alt = project.title; img.style.width='100%'; img.style.borderRadius='6px'; img.style.cursor='zoom-in'; img.addEventListener('click', ()=> openImageModal(img.src)); container.appendChild(img); return; }
+      container.innerHTML = '<div class="no-data">Nessun media disponibile</div>';
+    }
+
+    function renderTabs(project, container){
+  container.innerHTML='';
+  // create a card wrapper so tabs and panels have the surrounding border
+  const card = document.createElement('div'); card.className = 'card tabs-card';
+  const cardBody = document.createElement('div'); cardBody.className = 'card-body p-0';
+  const tabs = document.createElement('ul'); tabs.className='nav nav-tabs';
+  const panels = document.createElement('div'); panels.className='tab-content p-3';
+
+      // Info tab (always)
+      const idInfo = 'tab-info';
+      tabs.innerHTML += `<li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#${idInfo}" type="button">Info</button></li>`;
+      const infoPanel = document.createElement('div'); infoPanel.className='tab-pane fade show active'; infoPanel.id = idInfo;
+      infoPanel.innerHTML = `<p>${project.description||'<span class="no-data">Nessuna descrizione</span>'}</p>`;
+      // additional structured fields
+      const dl = document.createElement('div');
+      const details = [];
+      if(project.year) details.push(createMetaItem('Anno', project.year));
+      if(project.role) details.push(createMetaItem('Ruolo', project.role));
+      if(project.client) details.push(createMetaItem('Cliente', project.client));
+      if(project.duration) details.push(createMetaItem('Durata', project.duration));
+      if(project.tags && project.tags.length) details.push(createMetaItem('Tag', project.tags.join(', ')));
+      if(details.length){
+        const box = document.createElement('div'); box.className='mt-3';
+        details.forEach(d=> box.appendChild(d));
+        infoPanel.appendChild(box);
+      }
+      panels.appendChild(infoPanel);
+
+      // Media is shown in the main column; no separate Media tab here.
+
+      // Awards
+      if(project.awards && (project.awards.nominations && project.awards.nominations.length || project.awards.wins && project.awards.wins.length)){
+        const idAwards = 'tab-awards';
+        tabs.innerHTML += `<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#${idAwards}" type="button">Premi</button></li>`;
+        const aPanel = document.createElement('div'); aPanel.className='tab-pane fade'; aPanel.id = idAwards;
+        if(project.awards.wins && project.awards.wins.length){
+          const h = document.createElement('h6'); h.textContent='Vinti'; aPanel.appendChild(h);
+          const ul = document.createElement('ul'); project.awards.wins.forEach(w=>{ const li=document.createElement('li'); li.textContent = w; ul.appendChild(li); }); aPanel.appendChild(ul);
+        }
+        if(project.awards.nominations && project.awards.nominations.length){
+          const h2 = document.createElement('h6'); h2.textContent='Nominazioni'; aPanel.appendChild(h2);
+          const ul2 = document.createElement('ul'); project.awards.nominations.forEach(n=>{ const li=document.createElement('li'); li.textContent = n; ul2.appendChild(li); }); aPanel.appendChild(ul2);
+        }
+        panels.appendChild(aPanel);
+      }
+
+      // Cast & Crew
+      if((project.cast && project.cast.length) || (project.crew && project.crew.length)){
+        const idCC = 'tab-cast';
+        tabs.innerHTML += `<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#${idCC}" type="button">Cast & Crew</button></li>`;
+        const cPanel = document.createElement('div'); cPanel.className='tab-pane fade'; cPanel.id = idCC;
+        if(project.cast && project.cast.length){
+          const h = document.createElement('h6'); h.textContent='Cast'; cPanel.appendChild(h);
+          const ul = document.createElement('ul'); project.cast.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name || '') + (c.role? ' — ' + c.role: ''); ul.appendChild(li); }); cPanel.appendChild(ul);
+        }
+        if(project.crew && project.crew.length){
+          const h2 = document.createElement('h6'); h2.textContent='Crew'; cPanel.appendChild(h2);
+          const ul2 = document.createElement('ul'); project.crew.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name || '') + (c.role? ' — ' + c.role: ''); ul2.appendChild(li); }); cPanel.appendChild(ul2);
+        }
+        panels.appendChild(cPanel);
+      }
+
+  cardBody.appendChild(tabs);
+  cardBody.appendChild(panels);
+  card.appendChild(cardBody);
+  container.appendChild(card);
+    }
+
+    // Open the image modal with the provided src
+    function openImageModal(src){
+      const modalEl = document.getElementById('imageModal');
+      const img = document.getElementById('imageModalImg');
+      if(!modalEl || !img) return;
+      img.src = src || '';
+      try{
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl, { backdrop: true });
+        modal.show();
+      }catch(e){ /* ignore if bootstrap missing */ }
+    }
+
+    // clear modal image on hide to free memory
+    (function(){
+      const modalEl = document.getElementById('imageModal');
+      if(modalEl){
+        modalEl.addEventListener('hidden.bs.modal', ()=>{ const img = document.getElementById('imageModalImg'); if(img) img.src=''; });
+      }
+    })();
+
+    window.addEventListener('load', ()=>{
+      const slug = getSlug();
+      const notFound = document.getElementById('notFound');
+      const root = document.getElementById('projectRoot');
+      if(!slug){ notFound.style.display='block'; return; }
+
+      // find project from globals with tolerant matching (accept id, slug, url-derived, and some normalized variants)
+      let project = null;
+      const norm = s => (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+      const target = norm(slug);
+
+      if(window.PROJECTS_BY_SLUG && window.PROJECTS_BY_SLUG[slug]) project = window.PROJECTS_BY_SLUG[slug];
+
+      if(!project && window.PROJECTS && Array.isArray(window.PROJECTS)){
+        for(const p of window.PROJECTS){
+          const candidates = [];
+          if(p.slug) candidates.push(p.slug);
+          if(p.id) candidates.push(p.id);
+          if(p.title) candidates.push(p.title);
+          if(p.url) candidates.push((p.url||'').replace(/\?.*$/,'').replace(/\.html?$/i,''));
+          // add some common variants
+          if(p.slug) candidates.push(p.slug.replace(/^progetto-/,'').replace(/-project$/,''));
+
+          const matched = candidates.map(c=>norm(c)).some(cn => cn === target || cn.includes(target) || target.includes(cn));
+          if(matched){ project = p; break; }
+        }
+      }
+
+      if(!project){ notFound.style.display='block'; return; }
+
+      document.getElementById('projTitle').textContent = project.title || 'Progetto';
+      // meta list (optional). Some layouts include a `#metaList` container; only render into it if present.
+      const meta = document.getElementById('metaList');
+      if(meta){
+        meta.innerHTML = '';
+        if(project.year) meta.appendChild(createMetaItem('Anno', project.year));
+        if(project.role) meta.appendChild(createMetaItem('Ruolo', project.role));
+        if(project.client) meta.appendChild(createMetaItem('Cliente', project.client));
+        if(project.duration) meta.appendChild(createMetaItem('Durata', project.duration));
+        if(project.categories && project.categories.length) meta.appendChild(createMetaItem('Categorie', project.categories.join(', ')));
+      }
+
+      // render media and tabs
+      const mediaArea = document.getElementById('mediaArea');
+      renderMedia(project, mediaArea);
+      const tabsArea = document.getElementById('tabsArea');
+      renderTabs(project, tabsArea);
+
+      root.style.display = '';
+    });
+    </script>
+  </body>
+</html>
