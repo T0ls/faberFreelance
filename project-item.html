@@ -16,16 +16,25 @@
 
       h1#projTitle{ font-size:1.6rem; margin:0.35rem 0 0.6rem; letter-spacing: -0.01em; }
 
-      .project-hero{ display:grid; grid-template-columns: 1fr 360px; gap:1.25rem; align-items:start; }
-      @media (max-width:900px){ .project-hero{ grid-template-columns: 1fr; } }
+  /* Layout: main media column + sidebar. Use modern responsive sizing and breathing room. */
+  .project-hero{ display:grid; grid-template-columns: minmax(0,1fr) 320px; gap:1.75rem; align-items:start; align-content:start; }
+  @media (max-width:1100px){ .project-hero{ grid-template-columns: minmax(0,1fr) 300px; } }
+  @media (max-width:900px){ .project-hero{ grid-template-columns: 1fr; gap:1rem; } }
 
       /* Media stage: clean, edge, and gentle radius */
-      .media-stage{ background:var(--surface); border-radius:10px; padding:0; border:1px solid var(--edge); overflow:hidden; }
-      .media-stage img, .media-stage video{ display:block; width:100%; height:auto; object-fit:cover; }
+  /* Media stage: centered, constrained, and visually calm */
+  .media-stage{ background:var(--surface); border-radius:8px; padding:0; border:1px solid var(--edge); overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .media-stage > *{ width:100%; height:auto; display:block; }
+  .media-stage img, .media-stage video{ width:100%; height:100%; object-fit:cover; max-height:68vh; }
+  /* ensure carousel images fill stage while preserving center crop */
+  .carousel-img{ width:100%; height:100%; object-fit:cover; }
       .carousel-img{ width:100%; height:100%; object-fit:cover; }
 
-      /* Sidebar card (tabs) */
-      aside .card.tabs-card{ border:1px solid var(--edge); border-radius:10px; box-shadow:none; padding:.6rem; }
+  /* Sidebar: make it sticky on large screens and visually separated without heavy edges */
+  aside .card.tabs-card{ border:0; border-radius:0; box-shadow:none; padding:0; background:transparent; }
+  aside .card.tabs-card .card-body{ padding:0; }
+  aside{ position:relative; }
+  @media(min-width:900px){ aside{ position:sticky; top:86px; align-self:start; } }
       .tabs-row{ margin:0; }
 
   /* Tabs: compact, minimal underline for active. Keep a surrounding card border. */
@@ -34,13 +43,41 @@
   .nav-tabs .nav-link.active{ color:var(--accent); border-bottom-color:var(--accent); background:transparent; }
   .tab-content{ padding-top:.6rem; }
 
+  /* Accordion: improved visual, clean and minimal */
+  .accordion{ background:transparent; }
+  .accordion .accordion-item{ border:0; }
+  /* subtle divider between accordion items (categories) */
+  .accordion .accordion-item + .accordion-item{ border-top:1px solid rgba(2,6,23,0.08); }
+
+  .accordion-button{
+    background:transparent; box-shadow:none; padding:.75rem .75rem; font-weight:700; color:var(--text);
+    border-radius:0; display:flex; align-items:center; justify-content:flex-start; gap:.6rem;
+    font-size:1rem; letter-spacing:0.02em; width:100%; text-align:left; border:0; position:relative;
+  }
+  .accordion-button:hover{ background: rgba(2,6,23,0.02); }
+  /* remove default up/down indicator */
+  .accordion-button::after{ display:none !important; }
+
+  /* accent strip on the left when expanded */
+  .accordion-button:not(.collapsed){ color:var(--accent); }
+  .accordion-button::before{ display:none; }
+  .accordion-button:not(.collapsed)::before{ content:''; position:absolute; left:0; top:12px; bottom:12px; width:3px; background:var(--accent); }
+
+  .accordion .accordion-header + .accordion-collapse{ border-top:0; }
+  /* Body: readable, generous leading */
+  .accordion-body{ padding:.8rem .75rem; color:var(--muted); font-size:.95rem; line-height:1.55; }
+
   /* Fade micro-animation for tab panels */
   .tab-pane.fade{ opacity:0; transition: opacity .28s ease; }
   .tab-pane.fade.show{ opacity:1; }
 
       .no-data{ color:var(--muted); font-style:italic; }
-      .meta-item{ display:flex; gap:.5rem; color:var(--muted); font-size:.95rem; }
-      .meta-item strong{ width:5.25rem; color:var(--text); font-weight:600; }
+  /* Meta items: compact but readable. Labels align to the left on wide screens, stack on small screens. */
+  .meta-item{ display:flex; gap:.5rem; color:var(--muted); font-size:.95rem; align-items:flex-start; }
+  .meta-item strong{ width:5.25rem; color:var(--text); font-weight:700; font-size:.95rem; letter-spacing:0.01em; }
+  @media(max-width:520px){ .meta-item{ flex-direction:column; gap:.25rem; } .meta-item strong{ width:auto; } }
+  /* Section headings (Awards, Cast, Crew) should match Year label styling for clarity */
+  .section-heading{ display:block; color:var(--text); font-weight:700; font-size:.95rem; margin:0 0 .35rem; letter-spacing:0.01em; }
 
       /* optional panel
          small note area under tabs for downloads or related links */
@@ -99,7 +136,7 @@
 		<!-- Navbar -->
 		<nav class="navbar navbar-expand-md sticky-top shadow-sm bg-body">
 			<div class="container">
-				<a class="navbar-brand d-flex align-items-center gap-2" href="homepage.html">
+				<a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
 					<span class="logo-mark logo-theme-iceNavy">
 						<span class="logo-color logo-F">F</span>
 						<span class="logo-stack">
@@ -238,71 +275,72 @@
     }
 
     function renderTabs(project, container){
-  container.innerHTML='';
-  // create a card wrapper so tabs and panels have the surrounding border
-  const card = document.createElement('div'); card.className = 'card tabs-card';
-  const cardBody = document.createElement('div'); cardBody.className = 'card-body p-0';
-  const tabs = document.createElement('ul'); tabs.className='nav nav-tabs';
-  const panels = document.createElement('div'); panels.className='tab-content p-3';
+      container.innerHTML = '';
+      // accordion id based on project slug/id for uniqueness
+      const idBase = 'acc-' + ((project && (project.slug||project.id)) ? String(project.slug||project.id).replace(/[^a-z0-9\-]/ig,'') : Math.random().toString(36).slice(2,8));
+      const card = document.createElement('div'); card.className = 'card tabs-card';
+      const cardBody = document.createElement('div'); cardBody.className = 'card-body p-0';
 
-      // Info tab (always)
-      const idInfo = 'tab-info';
-      tabs.innerHTML += `<li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#${idInfo}" type="button">Info</button></li>`;
-      const infoPanel = document.createElement('div'); infoPanel.className='tab-pane fade show active'; infoPanel.id = idInfo;
-      infoPanel.innerHTML = `<p>${project.description||'<span class="no-data">Nessuna descrizione</span>'}</p>`;
-      // additional structured fields
-      const dl = document.createElement('div');
-      const details = [];
-      if(project.year) details.push(createMetaItem('Anno', project.year));
-      if(project.role) details.push(createMetaItem('Ruolo', project.role));
-      if(project.client) details.push(createMetaItem('Cliente', project.client));
-      if(project.duration) details.push(createMetaItem('Durata', project.duration));
-      if(project.tags && project.tags.length) details.push(createMetaItem('Tag', project.tags.join(', ')));
-      if(details.length){
-        const box = document.createElement('div'); box.className='mt-3';
-        details.forEach(d=> box.appendChild(d));
-        infoPanel.appendChild(box);
+      const accordion = document.createElement('div'); accordion.className = 'accordion'; accordion.id = idBase + '-accordion';
+
+      // helper to add an accordion item
+      function addItem(key, title, contentNode, expanded){
+        const item = document.createElement('div'); item.className = 'accordion-item';
+        const h = document.createElement('h2'); h.className = 'accordion-header'; h.id = idBase + '-h-' + key;
+        const btn = document.createElement('button');
+        btn.className = 'accordion-button' + (expanded? '': ' collapsed');
+        btn.type = 'button';
+        btn.setAttribute('data-bs-toggle','collapse');
+        btn.setAttribute('data-bs-target','#' + idBase + '-c-' + key);
+        btn.setAttribute('aria-expanded', expanded? 'true':'false');
+        btn.setAttribute('aria-controls', idBase + '-c-' + key);
+        btn.textContent = title;
+        h.appendChild(btn);
+
+        const collapse = document.createElement('div'); collapse.id = idBase + '-c-' + key; collapse.className = 'accordion-collapse collapse' + (expanded? ' show':'');
+        collapse.setAttribute('aria-labelledby', idBase + '-h-' + key);
+        collapse.setAttribute('data-bs-parent', '#' + accordion.id);
+        const body = document.createElement('div'); body.className = 'accordion-body';
+        if(contentNode instanceof Node) body.appendChild(contentNode); else body.innerHTML = String(contentNode || '');
+        collapse.appendChild(body);
+
+        item.appendChild(h); item.appendChild(collapse);
+        accordion.appendChild(item);
       }
-      panels.appendChild(infoPanel);
 
-      // Media is shown in the main column; no separate Media tab here.
+      // Info (always present) — expanded by default
+      const infoNode = document.createElement('div');
+      const desc = document.createElement('div'); desc.innerHTML = project.description || '<span class="no-data">Nessuna descrizione</span>';
+      infoNode.appendChild(desc);
+      const details = document.createElement('div'); details.className = 'mt-3';
+      if(project.year) details.appendChild(createMetaItem('Anno', project.year));
+      if(project.role) details.appendChild(createMetaItem('Ruolo', project.role));
+      if(project.client) details.appendChild(createMetaItem('Cliente', project.client));
+      if(project.duration) details.appendChild(createMetaItem('Durata', project.duration));
+      if(project.tags && project.tags.length) details.appendChild(createMetaItem('Tag', project.tags.join(', ')));
+      if(details.children.length) infoNode.appendChild(details);
+  // Info expanded by default on page load
+  addItem('info','Info', infoNode, true);
 
       // Awards
-      if(project.awards && (project.awards.nominations && project.awards.nominations.length || project.awards.wins && project.awards.wins.length)){
-        const idAwards = 'tab-awards';
-        tabs.innerHTML += `<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#${idAwards}" type="button">Premi</button></li>`;
-        const aPanel = document.createElement('div'); aPanel.className='tab-pane fade'; aPanel.id = idAwards;
-        if(project.awards.wins && project.awards.wins.length){
-          const h = document.createElement('h6'); h.textContent='Vinti'; aPanel.appendChild(h);
-          const ul = document.createElement('ul'); project.awards.wins.forEach(w=>{ const li=document.createElement('li'); li.textContent = w; ul.appendChild(li); }); aPanel.appendChild(ul);
-        }
-        if(project.awards.nominations && project.awards.nominations.length){
-          const h2 = document.createElement('h6'); h2.textContent='Nominazioni'; aPanel.appendChild(h2);
-          const ul2 = document.createElement('ul'); project.awards.nominations.forEach(n=>{ const li=document.createElement('li'); li.textContent = n; ul2.appendChild(li); }); aPanel.appendChild(ul2);
-        }
-        panels.appendChild(aPanel);
+      if(project.awards && (project.awards.wins && project.awards.wins.length || project.awards.nominations && project.awards.nominations.length)){
+        const aNode = document.createElement('div');
+  if(project.awards.wins && project.awards.wins.length){ const h = document.createElement('h6'); h.className='section-heading'; h.textContent='Vinti'; aNode.appendChild(h); const ul=document.createElement('ul'); project.awards.wins.forEach(w=>{ const li=document.createElement('li'); li.textContent=w; ul.appendChild(li); }); aNode.appendChild(ul); }
+  if(project.awards.nominations && project.awards.nominations.length){ const h2 = document.createElement('h6'); h2.className='section-heading'; h2.textContent='Nomination'; aNode.appendChild(h2); const ul2=document.createElement('ul'); project.awards.nominations.forEach(n=>{ const li=document.createElement('li'); li.textContent=n; ul2.appendChild(li); }); aNode.appendChild(ul2); }
+        addItem('awards','Premi', aNode, false);
       }
 
       // Cast & Crew
       if((project.cast && project.cast.length) || (project.crew && project.crew.length)){
-        const idCC = 'tab-cast';
-        tabs.innerHTML += `<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#${idCC}" type="button">Cast & Crew</button></li>`;
-        const cPanel = document.createElement('div'); cPanel.className='tab-pane fade'; cPanel.id = idCC;
-        if(project.cast && project.cast.length){
-          const h = document.createElement('h6'); h.textContent='Cast'; cPanel.appendChild(h);
-          const ul = document.createElement('ul'); project.cast.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name || '') + (c.role? ' — ' + c.role: ''); ul.appendChild(li); }); cPanel.appendChild(ul);
-        }
-        if(project.crew && project.crew.length){
-          const h2 = document.createElement('h6'); h2.textContent='Crew'; cPanel.appendChild(h2);
-          const ul2 = document.createElement('ul'); project.crew.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name || '') + (c.role? ' — ' + c.role: ''); ul2.appendChild(li); }); cPanel.appendChild(ul2);
-        }
-        panels.appendChild(cPanel);
+        const cNode = document.createElement('div');
+  if(project.cast && project.cast.length){ const h = document.createElement('h6'); h.className='section-heading'; h.textContent='Cast'; cNode.appendChild(h); const ul=document.createElement('ul'); project.cast.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name||'') + (c.role? ' — '+c.role:''); ul.appendChild(li); }); cNode.appendChild(ul); }
+  if(project.crew && project.crew.length){ const h2 = document.createElement('h6'); h2.className='section-heading'; h2.textContent='Crew'; cNode.appendChild(h2); const ul2=document.createElement('ul'); project.crew.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name||'') + (c.role? ' — '+c.role:''); ul2.appendChild(li); }); cNode.appendChild(ul2); }
+        addItem('cast','Cast & Crew', cNode, false);
       }
 
-  cardBody.appendChild(tabs);
-  cardBody.appendChild(panels);
-  card.appendChild(cardBody);
-  container.appendChild(card);
+      cardBody.appendChild(accordion);
+      card.appendChild(cardBody);
+      container.appendChild(card);
     }
 
     // Open the image modal with the provided src
@@ -331,29 +369,20 @@
       const root = document.getElementById('projectRoot');
       if(!slug){ notFound.style.display='block'; return; }
 
-      // find project from globals with tolerant matching (accept id, slug, url-derived, and some normalized variants)
+      // find project from globals: require exact slug or id match only
       let project = null;
-      const norm = s => (s||'').toString().toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
-      const target = norm(slug);
-
-      if(window.PROJECTS_BY_SLUG && window.PROJECTS_BY_SLUG[slug]) project = window.PROJECTS_BY_SLUG[slug];
-
-      if(!project && window.PROJECTS && Array.isArray(window.PROJECTS)){
-        for(const p of window.PROJECTS){
-          const candidates = [];
-          if(p.slug) candidates.push(p.slug);
-          if(p.id) candidates.push(p.id);
-          if(p.title) candidates.push(p.title);
-          if(p.url) candidates.push((p.url||'').replace(/\?.*$/,'').replace(/\.html?$/i,''));
-          // add some common variants
-          if(p.slug) candidates.push(p.slug.replace(/^progetto-/,'').replace(/-project$/,''));
-
-          const matched = candidates.map(c=>norm(c)).some(cn => cn === target || cn.includes(target) || target.includes(cn));
-          if(matched){ project = p; break; }
-        }
+      if(window.PROJECTS_BY_SLUG && window.PROJECTS_BY_SLUG[slug]){
+        project = window.PROJECTS_BY_SLUG[slug];
+      } else if(window.PROJECTS && Array.isArray(window.PROJECTS)){
+        // exact match on slug or id (string)
+        project = window.PROJECTS.find(p => (p && (p.slug === slug || String(p.id) === String(slug))));
       }
 
-      if(!project){ notFound.style.display='block'; return; }
+      if(!project){
+        // Render a simple not-found page like showreel-item.html
+        document.querySelector('main').innerHTML = '<div class="container text-center py-5"><p class="lead">Progetto non trovato.</p><p><a class="text-muted" href="lavori.html">← Torna a Lavori</a></p></div>';
+        return;
+      }
 
       document.getElementById('projTitle').textContent = project.title || 'Progetto';
       // meta list (optional). Some layouts include a `#metaList` container; only render into it if present.
