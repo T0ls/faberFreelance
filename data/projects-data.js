@@ -17,7 +17,7 @@ window.PROJECTS = [
       // public demo MP4 so the detail page can play immediately
       'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
     ],
-    description: 'Un cortometraggio che esplora il ritmo del quotidiano e la suddivisione del tempo. etc etc etc ',
+    description: 'Un cortometraggio che esplora il ritmo del quotidiano e la suddivisione del tempo. etc etc etc  etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc etc',
     role: 'Regia, montaggio',
     client: 'Autoproduzione',
     duration: '12:34',

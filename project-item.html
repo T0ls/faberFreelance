@@ -88,8 +88,15 @@
     border-radius:8px; 
     border:1px solid var(--edge); 
     padding: 1.25rem; 
-    height: 100%;
+    height: auto;
     overflow-y: auto;
+  }
+  
+  @media (max-width: 900px) {
+    .panel-container {
+      max-height: none;
+      height: auto;
+    }
   }
   
   .panel-title{
@@ -207,9 +214,6 @@
     flex: 0 0 200px;
     width: 200px;
     min-width: 180px;
-    background: rgba(2,6,23,0.02);
-    border: 1px solid var(--edge);
-    border-radius: 8px;
     padding: 0.9rem;
     display: flex;
     flex-direction: column;
@@ -679,6 +683,32 @@
       container.innerHTML = '<div class="no-data">Nessun media disponibile</div>';
     }
 
+    // Sync right-side panel heights to match the corresponding left-side panels (desktop only)
+    function syncPanelHeights(){
+      const isStacked = window.innerWidth < 900; // matches CSS breakpoint for single column
+      const infoPanel = document.querySelector('.quadrant-info .panel-container');
+      const awardsPanel = document.querySelector('.quadrant-awards .panel-container');
+      const mediaStage = document.querySelector('.quadrant-video .media-stage');
+      const castPanel = document.querySelector('.quadrant-cast .panel-container');
+
+      // On stacked layout, let panels size naturally
+      if(isStacked){
+        if(infoPanel){ infoPanel.style.maxHeight = ''; }
+        if(awardsPanel){ awardsPanel.style.maxHeight = ''; }
+        return;
+      }
+
+      if(infoPanel && mediaStage){
+        const h = mediaStage.getBoundingClientRect().height;
+        infoPanel.style.maxHeight = h ? `${h}px` : '';
+      }
+
+      if(awardsPanel && castPanel){
+        const h = castPanel.getBoundingClientRect().height;
+        awardsPanel.style.maxHeight = h ? `${h}px` : '';
+      }
+    }
+
     function renderTabs(project, container){
       // This function is no longer used but kept for compatibility
       container.innerHTML = '';
@@ -1097,7 +1127,20 @@
       if(!hasAwards && awardsQuadrant) awardsQuadrant.style.display = 'none';
 
       root.style.display = '';
+
+      // sync heights after initial render
+      requestAnimationFrame(syncPanelHeights);
+      setTimeout(syncPanelHeights, 300);
     });
+
+    // Re-sync on resize (debounced)
+    (function(){
+      let t = null;
+      window.addEventListener('resize', ()=>{
+        if(t) clearTimeout(t);
+        t = setTimeout(syncPanelHeights, 120);
+      });
+    })();
     </script>
   </body>
 </html>
