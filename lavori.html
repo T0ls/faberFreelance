@@ -122,9 +122,30 @@
   .proj{ opacity:0; transform: translateY(6px); }
   .proj.show{ opacity:1; transform:none; transition: opacity .36s ease, transform .36s cubic-bezier(.2,.9,.3,1); }
 
+    /* Page entry fade from bottom */
+    body.page-animate {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: none;
+    }
+
+    body.page-animate.page-animate--visible {
+      animation: fadeInUp 720ms ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body.page-animate { opacity: 1; transform: none; }
+      body.page-animate.page-animate--visible { animation: none; }
+    }
+
       </style>
   </head>
-  <body>
+  <body class="page-animate">
 		<!-- Navbar -->
 		<nav class="navbar navbar-expand-md sticky-top shadow-sm bg-body">
 			<div class="container">
@@ -185,7 +206,12 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.add('page-animate--visible');
+      });
+    </script>
 
     <!-- load projects data (global) -->
     <script src="data/projects-data.js"></script>

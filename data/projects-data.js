@@ -17,22 +17,36 @@ window.PROJECTS = [
       // public demo MP4 so the detail page can play immediately
       'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
     ],
-    description: 'Un cortometraggio che esplora il ritmo del quotidiano e la suddivisione del tempo.',
+    description: 'Un cortometraggio che esplora il ritmo del quotidiano e la suddivisione del tempo. etc etc etc ',
     role: 'Regia, montaggio',
     client: 'Autoproduzione',
     duration: '12:34',
     tags: ['ritmo','montaggio','dramma'],
-    awards: {
-      wins: ['Miglior montaggio — Festival X 2024'],
-      nominations: ['Miglior cortometraggio — Festival Y 2024']
-    },
+        awards: {
+            wins: [
+                'Miglior montaggio — Festival X 2025',
+                'Miglior regia — Festival Z 2024',
+            ],
+            nominations: [
+                'Miglior cortometraggio — Festival Y 2025',
+                'Miglior regia — Festival X 2024',
+            ]
+        },
     cast: [
       { name: 'Anna Rossi', role: 'Protagonista' },
-      { name: 'Luca Bianchi', role: 'Supporto' }
+      { name: 'Luca Bianchi', role: 'Supporto' },
+      { name: 'Luca Bianchi', role: 'Supporto' },
+      { name: 'Luca Bianchi', role: 'Supporto' },
     ],
     crew: [
       { name: 'Marco Verdi', role: 'Direttore della fotografia' },
-      { name: 'Giulia Neri', role: 'Sound designer' }
+      { name: 'Giulia Neri', role: 'Sound designer' },
+      { name: 'Luca Grigi', role: 'Sound designer' },
+      { name: 'Fernando Vispo', role: 'Sound designer' },
+      { name: 'Fabrizio Gorlo', role: 'Sound designer' },
+      { name: 'Fabrizio Gorlo', role: 'Sound designer' },
+      { name: 'Fabrizio Gorlo', role: 'Sound designer' },
+      { name: 'Fabrizio Gorlo', role: 'Sound designer' },
     ],
     description_short: 'Corto sperimentale sul tempo e la quotidianità.',
   },

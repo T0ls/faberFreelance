@@ -16,65 +16,262 @@
 
       h1#projTitle{ font-size:1.6rem; margin:0.35rem 0 0.6rem; letter-spacing: -0.01em; }
 
-  /* Layout: main media column + sidebar. Use modern responsive sizing and breathing room. */
-  .project-hero{ display:grid; grid-template-columns: minmax(0,1fr) 320px; gap:1.75rem; align-items:start; align-content:start; }
-  @media (max-width:1100px){ .project-hero{ grid-template-columns: minmax(0,1fr) 300px; } }
-  @media (max-width:900px){ .project-hero{ grid-template-columns: 1fr; gap:1rem; } }
+  /* Layout: 4 quadrants using CSS Grid */
+  .project-hero{ 
+    display: grid; 
+    grid-template-columns: 1.5fr 1fr; 
+    grid-template-rows: auto auto; 
+    gap: 1.5rem; 
+    width: 100%;
+    min-height: 80vh;
+  }
+  
+  /* Top-left: Video */
+  .quadrant-video{ 
+    grid-column: 1; 
+    grid-row: 1; 
+  }
+  
+  /* Top-right: Info */
+  .quadrant-info{ 
+    grid-column: 2; 
+    grid-row: 1; 
+  }
+  
+  /* Bottom-left: Cast & Crew */
+  .quadrant-cast{ 
+    grid-column: 1; 
+    grid-row: 2; 
+  }
+  
+  /* Bottom-right: Awards */
+  .quadrant-awards{ 
+    grid-column: 2; 
+    grid-row: 2; 
+  }
+  
+  @media (max-width:900px){ 
+    .project-hero{ 
+      grid-template-columns: 1fr; 
+      grid-template-rows: auto auto auto auto;
+      gap:1rem; 
+      min-height: auto;
+    } 
+    .quadrant-video{ grid-column: 1; grid-row: 1; }
+    .quadrant-info{ grid-column: 1; grid-row: 2; }
+    .quadrant-cast{ grid-column: 1; grid-row: 3; }
+    .quadrant-awards{ grid-column: 1; grid-row: 4; }
+  }
 
       /* Media stage: clean, edge, and gentle radius */
   /* Media stage: centered, constrained, and visually calm */
-  .media-stage{ background:var(--surface); border-radius:8px; padding:0; border:1px solid var(--edge); overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .media-stage{ 
+    background:var(--surface); 
+    border-radius:8px; 
+    padding:0; 
+    border:1px solid var(--edge); 
+    overflow:hidden; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    height: 100%;
+  }
   .media-stage > *{ width:100%; height:auto; display:block; }
-  .media-stage img, .media-stage video{ width:100%; height:100%; object-fit:cover; max-height:68vh; }
+  .media-stage img, .media-stage video{ width:100%; height:100%; object-fit:contain; max-height:100%; }
   /* ensure carousel images fill stage while preserving center crop */
   .carousel-img{ width:100%; height:100%; object-fit:cover; }
       .carousel-img{ width:100%; height:100%; object-fit:cover; }
 
-  /* Sidebar: make it sticky on large screens and visually separated without heavy edges */
+  /* Panel styling for quadrants */
+  .panel-container{ 
+    background:var(--surface); 
+    border-radius:8px; 
+    border:1px solid var(--edge); 
+    padding: 1.25rem; 
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .panel-title{
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent);
+  }
+  
+  /* Remove sidebar specific styles */
   aside .card.tabs-card{ border:0; border-radius:0; box-shadow:none; padding:0; background:transparent; }
   aside .card.tabs-card .card-body{ padding:0; }
   aside{ position:relative; }
-  @media(min-width:900px){ aside{ position:sticky; top:86px; align-self:start; } }
+  @media(min-width:900px){ aside{ position:relative; top:0; align-self:stretch; } }
       .tabs-row{ margin:0; }
 
-  /* Tabs: compact, minimal underline for active. Keep a surrounding card border. */
-  .nav-tabs{ border-bottom: 1px solid var(--edge); margin:0; }
-  .nav-tabs .nav-link{ color:var(--text); padding:.45rem .6rem; font-size:.95rem; border:0; border-bottom:2px solid transparent; }
-  .nav-tabs .nav-link.active{ color:var(--accent); border-bottom-color:var(--accent); background:transparent; }
-  .tab-content{ padding-top:.6rem; }
+  /* Remove tab styles - no longer using tabs */
+  .nav-tabs{ display: none; }
+  
+  /* Carousel for cast and crew */
+  .cast-crew-carousel {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cast-crew-carousel:last-child {
+    margin-bottom: 0;
+  }
+  
+  .carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .carousel-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+  }
 
-  /* Accordion: improved visual, clean and minimal */
+  /* Bootstrap-like side controls */
+  .carousel-viewport{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cast-crew-carousel .carousel-control-prev,
+  .cast-crew-carousel .carousel-control-next{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3.25rem;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.15s ease;
+  }
+
+  .cast-crew-carousel .carousel-control-prev{ left: 0; }
+  .cast-crew-carousel .carousel-control-next{ right: 0; }
+
+  .cast-crew-carousel .carousel-control-prev:hover:not(:disabled),
+  .cast-crew-carousel .carousel-control-next:hover:not(:disabled){
+    opacity: 0.95;
+  }
+
+  .cast-crew-carousel .carousel-control-prev:disabled,
+  .cast-crew-carousel .carousel-control-next:disabled{
+    opacity: 0.15;
+    cursor: default;
+  }
+
+  /* Give the icons a subtle dark background like Bootstrap */
+  .cast-crew-carousel .carousel-control-prev-icon,
+  .cast-crew-carousel .carousel-control-next-icon{
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background-color: rgba(0,0,0,0.45);
+    background-size: 60% 60%;
+  }
+  
+  .carousel-track {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .carousel-item-card {
+    flex: 0 0 200px;
+    width: 200px;
+    min-width: 180px;
+    border-radius: 8px;
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  
+  .person-thumb{
+    width: 125px;
+    height: 190px; /* 4:6 portrait ratio */
+    border-radius: 12px;
+    background: #e5e7eb;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    border: 1px solid var(--edge);
+    margin-bottom: 0.15rem;
+  }
+  
+  .person-content{ flex: 1 1 auto; min-width: 0; width: 100%; text-align: center; }
+  
+  .carousel-item-name {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+    text-align: center;
+  }
+  
+  .carousel-item-role {
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+/* Accordion: improved visual, clean and minimal - used only for awards subcategories */
   .accordion{ background:transparent; }
   .accordion .accordion-item{ border:0; }
   /* subtle divider between accordion items (categories) */
-  .accordion .accordion-item + .accordion-item{ border-top:1px solid rgba(2,6,23,0.08); }
+  .accordion .accordion-item + .accordion-item{ margin-top: 0.5rem; }
 
   .accordion-button{
-    background:transparent; box-shadow:none; padding:.75rem .75rem; font-weight:700; color:var(--text);
-    border-radius:0; display:flex; align-items:center; justify-content:flex-start; gap:.6rem;
-    font-size:1rem; letter-spacing:0.02em; width:100%; text-align:left; border:0; position:relative;
+    background:rgba(2,6,23,0.02); box-shadow:none; padding:.65rem .75rem; font-weight:600; color:var(--text);
+    border-radius:4px; display:flex; align-items:center; justify-content:flex-start; gap:.6rem;
+    font-size:.95rem; letter-spacing:0.01em; width:100%; text-align:left; border:1px solid var(--edge); position:relative;
   }
-  .accordion-button:hover{ background: rgba(2,6,23,0.02); }
+  .accordion-button:hover{ background: rgba(2,6,23,0.04); }
   /* remove default up/down indicator */
   .accordion-button::after{ display:none !important; }
 
   /* accent strip on the left when expanded */
-  .accordion-button:not(.collapsed){ color:var(--accent); }
+  .accordion-button:not(.collapsed){ color:var(--accent); background: rgba(11,95,255,0.05); }
   .accordion-button::before{ display:none; }
-  .accordion-button:not(.collapsed)::before{ content:''; position:absolute; left:0; top:12px; bottom:12px; width:3px; background:var(--accent); }
+  .accordion-button:not(.collapsed)::before{ content:''; position:absolute; left:0; top:8px; bottom:8px; width:3px; background:var(--accent); border-radius: 0 2px 2px 0; }
 
   .accordion .accordion-header + .accordion-collapse{ border-top:0; }
   /* Body: readable, generous leading */
-  .accordion-body{ padding:.8rem .75rem; color:var(--muted); font-size:.95rem; line-height:1.55; }
+  .accordion-body{ padding:.75rem .75rem; color:var(--text); font-size:.95rem; line-height:1.55; }
+  .accordion-body ul { margin: 0; padding-left: 1.25rem; }
+  .accordion-body li { margin-bottom: 0.35rem; }
 
   /* Fade micro-animation for tab panels */
   .tab-pane.fade{ opacity:0; transition: opacity .28s ease; }
   .tab-pane.fade.show{ opacity:1; }
 
-      .no-data{ color:var(--muted); font-style:italic; }
+      .no-data{ color:var(--muted); font-style:italic; font-size: 0.95rem; }
   /* Meta items: compact but readable. Labels align to the left on wide screens, stack on small screens. */
-  .meta-item{ display:flex; gap:.5rem; color:var(--muted); font-size:.95rem; align-items:flex-start; }
-  .meta-item strong{ width:5.25rem; color:var(--text); font-weight:700; font-size:.95rem; letter-spacing:0.01em; }
+  .meta-item{ display:flex; gap:.5rem; color:var(--text); font-size:.95rem; align-items:flex-start; margin-bottom: 0.75rem; }
+  .meta-item strong{ min-width:5rem; color:var(--text); font-weight:700; font-size:.95rem; letter-spacing:0.01em; }
+  .meta-item span{ color: var(--muted); }
   @media(max-width:520px){ .meta-item{ flex-direction:column; gap:.25rem; } .meta-item strong{ width:auto; } }
   /* Section headings (Awards, Cast, Crew) should match Year label styling for clarity */
   .section-heading{ display:block; color:var(--text); font-weight:700; font-size:.95rem; margin:0 0 .35rem; letter-spacing:0.01em; }
@@ -130,9 +327,30 @@
 	  .nav-link{
 		  font-size: 20px;
 	  }
+
+    /* Page entry fade from bottom */
+    body.page-animate {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: none;
+    }
+
+    body.page-animate.page-animate--visible {
+    animation: fadeInUp 720ms ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+    body.page-animate { opacity: 1; transform: none; }
+    body.page-animate.page-animate--visible { animation: none; }
+    }
     </style>
   </head>
-  <body>
+  <body class="page-animate">
 		<!-- Navbar -->
 		<nav class="navbar navbar-expand-md sticky-top shadow-sm bg-body">
 			<div class="container">
@@ -166,13 +384,34 @@
         <a class="back-link" href="lavori.html">← Torna a Lavori</a>
         <h1 id="projTitle" class="mt-3"></h1>
         <div class="project-hero mt-3">
-          <div>
+          <!-- Top-left: Video -->
+          <div class="quadrant-video">
             <div id="mediaArea" class="media-stage"></div>
           </div>
-          <aside>
-            <div id="tabsArea" class="tabs-row"></div>
-            <div id="optionalPanel" class="mt-3"></div>
-          </aside>
+          
+          <!-- Top-right: Info -->
+          <div class="quadrant-info">
+            <div class="panel-container">
+              <h2 class="panel-title">Informazioni</h2>
+              <div id="infoPanel"></div>
+            </div>
+          </div>
+          
+          <!-- Bottom-left: Cast & Crew -->
+          <div class="quadrant-cast">
+            <div class="panel-container">
+              <h2 class="panel-title">Cast & Crew</h2>
+              <div id="castCrewPanel"></div>
+            </div>
+          </div>
+          
+          <!-- Bottom-right: Awards -->
+          <div class="quadrant-awards">
+            <div class="panel-container">
+              <h2 class="panel-title">Premi e Riconoscimenti</h2>
+              <div id="awardsPanel"></div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -205,6 +444,12 @@
   <!-- load projects data so window.PROJECTS and window.PROJECTS_BY_SLUG are available -->
   <script src="data/projects-data.js"></script>
   <script>
+		// set footer year & trigger page animation
+		document.getElementById('year').textContent = new Date().getFullYear();
+		document.addEventListener('DOMContentLoaded', () => {
+			document.body.classList.add('page-animate--visible');
+		});
+
     // Helper: get slug from ?slug= or from filename (progetto-pilipu.html -> progetto-pilipu)
     function getSlug(){
       const params = new URLSearchParams(location.search);
@@ -214,9 +459,10 @@
     }
 
     function createMetaItem(label, value){
-      const li = document.createElement('li'); li.className='meta-item';
-      li.innerHTML = `<strong style="width:4.5rem;display:inline-block;color:#0b1220">${label}</strong><span>${value||''}</span>`;
-      return li;
+      const div = document.createElement('div');
+      div.className='meta-item';
+      div.innerHTML = `<strong>${label}</strong><span>${value||''}</span>`;
+      return div;
     }
 
     function renderMedia(project, container){
@@ -275,72 +521,355 @@
     }
 
     function renderTabs(project, container){
+      // This function is no longer used but kept for compatibility
       container.innerHTML = '';
-      // accordion id based on project slug/id for uniqueness
-      const idBase = 'acc-' + ((project && (project.slug||project.id)) ? String(project.slug||project.id).replace(/[^a-z0-9\-]/ig,'') : Math.random().toString(36).slice(2,8));
-      const card = document.createElement('div'); card.className = 'card tabs-card';
-      const cardBody = document.createElement('div'); cardBody.className = 'card-body p-0';
+    }
 
-      const accordion = document.createElement('div'); accordion.className = 'accordion'; accordion.id = idBase + '-accordion';
+    // Render info panel
+    function renderInfoPanel(project, container){
+      container.innerHTML = '';
+      
+      // Check if there's any info to display
+      const hasInfo = project.description || project.year || project.role || project.client || project.duration || (project.tags && project.tags.length);
+      
+      if(!hasInfo){
+        return false;
+      }
+      
+      // Description
+      if(project.description){
+        const desc = document.createElement('div');
+        desc.innerHTML = project.description;
+        desc.style.marginBottom = '1.25rem';
+        desc.style.lineHeight = '1.6';
+        desc.style.color = 'var(--muted)';
+        container.appendChild(desc);
+      }
+      
+      // Details
+      if(project.year) container.appendChild(createMetaItem('Anno', project.year));
+      if(project.role) container.appendChild(createMetaItem('Ruolo', project.role));
+      if(project.client) container.appendChild(createMetaItem('Cliente', project.client));
+      if(project.duration) container.appendChild(createMetaItem('Durata', project.duration));
+      if(project.tags && project.tags.length) container.appendChild(createMetaItem('Tag', project.tags.join(', ')));
+      
+      return true;
+    }
 
-      // helper to add an accordion item
-      function addItem(key, title, contentNode, expanded){
-        const item = document.createElement('div'); item.className = 'accordion-item';
-        const h = document.createElement('h2'); h.className = 'accordion-header'; h.id = idBase + '-h-' + key;
-        const btn = document.createElement('button');
-        btn.className = 'accordion-button' + (expanded? '': ' collapsed');
-        btn.type = 'button';
-        btn.setAttribute('data-bs-toggle','collapse');
-        btn.setAttribute('data-bs-target','#' + idBase + '-c-' + key);
-        btn.setAttribute('aria-expanded', expanded? 'true':'false');
-        btn.setAttribute('aria-controls', idBase + '-c-' + key);
-        btn.textContent = title;
-        h.appendChild(btn);
-
-        const collapse = document.createElement('div'); collapse.id = idBase + '-c-' + key; collapse.className = 'accordion-collapse collapse' + (expanded? ' show':'');
-        collapse.setAttribute('aria-labelledby', idBase + '-h-' + key);
-        collapse.setAttribute('data-bs-parent', '#' + accordion.id);
-        const body = document.createElement('div'); body.className = 'accordion-body';
-        if(contentNode instanceof Node) body.appendChild(contentNode); else body.innerHTML = String(contentNode || '');
+    // Render awards panel
+    function renderAwardsPanel(project, container){
+      container.innerHTML = '';
+      
+      if(!project.awards || (!project.awards.wins?.length && !project.awards.nominations?.length)){
+        return false;
+      }
+      
+      const accordion = document.createElement('div');
+      accordion.className = 'accordion';
+      accordion.id = 'awardsAccordion';
+      
+      let itemIndex = 0;
+      
+      // Wins
+      if(project.awards.wins && project.awards.wins.length){
+        const item = document.createElement('div');
+        item.className = 'accordion-item';
+        
+        const headerId = 'headingWins';
+        const collapseId = 'collapseWins';
+        
+        const header = document.createElement('h2');
+        header.className = 'accordion-header';
+        header.id = headerId;
+        
+        const button = document.createElement('button');
+        button.className = 'accordion-button';
+        button.type = 'button';
+        button.setAttribute('data-bs-toggle', 'collapse');
+        button.setAttribute('data-bs-target', '#' + collapseId);
+        button.setAttribute('aria-expanded', 'true');
+        button.setAttribute('aria-controls', collapseId);
+        button.innerHTML = '<i class="bi bi-trophy-fill me-2"></i>Vinti (' + project.awards.wins.length + ')';
+        
+        header.appendChild(button);
+        
+        const collapse = document.createElement('div');
+        collapse.id = collapseId;
+        collapse.className = 'accordion-collapse collapse show';
+        collapse.setAttribute('aria-labelledby', headerId);
+        collapse.setAttribute('data-bs-parent', '#awardsAccordion');
+        
+        const body = document.createElement('div');
+        body.className = 'accordion-body';
+        
+        const ul = document.createElement('ul');
+        ul.style.paddingLeft = '1.25rem';
+        ul.style.margin = '0';
+        project.awards.wins.forEach(w => {
+          const li = document.createElement('li');
+          li.textContent = w;
+          li.style.marginBottom = '0.5rem';
+          ul.appendChild(li);
+        });
+        body.appendChild(ul);
         collapse.appendChild(body);
-
-        item.appendChild(h); item.appendChild(collapse);
+        
+        item.appendChild(header);
+        item.appendChild(collapse);
+        accordion.appendChild(item);
+        itemIndex++;
+      }
+      
+      // Nominations
+      if(project.awards.nominations && project.awards.nominations.length){
+        const item = document.createElement('div');
+        item.className = 'accordion-item';
+        
+        const headerId = 'headingNominations';
+        const collapseId = 'collapseNominations';
+        
+        const header = document.createElement('h2');
+        header.className = 'accordion-header';
+        header.id = headerId;
+        
+        const button = document.createElement('button');
+        button.className = 'accordion-button' + (itemIndex === 0 ? '' : ' collapsed');
+        button.type = 'button';
+        button.setAttribute('data-bs-toggle', 'collapse');
+        button.setAttribute('data-bs-target', '#' + collapseId);
+        button.setAttribute('aria-expanded', itemIndex === 0 ? 'true' : 'false');
+        button.setAttribute('aria-controls', collapseId);
+        button.innerHTML = '<i class="bi bi-award me-2"></i>Nomination (' + project.awards.nominations.length + ')';
+        
+        header.appendChild(button);
+        
+        const collapse = document.createElement('div');
+        collapse.id = collapseId;
+        collapse.className = 'accordion-collapse collapse' + (itemIndex === 0 ? ' show' : '');
+        collapse.setAttribute('aria-labelledby', headerId);
+        collapse.setAttribute('data-bs-parent', '#awardsAccordion');
+        
+        const body = document.createElement('div');
+        body.className = 'accordion-body';
+        
+        const ul = document.createElement('ul');
+        ul.style.paddingLeft = '1.25rem';
+        ul.style.margin = '0';
+        project.awards.nominations.forEach(n => {
+          const li = document.createElement('li');
+          li.textContent = n;
+          li.style.marginBottom = '0.5rem';
+          ul.appendChild(li);
+        });
+        body.appendChild(ul);
+        collapse.appendChild(body);
+        
+        item.appendChild(header);
+        item.appendChild(collapse);
         accordion.appendChild(item);
       }
+      
+      container.appendChild(accordion);
+      return true;
+    }
 
-      // Info (always present) — expanded by default
-      const infoNode = document.createElement('div');
-      const desc = document.createElement('div'); desc.innerHTML = project.description || '<span class="no-data">Nessuna descrizione</span>';
-      infoNode.appendChild(desc);
-      const details = document.createElement('div'); details.className = 'mt-3';
-      if(project.year) details.appendChild(createMetaItem('Anno', project.year));
-      if(project.role) details.appendChild(createMetaItem('Ruolo', project.role));
-      if(project.client) details.appendChild(createMetaItem('Cliente', project.client));
-      if(project.duration) details.appendChild(createMetaItem('Durata', project.duration));
-      if(project.tags && project.tags.length) details.appendChild(createMetaItem('Tag', project.tags.join(', ')));
-      if(details.children.length) infoNode.appendChild(details);
-  // Info expanded by default on page load
-  addItem('info','Info', infoNode, true);
-
-      // Awards
-      if(project.awards && (project.awards.wins && project.awards.wins.length || project.awards.nominations && project.awards.nominations.length)){
-        const aNode = document.createElement('div');
-  if(project.awards.wins && project.awards.wins.length){ const h = document.createElement('h6'); h.className='section-heading'; h.textContent='Vinti'; aNode.appendChild(h); const ul=document.createElement('ul'); project.awards.wins.forEach(w=>{ const li=document.createElement('li'); li.textContent=w; ul.appendChild(li); }); aNode.appendChild(ul); }
-  if(project.awards.nominations && project.awards.nominations.length){ const h2 = document.createElement('h6'); h2.className='section-heading'; h2.textContent='Nomination'; aNode.appendChild(h2); const ul2=document.createElement('ul'); project.awards.nominations.forEach(n=>{ const li=document.createElement('li'); li.textContent=n; ul2.appendChild(li); }); aNode.appendChild(ul2); }
-        addItem('awards','Premi', aNode, false);
+    // Render cast and crew panel with carousels
+    function renderCastCrewPanel(project, container){
+      container.innerHTML = '';
+      
+      if((!project.cast || !project.cast.length) && (!project.crew || !project.crew.length)){
+        return false;
       }
-
-      // Cast & Crew
-      if((project.cast && project.cast.length) || (project.crew && project.crew.length)){
-        const cNode = document.createElement('div');
-  if(project.cast && project.cast.length){ const h = document.createElement('h6'); h.className='section-heading'; h.textContent='Cast'; cNode.appendChild(h); const ul=document.createElement('ul'); project.cast.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name||'') + (c.role? ' — '+c.role:''); ul.appendChild(li); }); cNode.appendChild(ul); }
-  if(project.crew && project.crew.length){ const h2 = document.createElement('h6'); h2.className='section-heading'; h2.textContent='Crew'; cNode.appendChild(h2); const ul2=document.createElement('ul'); project.crew.forEach(c=>{ const li=document.createElement('li'); if(typeof c === 'string') li.textContent=c; else li.textContent = (c.name||'') + (c.role? ' — '+c.role:''); ul2.appendChild(li); }); cNode.appendChild(ul2); }
-        addItem('cast','Cast & Crew', cNode, false);
+      
+      // Cast carousel
+      if(project.cast && project.cast.length){
+        const castCarousel = createCarousel('cast', 'Cast', project.cast);
+        container.appendChild(castCarousel);
       }
+      
+      // Crew carousel
+      if(project.crew && project.crew.length){
+        const crewCarousel = createCarousel('crew', 'Crew', project.crew);
+        container.appendChild(crewCarousel);
+      }
+      
+      return true;
+    }
 
-      cardBody.appendChild(accordion);
-      card.appendChild(cardBody);
-      container.appendChild(card);
+    // Create a carousel for cast or crew
+    function createCarousel(id, title, items){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'cast-crew-carousel';
+      wrapper.setAttribute('data-carousel-id', id);
+      
+      // Header with title and controls
+      const header = document.createElement('div');
+      header.className = 'carousel-header';
+      
+      const titleEl = document.createElement('h3');
+      titleEl.className = 'carousel-title';
+      titleEl.textContent = title;
+      header.appendChild(titleEl);
+      
+      wrapper.appendChild(header);
+      
+      // Track container
+      const trackContainer = document.createElement('div');
+      trackContainer.className = 'carousel-viewport';
+      
+      const track = document.createElement('div');
+      track.className = 'carousel-track';
+      track.setAttribute('data-carousel-track', id);
+      
+      // Add items
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'carousel-item-card';
+        
+        const thumb = document.createElement('div');
+        thumb.className = 'person-thumb';
+        const nameVal = typeof item === 'string' ? item : (item.name || '');
+        const photo = (typeof item === 'object' && item.photo) ? item.photo : null;
+        if(photo){
+          thumb.style.backgroundImage = `url(${photo})`;
+          thumb.textContent = '';
+        } else {
+          const initials = (nameVal || '').trim().split(/\s+/).map(p=>p[0]||'').join('').slice(0,2).toUpperCase() || '?';
+          thumb.textContent = initials;
+        }
+        card.appendChild(thumb);
+
+        const content = document.createElement('div');
+        content.className = 'person-content';
+
+        const name = document.createElement('div');
+        name.className = 'carousel-item-name';
+        name.textContent = nameVal;
+        content.appendChild(name);
+        
+        if(typeof item === 'object' && item.role){
+          const role = document.createElement('div');
+          role.className = 'carousel-item-role';
+          role.textContent = item.role;
+          content.appendChild(role);
+        }
+
+        card.appendChild(content);
+        
+        track.appendChild(card);
+      });
+      
+      trackContainer.appendChild(track);
+
+      // Bootstrap-like side controls
+      const prevBtn = document.createElement('button');
+      prevBtn.type = 'button';
+      prevBtn.className = 'carousel-control-prev';
+      prevBtn.setAttribute('data-carousel-action', 'prev');
+      prevBtn.setAttribute('aria-label', 'Previous');
+      prevBtn.innerHTML = '<span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span>';
+
+      const nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'carousel-control-next';
+      nextBtn.setAttribute('data-carousel-action', 'next');
+      nextBtn.setAttribute('aria-label', 'Next');
+      nextBtn.innerHTML = '<span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span>';
+
+      trackContainer.appendChild(prevBtn);
+      trackContainer.appendChild(nextBtn);
+
+      wrapper.appendChild(trackContainer);
+      
+      // Initialize carousel state
+      setTimeout(() => initCarousel(id), 0);
+      
+      return wrapper;
+    }
+
+    // Initialize carousel functionality
+    function initCarousel(id){
+      const carousel = document.querySelector(`[data-carousel-id="${id}"]`);
+      if(!carousel) return;
+      
+      const track = carousel.querySelector(`[data-carousel-track="${id}"]`);
+      const prevBtn = carousel.querySelector('[data-carousel-action="prev"]');
+      const nextBtn = carousel.querySelector('[data-carousel-action="next"]');
+      
+      if(!track || !prevBtn || !nextBtn) return;
+      
+      const items = track.querySelectorAll('.carousel-item-card');
+      if(items.length === 0) return;
+      
+      let currentIndex = 0;
+      
+      // Calculate items per page based on available width
+      function getItemsPerPage(){
+        // breakpoint-based sizing by screen width: mobile 1, medium 2, large 4
+        // aligned with Bootstrap-ish breakpoints: md=768, lg=992
+        const w = window.innerWidth || document.documentElement.clientWidth || 0;
+        if(w >= 992) return 4;
+        if(w >= 768) return 2;
+        return 1;
+      }
+      
+      function updateCarousel(){
+        const itemsPerPage = getItemsPerPage();
+        const maxIndex = Math.max(0, items.length - itemsPerPage);
+        
+        // Clamp current index
+        currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
+        
+        // Calculate offset
+        const rect = items[0].getBoundingClientRect();
+        const itemWidth = rect.width || items[0].offsetWidth || 240;
+        const gap = parseFloat(window.getComputedStyle(track).gap || '16') || 16;
+
+        // Constrain viewport so we always show exactly itemsPerPage cards per "page"
+        // even if the container is wide enough to display more.
+        const viewport = track.parentElement;
+        const viewportWidth = (itemsPerPage * itemWidth) + (Math.max(0, itemsPerPage - 1) * gap);
+        viewport.style.maxWidth = viewportWidth + 'px';
+        viewport.style.marginLeft = 'auto';
+        viewport.style.marginRight = 'auto';
+
+        const offset = currentIndex * (itemWidth + gap);
+        
+        track.style.transform = `translateX(-${offset}px)`;
+        
+        // Update button states
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= maxIndex;
+      }
+      
+      prevBtn.addEventListener('click', () => {
+        const itemsPerPage = getItemsPerPage();
+        currentIndex = Math.max(0, currentIndex - itemsPerPage);
+        updateCarousel();
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        const itemsPerPage = getItemsPerPage();
+        const maxIndex = Math.max(0, items.length - itemsPerPage);
+        currentIndex = Math.min(maxIndex, currentIndex + itemsPerPage);
+        updateCarousel();
+      });
+      
+      // Update on window resize
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(updateCarousel, 100);
+      });
+
+      // React to container size changes (e.g., quadrant hide/show)
+      if(window.ResizeObserver){
+        const ro = new ResizeObserver(() => updateCarousel());
+        ro.observe(track.parentElement);
+      }
+      
+      // Initial update
+      updateCarousel();
     }
 
     // Open the image modal with the provided src
@@ -385,22 +914,28 @@
       }
 
       document.getElementById('projTitle').textContent = project.title || 'Progetto';
-      // meta list (optional). Some layouts include a `#metaList` container; only render into it if present.
-      const meta = document.getElementById('metaList');
-      if(meta){
-        meta.innerHTML = '';
-        if(project.year) meta.appendChild(createMetaItem('Anno', project.year));
-        if(project.role) meta.appendChild(createMetaItem('Ruolo', project.role));
-        if(project.client) meta.appendChild(createMetaItem('Cliente', project.client));
-        if(project.duration) meta.appendChild(createMetaItem('Durata', project.duration));
-        if(project.categories && project.categories.length) meta.appendChild(createMetaItem('Categorie', project.categories.join(', ')));
-      }
-
-      // render media and tabs
+      
+      // Render media in top-left quadrant
       const mediaArea = document.getElementById('mediaArea');
       renderMedia(project, mediaArea);
-      const tabsArea = document.getElementById('tabsArea');
-      renderTabs(project, tabsArea);
+      
+      // Render info in top-right quadrant
+      const infoPanel = document.getElementById('infoPanel');
+      const infoQuadrant = document.querySelector('.quadrant-info');
+      const hasInfo = renderInfoPanel(project, infoPanel);
+      if(!hasInfo && infoQuadrant) infoQuadrant.style.display = 'none';
+      
+      // Render cast & crew in bottom-left quadrant
+      const castCrewPanel = document.getElementById('castCrewPanel');
+      const castQuadrant = document.querySelector('.quadrant-cast');
+      const hasCastCrew = renderCastCrewPanel(project, castCrewPanel);
+      if(!hasCastCrew && castQuadrant) castQuadrant.style.display = 'none';
+      
+      // Render awards in bottom-right quadrant
+      const awardsPanel = document.getElementById('awardsPanel');
+      const awardsQuadrant = document.querySelector('.quadrant-awards');
+      const hasAwards = renderAwardsPanel(project, awardsPanel);
+      if(!hasAwards && awardsQuadrant) awardsQuadrant.style.display = 'none';
 
       root.style.display = '';
     });

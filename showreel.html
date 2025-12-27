@@ -184,9 +184,30 @@
 			.swatch:nth-child(4){ animation-delay:.52s }
 			.swatch:nth-child(5){ animation-delay:.64s }
 			@keyframes swatchPop { from{ opacity:0; transform:scale(.6) } to { opacity:1; transform:none } }
+
+			/* Page entry fade from bottom */
+			body.page-animate {
+				opacity: 0;
+				transform: translateY(22px);
+				transition: none;
+			}
+
+			body.page-animate.page-animate--visible {
+				animation: fadeInUp 720ms ease-out forwards;
+			}
+
+			@keyframes fadeInUp {
+				from { opacity: 0; transform: translateY(22px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				body.page-animate { opacity: 1; transform: none; }
+				body.page-animate.page-animate--visible { animation: none; }
+			}
 		</style>
 	</head>
-	<body>
+	<body class="page-animate">
 		<!-- Navbar -->
 		<nav class="navbar navbar-expand-md sticky-top shadow-sm bg-body">
 			<div class="container">
@@ -247,8 +268,11 @@
 			<!-- unified data as JS global to avoid fetch (works on file://) -->
 			<script src="data/showreel-data.js"></script>
 		<script>
-		// set footer year
+		// set footer year & trigger page animation
 		document.getElementById('year').textContent = new Date().getFullYear();
+		document.addEventListener('DOMContentLoaded', () => {
+			document.body.classList.add('page-animate--visible');
+		});
 
 		// Build cards dynamically from JSON and wire interactions
 		window.addEventListener('load', async function(){
