@@ -33,10 +33,10 @@ window.PROJECTS = [
             ]
         },
     cast: [
-      { name: 'Anna Rossi', role: 'Protagonista' },
-      { name: 'Luca Bianchi', role: 'Supporto' },
-      { name: 'Luca Bianchi', role: 'Supporto' },
-      { name: 'Luca Bianchi', role: 'Supporto' },
+      { name: 'Anna Rossi', role: 'Protagonista', photo: 'https://picsum.photos/1200/800?random=101'},
+      { name: 'Luca Bianchi', role: 'Supporto', photo: 'https://picsum.photos/1200/800?random=102'},
+      { name: 'Luca Bianchi', role: 'Supporto', photo: 'https://picsum.photos/1200/800?random=103'},
+      { name: 'Luca Bianchi', role: 'Supporto', photo: 'https://picsum.photos/1200/800?random=104'},
     ],
     crew: [
       { name: 'Marco Verdi', role: 'Direttore della fotografia' },
@@ -76,7 +76,7 @@ window.PROJECTS = [
     title: 'Brand Film',
     year: '2021',
     categories: ['commercial'],
-    thumb: 'https://picsum.photos/900/600?random=24',
+    thumb: ['https://picsum.photos/900/600?random=24', 'https://picsum.photos/900/600?random=23'],
     description: "Racconto emozionale per un marchio, girato in location naturali.",
     description_short: 'Racconto emozionale per brand, location naturali.',
   },
