@@ -21,7 +21,7 @@ window.PROJECTS = [
         },
 
         cast: [
-            { name: 'Anna Rossi', role: 'Protagonista', photo: 'https://picsum.photos/1200/800?random=101'},
+            { name: 'Anna Rossi', role: 'Protagonista', photo: 'https://picsum.photos/1200/800?random=101', link: 'https://test.com'},
             { name: 'Luca Bianchi', role: 'Coprotagonista', photo: 'https://picsum.photos/1200/800?random=102'},
             { name: 'Filippo Verdi', role: 'Comparsa', photo: 'https://picsum.photos/1200/800?random=103'},
             { name: 'Alessia Grigi', role: 'Comparsa', photo: 'https://picsum.photos/1200/800?random=104'},

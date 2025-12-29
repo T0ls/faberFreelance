@@ -962,10 +962,24 @@
         const content = document.createElement('div');
         content.className = 'person-content';
 
-        const name = document.createElement('div');
-        name.className = 'carousel-item-name';
-        name.textContent = nameVal;
-        content.appendChild(name);
+        // If a profile link is provided, render the name as an anchor
+        const profileUrl = (typeof item === 'object') ? (item.link || item.url || item.profile) : null;
+        let nameEl;
+        if(profileUrl){
+          const a = document.createElement('a');
+          a.className = 'carousel-item-name';
+          a.textContent = nameVal;
+          a.href = profileUrl;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          nameEl = a;
+        } else {
+          const div = document.createElement('div');
+          div.className = 'carousel-item-name';
+          div.textContent = nameVal;
+          nameEl = div;
+        }
+        content.appendChild(nameEl);
         
         if(typeof item === 'object' && item.role){
           const role = document.createElement('div');
