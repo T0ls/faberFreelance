@@ -720,15 +720,17 @@
       container.innerHTML = '';
       
       const info = project.info || {};
+      const reservedKeys = new Set(['description', 'year', 'role', 'client']);
       
       // Check if there's any info to display
-      const hasInfo = info.description || info.year || info.role || info.client;
+      const hasInfo = info.description || info.year || info.role || info.client || 
+                      Object.keys(info).some(k => !reservedKeys.has(k));
       
       if(!hasInfo){
         return false;
       }
       
-      // Description
+      // Description (always first if present)
       if(info.description){
         const desc = document.createElement('div');
         desc.innerHTML = info.description;
@@ -738,12 +740,40 @@
         container.appendChild(desc);
       }
       
-      // Details
+      // Standard Details (in specific order)
       if(info.year) container.appendChild(createMetaItem('Anno', info.year));
       if(info.role) container.appendChild(createMetaItem('Ruolo', info.role));
       if(info.client) container.appendChild(createMetaItem('Cliente', info.client));
       
+      // Custom fields (any keys not in the reserved set)
+      Object.keys(info).forEach(key => {
+        if(!reservedKeys.has(key)){
+          const value = info[key];
+          if(value !== null && value !== undefined && value !== ''){
+            const displayValue = formatCustomField(value);
+            container.appendChild(createMetaItem(key, displayValue));
+          }
+        }
+      });
+      
       return true;
+    }
+
+    // Format custom field values based on their type
+    function formatCustomField(value){
+      if(typeof value === 'string'){
+        return value;
+      }
+      if(Array.isArray(value)){
+        return value.join(', ');
+      }
+      if(typeof value === 'object' && value !== null){
+        // For objects, format as key: value pairs
+        return Object.entries(value)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(', ');
+      }
+      return String(value);
     }
 
     // Render awards panel

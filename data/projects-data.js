@@ -16,8 +16,8 @@ window.PROJECTS = [
         info: {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.",
             year: '2024',
-            role: null,
-            client: null,
+            Produzione: 'Faber Production',
+            Budget: '€50.000',
         },
 
         cast: [
@@ -27,6 +27,7 @@ window.PROJECTS = [
             { name: 'Alessia Grigi', role: 'Comparsa', photo: 'https://picsum.photos/1200/800?random=104'},
             { name: 'Federisco Bianchi', role: 'Comparsa', photo: 'https://picsum.photos/1200/800?random=105'},
         ],
+
         crew: [
             { name: 'Marco Verdi', role: 'Direttore della fotografia', photo: 'https://picsum.photos/1200/800?random=106'},
             { name: 'Giulia Neri', role: 'Sound designer', photo: 'https://picsum.photos/1200/800?random=107'},
@@ -61,6 +62,7 @@ window.PROJECTS = [
         info: {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             year: '2023',
+            Piattaforma: 'YouTube',
         },
 
         cast: [
@@ -82,6 +84,7 @@ window.PROJECTS = [
         info: {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             year: '2022',
+            Collaboratori: ['Studio Rossi', 'Design Visivo'],
         },
     },
     {
@@ -97,6 +100,8 @@ window.PROJECTS = [
         info: {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             year: '2021',
+            Formato: 'Commerciale TV',
+            Durata: '30 secondi',
         },
     },
     {
@@ -112,6 +117,8 @@ window.PROJECTS = [
         info: {
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             year: '2020',
+            Tecnica: 'Motion Graphics',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
         },
     },
 ];
