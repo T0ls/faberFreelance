@@ -231,8 +231,9 @@
       (window.PROJECTS||[]).forEach((p, i)=>{
         const art = document.createElement('article');
         art.className = 'proj';
-        // set categories on the element for client-side filtering
-        art.dataset.cats = (p.categories||[]).join(' ').toLowerCase();
+        // set categories AND tags on the element for client-side filtering
+        const allTags = [...(p.categories||[]), ...(p.tags||[])];
+        art.dataset.cats = allTags.join(' ').toLowerCase();
 
         const a = document.createElement('a');
         a.className = 'thumb';

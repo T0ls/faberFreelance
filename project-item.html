@@ -719,7 +719,7 @@
       container.innerHTML = '';
       
       // Check if there's any info to display
-      const hasInfo = project.description || project.year || project.role || project.client || project.duration || (project.tags && project.tags.length);
+      const hasInfo = project.description || project.year || project.role || project.client || project.duration;
       
       if(!hasInfo){
         return false;
@@ -740,7 +740,6 @@
       if(project.role) container.appendChild(createMetaItem('Ruolo', project.role));
       if(project.client) container.appendChild(createMetaItem('Cliente', project.client));
       if(project.duration) container.appendChild(createMetaItem('Durata', project.duration));
-      if(project.tags && project.tags.length) container.appendChild(createMetaItem('Tag', project.tags.join(', ')));
       
       return true;
     }

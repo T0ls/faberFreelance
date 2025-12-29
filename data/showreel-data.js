@@ -1,51 +1,41 @@
 window.SHOWREEL_DATA = [
 	{
-		id: 1,
-		slug: "spierman",
-		title: "Spiderman",
-		year: "2014",
-		preview: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
+		slug: "t1",
+		title: "Lorem ipsum 1",
+		year: "2021",
 		video: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
-		description: "Spiderman è un progetto di regia e montaggio che esplora il ritmo attraverso campi lunghi e panoramiche controllate. Il progetto è pensato per schermi ampi e festival.",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	},
 	{
-		id: 2,
-		slug: "dark-web",
-		title: "Dark Web",
-		year: "2023",
-		preview: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
-		video: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
-		description: "Dark Web è un esperimento visivo sul contrasto tra luce e buio, con interventi di post-production e color grading spinto.",
-	},
-	{
-		id: 3,
-		slug: "shortcuts",
-		title: "Shortcuts",
+		slug: "t2",
+		title: "Lorem ipsum 2",
 		year: "2022",
-		preview: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
-		video: [],
-		description: "Shortcuts raccoglie brevi estratti montati per il palco: tagli rapidi, ritmo serrato e sincronizzazione su musica dal vivo.",
+		video: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	},
+	{
+		slug: "t3",
+		title: "Lorem ipsum 3",
+		year: "2023",
+		video: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 	},
 	{
 		id: 4,
-		slug: "metamorfosi",
-		title: "Metamorfosi",
-		year: "2021",
-		preview: [],
+	{
+		slug: "t4",
+		title: "Lorem ipsum 4",
+		year: "2024",
 		video: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
-		description: "Metamorfosi nasce da una serie di riprese astratte e manipolazioni, studiate per creare un flusso ipnotico in loop.",
-	},
 	{
 		id: 5,
-		slug: "puzzo",
-		title: "Puzzo",
-		year: "2020",
-		preview: [],
+	{
+		slug: "t5",
+		title: "Lorem ipsum 5",
+		year: "2025",
 		video: ["https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"],
-		description: "prova prova prova",
-	}
-];
-
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	},
 // Legacy aliases to minimize changes in existing pages
 window.SHOWREELS = window.SHOWREEL_DATA;
 window.SHOWREEL_DETAILS = window.SHOWREEL_DATA;
@@ -56,5 +46,3 @@ window.SHOWREEL_BY_SLUG = (function(arr){
 	(arr||[]).forEach(item=>{ if(item && item.slug) map[item.slug] = item; map[String(item.id)] = item; });
 	return map;
 })(window.SHOWREEL_DATA);
-
-// End of unified data
