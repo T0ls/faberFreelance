@@ -240,13 +240,14 @@
         a.href = "project-item.html?slug=" + p.slug || '#';
 
         const img = document.createElement('img');
-        img.src = p.thumb || '';
+        img.src = (p.media && p.media.thumb) || '' || '';
         img.alt = p.title || '';
         a.appendChild(img);
 
+        const info = p.info || {};
         const label = document.createElement('div');
         label.className = 'overlay-label';
-        label.innerHTML = `<strong>${p.title}</strong><span> • ${p.year || ''}</span>`;
+        label.innerHTML = `<strong>${p.title}</strong><span> • ${info.year || ''}</span>`;
         a.appendChild(label);
 
         art.appendChild(a);
@@ -256,7 +257,7 @@
         body.innerHTML = `
           <div>
             <div class="card-title">${p.title}</div>
-            <p class="card-text">${p.description_short || p.description || ''}</p>
+            <p class="card-text">${p.description_short || info.description || ''}</p>
           </div>
           <div class="card-actions">
             <a class="project-link" href="${"project-item.html?slug=" + p.slug || '#'}">Apri progetto →</a>

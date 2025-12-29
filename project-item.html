@@ -571,6 +571,7 @@
     function renderMedia(project, container){
       container.innerHTML='';
 
+      const media = project.media || {};
       const normalizeMediaList = (value)=>{
         if(!value) return [];
         const arr = Array.isArray(value) ? value : [value];
@@ -586,19 +587,19 @@
       const isVideoSrc = (src)=> /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src);
 
       // Build thumb media list (can mix images and videos)
-      const thumbList = normalizeMediaList(project.thumb);
+      const thumbList = normalizeMediaList(media.thumb);
 
       // priority: video if present, otherwise images (carousel if multiple), otherwise thumb list
-      if(project.video && project.video.length){
+      if(media.video && media.video.length){
         const v = document.createElement('video');
         v.controls = true; v.playsInline = true; v.muted = false; v.style.width='100%';
-        project.video.forEach(src => {
+        media.video.forEach(src => {
           const s = document.createElement('source'); s.src = src; v.appendChild(s);
         });
         container.appendChild(v);
         return;
       }
-      const imgs = project.images || (project.gallery || []);
+      const imgs = media.images || (media.gallery || []);
       if(imgs && imgs.length>1){
         const id = 'projCarousel';
         const wrap = document.createElement('div');
@@ -718,17 +719,19 @@
     function renderInfoPanel(project, container){
       container.innerHTML = '';
       
+      const info = project.info || {};
+      
       // Check if there's any info to display
-      const hasInfo = project.description || project.year || project.role || project.client || project.duration;
+      const hasInfo = info.description || info.year || info.role || info.client;
       
       if(!hasInfo){
         return false;
       }
       
       // Description
-      if(project.description){
+      if(info.description){
         const desc = document.createElement('div');
-        desc.innerHTML = project.description;
+        desc.innerHTML = info.description;
         desc.style.marginBottom = '1.25rem';
         desc.style.lineHeight = '1.6';
         desc.style.color = 'var(--muted)';
@@ -736,10 +739,9 @@
       }
       
       // Details
-      if(project.year) container.appendChild(createMetaItem('Anno', project.year));
-      if(project.role) container.appendChild(createMetaItem('Ruolo', project.role));
-      if(project.client) container.appendChild(createMetaItem('Cliente', project.client));
-      if(project.duration) container.appendChild(createMetaItem('Durata', project.duration));
+      if(info.year) container.appendChild(createMetaItem('Anno', info.year));
+      if(info.role) container.appendChild(createMetaItem('Ruolo', info.role));
+      if(info.client) container.appendChild(createMetaItem('Cliente', info.client));
       
       return true;
     }
