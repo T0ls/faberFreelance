@@ -564,8 +564,26 @@
     function createMetaItem(label, value){
       const div = document.createElement('div');
       div.className='meta-item';
-      div.innerHTML = `<strong>${label}</strong><span>${value||''}</span>`;
+      const strong = document.createElement('strong');
+      strong.textContent = label;
+      div.appendChild(strong);
+      
+      const span = document.createElement('span');
+      // If value is a string, check for embedded links [text](url)
+      if(typeof value === 'string'){
+        span.innerHTML = parseLinksInText(value);
+      } else {
+        span.textContent = value || '';
+      }
+      div.appendChild(span);
       return div;
+    }
+
+    // Parse markdown-like links in text: [text](url) -> <a href="url">text</a>
+    function parseLinksInText(text){
+      return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
+        return `<a href="${url}" target="_blank" rel="noopener">${linkText}</a>`;
+      });
     }
 
     function renderMedia(project, container){
@@ -586,10 +604,7 @@
 
       const isVideoSrc = (src)=> /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src);
 
-      // Build thumb media list (can mix images and videos)
-      const thumbList = normalizeMediaList(media.thumb);
-
-      // priority: video if present, otherwise images (carousel if multiple), otherwise thumb list
+      // priority: video if present, otherwise images (carousel if multiple)
       if(media.video && media.video.length){
         const v = document.createElement('video');
         v.controls = true; v.playsInline = true; v.muted = false; v.style.width='100%';
@@ -599,7 +614,7 @@
         container.appendChild(v);
         return;
       }
-      const imgs = media.images || (media.gallery || []);
+      const imgs = media.images || [];
       if(imgs && imgs.length>1){
         const id = 'projCarousel';
         const wrap = document.createElement('div');
@@ -631,54 +646,6 @@
         img.style.cursor = 'zoom-in';
         img.addEventListener('click', ()=> openImageModal(img.src));
         container.appendChild(img); return;
-      }
-
-      // thumb list fallback (can mix images and videos)
-      if(thumbList.length>1){
-        const id = 'thumbCarousel-' + (project.slug || project.id || Math.random().toString(36).slice(2,6));
-        const wrap = document.createElement('div');
-        wrap.id = id; wrap.className='carousel slide';
-        wrap.setAttribute('data-bs-ride','carousel');
-        wrap.setAttribute('data-bs-interval','3500');
-        const inner = document.createElement('div'); inner.className='carousel-inner';
-
-        thumbList.forEach((item,i)=>{
-          const it = document.createElement('div'); it.className = 'carousel-item' + (i===0? ' active':'');
-          const isVideo = item.type === 'video' || isVideoSrc(item.src);
-          if(isVideo){
-            const v = document.createElement('video');
-            v.controls = true; v.playsInline = true; v.muted = true; v.loop = true; v.style.width='100%'; v.style.height='100%'; v.style.objectFit='contain';
-            const s = document.createElement('source'); s.src = item.src; v.appendChild(s);
-            it.appendChild(v);
-          } else {
-            const img = document.createElement('img'); img.src = item.src; img.className='d-block w-100 carousel-img'; img.alt = project.title + ' thumb ' + (i+1);
-            img.style.cursor = 'zoom-in';
-            img.addEventListener('click', (ev)=>{ ev.stopPropagation(); openImageModal(img.src); });
-            it.appendChild(img);
-          }
-          inner.appendChild(it);
-        });
-
-        wrap.appendChild(inner);
-        wrap.innerHTML += `\n<button class="carousel-control-prev" type="button" data-bs-target="#${id}" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>\n<button class="carousel-control-next" type="button" data-bs-target="#${id}" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>`;
-        container.appendChild(wrap);
-        try{
-          const carousel = bootstrap.Carousel.getOrCreateInstance(wrap, { interval: 3500, wrap: true });
-          carousel.cycle();
-        }catch(e){ /* ignore */ }
-        return;
-      }
-
-      if(thumbList.length===1){
-        const item = thumbList[0];
-        const isVideo = item.type === 'video' || isVideoSrc(item.src);
-        if(isVideo){
-          const v = document.createElement('video');
-          v.controls = true; v.playsInline = true; v.muted = false; v.style.width='100%';
-          const s = document.createElement('source'); s.src = item.src; v.appendChild(s);
-          container.appendChild(v); return;
-        }
-        const img = document.createElement('img'); img.src = item.src; img.alt = project.title; img.style.width='100%'; img.style.borderRadius='6px'; img.style.cursor='zoom-in'; img.addEventListener('click', ()=> openImageModal(img.src)); container.appendChild(img); return;
       }
 
       container.innerHTML = '<div class="no-data">Nessun media disponibile</div>';
@@ -765,12 +732,19 @@
         return value;
       }
       if(Array.isArray(value)){
-        return value.join(', ');
+        // For arrays, support embedded links in each item
+        return value.map(item => {
+          if(typeof item === 'string') return item;
+          return String(item);
+        }).join(', ');
       }
       if(typeof value === 'object' && value !== null){
-        // For objects, format as key: value pairs
+        // For objects, support embedded links in values
         return Object.entries(value)
-          .map(([k, v]) => `${k}: ${v}`)
+          .map(([k, v]) => {
+            const displayVal = typeof v === 'string' ? v : String(v);
+            return `${k}: ${displayVal}`;
+          })
           .join(', ');
       }
       return String(value);

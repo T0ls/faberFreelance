@@ -254,7 +254,7 @@
         a.href = "project-item.html?slug=" + p.slug || '#';
 
         const img = document.createElement('img');
-        img.src = (p.media && p.media.thumb) || '' || '';
+        img.src = p.thumbnail || '';
         img.alt = p.title || '';
         a.appendChild(img);
 

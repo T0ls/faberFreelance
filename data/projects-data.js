@@ -4,9 +4,9 @@ window.PROJECTS = [
         title: 'Lorem ipsum 1',
         tags: ['commercial', 'ritmo','montaggio','dramma'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
+        thumbnail: 'https://picsum.photos/900/600?random=21',
 
         media: {
-            thumb: 'https://picsum.photos/900/600?random=21',
             video: [
                 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
             ],
@@ -15,7 +15,7 @@ window.PROJECTS = [
         info: {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua.",
             year: '2024',
-            Produzione: 'Faber Production',
+            Cliente: ['[Cliente 1](https://example.com)', '[Cliente 2](https://example.com)'],
             Budget: '€50.000',
         },
 
@@ -53,9 +53,12 @@ window.PROJECTS = [
         title: 'Lorem ipsum 2',
         tags: ['music'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
+        thumbnail: 'https://picsum.photos/900/600?random=22',
 
         media: {
-            thumb: 'https://picsum.photos/900/600?random=22',
+            images: [
+                'https://picsum.photos/1200/800?random=201'
+            ],
         },
 
         info: {
@@ -67,7 +70,6 @@ window.PROJECTS = [
         cast: [
             { name: 'Anna Rossi', role: 'Protagonista', photo: 'https://picsum.photos/1200/800?random=101'},
             { name: 'Luca Bianchi', role: 'Supporto', photo: 'https://picsum.photos/1200/800?random=102'},
-            { name: 'Maria Franchi', role: 'Supporto', photo: 'https://picsum.photos/1200/800?random=103'},
         ],
     },
     {
@@ -75,15 +77,17 @@ window.PROJECTS = [
         title: 'Lorem ipsum 3',
         tags: ['short', 'experimental'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
+        thumbnail: 'https://picsum.photos/900/600?random=23',
 
         media: {
-            thumb: 'https://picsum.photos/900/600?random=23',
+            images: [
+                'https://picsum.photos/1200/800?random=301',
+                'https://picsum.photos/1200/800?random=302'
+            ],
         },
 
         info: {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            year: '2022',
-            Collaboratori: ['Studio Rossi', 'Design Visivo'],
         },
     },
     {
@@ -91,16 +95,12 @@ window.PROJECTS = [
         title: 'Lorem ipsum 4',
         tags: ['commercial'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
+        thumbnail: 'https://picsum.photos/900/600?random=24',
 
         media: {
-            thumb: ['https://picsum.photos/900/600?random=24', 'https://picsum.photos/900/600?random=23', 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'],
-        },
-
-        info: {
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullamco laboriosam, nisi ut aliquid ex ea commodi consequatur. Duis aute irure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            year: '2021',
-            Formato: 'Commerciale TV',
-            Durata: '30 secondi',
+            video: [
+                'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
+            ],
         },
     },
     {
@@ -108,9 +108,12 @@ window.PROJECTS = [
         title: 'Lorem ipsum 5',
         tags: ['experimental'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
+        thumbnail: 'https://picsum.photos/900/600?random=25',
 
         media: {
-            thumb: 'https://picsum.photos/900/600?random=25',
+            images: [
+                'https://picsum.photos/1200/800?random=501'
+            ],
         },
 
         info: {
