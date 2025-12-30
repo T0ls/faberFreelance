@@ -178,10 +178,7 @@
         <p class="lead">Portfolio — selezione dei progetti recenti. Un racconto visivo per ogni lavoro: immagini, ritmo e scelte di montaggio.</p>
   <div class="filters pt-2" role="toolbar" aria-label="Filtri progetti">
           <button class="btn btn-outline-secondary btn-sm tag" data-filter="all">Tutti</button>
-          <button class="btn btn-outline-secondary btn-sm tag" data-filter="commercial">Commercial</button>
-          <button class="btn btn-outline-secondary btn-sm tag" data-filter="music">Music</button>
-          <button class="btn btn-outline-secondary btn-sm tag" data-filter="short">Short film</button>
-          <button class="btn btn-outline-secondary btn-sm tag" data-filter="experimental">Experimental</button>
+          <!-- Filter buttons will be dynamically generated from tags -->
         </div>
       </div>
     </header>
@@ -219,8 +216,8 @@
     <script>
   // data-driven client-side multi-select filtering for lavori
   window.addEventListener('load', function(){
-    const filters = Array.from(document.querySelectorAll('.filters [data-filter]'));
     const container = document.getElementById('projectsContainer');
+    const filtersContainer = document.querySelector('.filters');
     let projects = Array.from(document.querySelectorAll('.proj'));
 
     // active filters (excluding 'all')
@@ -228,12 +225,29 @@
 
     // if no static projects exist, render from data/projects-data.js (window.PROJECTS)
     if((!projects || !projects.length) && window.PROJECTS && Array.isArray(window.PROJECTS)){
+      // Collect all unique tags from all projects
+      const allTags = new Set();
+      window.PROJECTS.forEach(p => {
+        (p.tags || []).forEach(tag => allTags.add(tag.toLowerCase()));
+      });
+
+      // Generate filter buttons dynamically
+      const sortedTags = Array.from(allTags).sort();
+      sortedTags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline-secondary btn-sm tag';
+        btn.setAttribute('data-filter', tag);
+        btn.textContent = tag.charAt(0).toUpperCase() + tag.slice(1);
+        filtersContainer.appendChild(btn);
+      });
+
+      // Render projects
       (window.PROJECTS||[]).forEach((p, i)=>{
         const art = document.createElement('article');
         art.className = 'proj';
-        // set categories AND tags on the element for client-side filtering
-        const allTags = [...(p.categories||[]), ...(p.tags||[])];
-        art.dataset.cats = allTags.join(' ').toLowerCase();
+        // set only tags on the element for client-side filtering
+        const tags = (p.tags||[]).map(t => t.toLowerCase());
+        art.dataset.cats = tags.join(' ');
 
         const a = document.createElement('a');
         a.className = 'thumb';
@@ -256,7 +270,6 @@
         body.className = 'card-body';
         body.innerHTML = `
           <div>
-            <div class="card-title">${p.title}</div>
             <p class="card-text">${p.description_short || info.description || ''}</p>
           </div>
           <div class="card-actions">
@@ -269,6 +282,9 @@
       // re-query projects
       projects = Array.from(document.querySelectorAll('.proj'));
     }
+
+    // Re-query filters after dynamic generation
+    const filters = Array.from(document.querySelectorAll('.filters [data-filter]'));
 
     // apply filtering: show items that match ANY selected filter (OR). If no filters selected -> show all
     function applyFilters(){

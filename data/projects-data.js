@@ -2,8 +2,7 @@ window.PROJECTS = [
     {
         slug: 't1',
         title: 'Lorem ipsum 1',
-        categories: ['commercial'],
-        tags: ['ritmo','montaggio','dramma'],
+        tags: ['commercial', 'ritmo','montaggio','dramma'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
 
         media: {
@@ -52,7 +51,7 @@ window.PROJECTS = [
     {
         slug: 't2',
         title: 'Lorem ipsum 2',
-        categories: ['music'],
+        tags: ['music'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
 
         media: {
@@ -74,7 +73,7 @@ window.PROJECTS = [
     {
         slug: 't3',
         title: 'Lorem ipsum 3',
-        categories: ['short', 'experimental'],
+        tags: ['short', 'experimental'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
 
         media: {
@@ -90,7 +89,7 @@ window.PROJECTS = [
     {
         slug: 't4',
         title: 'Lorem ipsum 4',
-        categories: ['commercial'],
+        tags: ['commercial'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
 
         media: {
@@ -107,7 +106,7 @@ window.PROJECTS = [
     {
         slug: 't5',
         title: 'Lorem ipsum 5',
-        categories: ['experimental'],
+        tags: ['experimental'],
         description_short: "Lorem ipsum dolor sit amet, consectetur.",
 
         media: {
