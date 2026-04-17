@@ -26,7 +26,7 @@
       }
 
       /* Navbar con sfondo pieno per evitare trasparenza */
-      .navbar { background-color: #fff; }
+      .navbar { background-color: #ffffff; }
 
       /* LOGO */
       .logo-mark{
@@ -87,6 +87,27 @@
 		margin-bottom:.5rem;
 	  }
 
+	  .hero-center-img{
+		max-width: 92%;
+		margin-inline: auto;
+	  }
+
+		  .landing-images{
+			padding-inline: 1rem;
+		  }
+
+		  .landing-image-col{
+			display:flex;
+			justify-content:center;
+		  }
+
+		  .landing-img{
+			display:block;
+			width:100%;
+			max-width: 320px;
+			height:auto;
+		  }
+
 	  @media (min-width: 576px){
 		.hero-video{ max-height: 50vh; }
 	  }
@@ -125,6 +146,33 @@
 		0%, 100% { transform: translateY(0); }
 		50% { transform: translateY(4px); }
 	  }
+
+		  @media (max-width: 767.98px){
+			.landing-images{
+				padding-inline: 1.5rem;
+			}
+
+			.landing-images .row{
+				row-gap: 1rem !important;
+			}
+
+			.landing-img{
+				width: min(100%, 78vw);
+				max-width: 350px;
+				aspect-ratio: 1 / 1;
+				object-fit: cover;
+			}
+
+			.pulse{
+				animation: pulse-mobile 1.2s ease-in-out both;
+			}
+
+			@keyframes pulse-mobile{
+				0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+				50% { transform: scale(1.03); box-shadow: 0 12px 24px rgba(0,0,0,0.14); }
+				100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+			}
+		  }
 
 			/* Pulse animation for homepage images */
 			.pulse-target {
@@ -182,10 +230,10 @@
 				</button>
 				<div class="collapse navbar-collapse" id="mainNav">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink0" class="nav-link" href="about.html">About</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink1" class="nav-link" href="showreel.html">Showreel</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink2" class="nav-link" href="lavori.html">Lavori</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink3" class="nav-link" href="contatti.html">Contatti</a></li>
 					</ul>
 				</div>
 			</div>
@@ -196,10 +244,10 @@
                 <video class="hero-video" autoplay loop muted playsinline>
                     <source src="animazione.mp4" type="video/mp4">
                 </video>
-				<h1 class="display-6" style="margin-bottom:-10px">FABRIZIO ARRIGO</h1>
-				<p class="lead mb-1">Montatore, regista, videomaker...</p>
+				<h1 id="landingHeroTitle" class="display-6" style="margin-bottom:-10px">FABRIZIO ARRIGO</h1>
+				<p id="landingHeroSubtitle" class="lead mb-1">Montatore, videomaker, regista, filantropo.</p>
 					<div class="scroll-cue">
-						<button class="scroll-down-btn" data-target="#mainContent" aria-label="Scorri ai contenuti">
+						<button id="landingScrollBtn" class="scroll-down-btn" data-target="#mainContent" aria-label="Scorri ai contenuti">
 							<i class="bi bi-chevron-down fs-3 scroll-icon"></i>
 						</button>
 					</div>
@@ -207,23 +255,23 @@
 		</header>
 			<main id="mainContent">
 			<!-- Immagini -->
-			<section class="py-1 bg-light">
+				<section class="py-1 bg-light landing-images">
 			<div class="container">
 				<div class="row justify-content-center align-items-center g-3">
 
 					<!-- Immagine sinistra -->
-					<div class="col-12 col-md-3 text-center">
-						<img src="https://picsum.photos/300/300?random=1" class="img-fluid rounded shadow-sm pulse-target" alt="Immagine sinistra">
+						<div class="col-12 col-md-3 text-center landing-image-col">
+							<img id="landingImgLeft" src="https://picsum.photos/seed/home-left/800/800.jpg" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine sinistra">
 					</div>
 
 					<!-- Immagine centrale (più grande) -->
-					<div class="col-12 col-md-6 text-center">
-						<img src="https://picsum.photos/300/300?random=2" class="img-fluid rounded shadow pulse-target" alt="Immagine centrale">
+						<div class="col-12 col-md-4 text-center landing-image-col">
+							<img id="landingImgCenter" src="https://picsum.photos/seed/home-center/800/800.jpg" class="img-fluid rounded shadow pulse-target hero-center-img landing-img" alt="Immagine centrale">
 					</div>
 
 					<!-- Immagine destra -->
-					<div class="col-12 col-md-3 text-center">
-						<img src="https://picsum.photos/300/300?random=3" class="img-fluid rounded shadow-sm pulse-target" alt="Immagine destra">
+						<div class="col-12 col-md-3 text-center landing-image-col">
+							<img id="landingImgRight" src="https://picsum.photos/seed/home-right/800/800.jpg" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine destra">
 					</div>
 
 				</div>
@@ -233,19 +281,74 @@
 		<!-- Footer -->
 		<footer class="py-4 mt-5">
 			<div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-				<div class="small">
+				<div id="footerCopyright" class="small">
 					© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati
 				</div>
 				<div class="d-flex gap-3 small">
-					<a href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-					<a href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+					<a id="footerSocial0" href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+					<a id="footerSocial1" href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
 				</div>
 			</div>
 		</footer>
 		</main>
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="data/text-data.js"></script>
 		<script>
+		const textData = window.TEXT_DATA || {};
+
+		function applySharedText(){
+			const shared = textData.shared || {};
+			const nav = Array.isArray(shared.nav) ? shared.nav : [];
+			nav.forEach((item, idx) => {
+				const link = document.getElementById('navLink' + idx);
+				if(!link || !item) return;
+				if(item.label) link.textContent = item.label;
+				if(item.href) link.href = item.href;
+			});
+
+			const footer = shared.footer || {};
+			const footerCopy = document.getElementById('footerCopyright');
+			if(footerCopy){
+				const owner = footer.owner || 'Fabrizio Arrigo';
+				const rights = footer.rights || 'Tutti i diritti riservati';
+				footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights;
+			}
+
+			const socials = Array.isArray(footer.social) ? footer.social : [];
+			socials.forEach((social, idx) => {
+				const link = document.getElementById('footerSocial' + idx);
+				if(!link || !social) return;
+				if(social.href) link.href = social.href;
+				link.setAttribute('aria-label', social.platform || 'Social');
+			});
+		}
+
+		function applyLandingText(){
+			const landing = textData.landing || {};
+			const title = document.getElementById('landingHeroTitle');
+			if(title && landing.heroTitle) title.textContent = landing.heroTitle;
+
+			const subtitle = document.getElementById('landingHeroSubtitle');
+			if(subtitle && landing.heroSubtitle) subtitle.textContent = landing.heroSubtitle;
+
+			const scrollBtn = document.getElementById('landingScrollBtn');
+			if(scrollBtn && landing.scrollButtonAriaLabel){
+				scrollBtn.setAttribute('aria-label', landing.scrollButtonAriaLabel);
+			}
+
+			const images = landing.images || {};
+			const leftImg = document.getElementById('landingImgLeft');
+			if(leftImg && images.leftAlt) leftImg.alt = images.leftAlt;
+			const centerImg = document.getElementById('landingImgCenter');
+			if(centerImg && images.centerAlt) centerImg.alt = images.centerAlt;
+			const rightImg = document.getElementById('landingImgRight');
+			if(rightImg && images.rightAlt) rightImg.alt = images.rightAlt;
+		}
+
+		applySharedText();
+		applyLandingText();
+
 		document.getElementById('year').textContent = new Date().getFullYear();
 
 		document.addEventListener('DOMContentLoaded', () => {

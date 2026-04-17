@@ -6,6 +6,7 @@
     <title>Showreel • dettaglio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -22,6 +23,8 @@
 
       .player-wrap{max-width:980px;margin:18px auto;border-radius:12px;overflow:hidden;background:#000}
       .player-wrap video, .player-wrap img{width:100%;height:480px;object-fit:cover;display:block}
+      .player-wrap .plyr{width:100%;height:480px}
+      .player-wrap .plyr video{height:100%;object-fit:cover}
 
       .description{max-width:980px;margin:18px auto;color:#334155}
 
@@ -97,7 +100,7 @@
     body.page-animate.page-animate--visible { animation: none; }
     }
 
-      @media(max-width:980px){ .player-wrap video,.player-wrap img{height:280px} .thumbs{grid-template-columns:repeat(3,1fr)} }
+      @media(max-width:980px){ .player-wrap video,.player-wrap img,.player-wrap .plyr{height:280px} .thumbs{grid-template-columns:repeat(3,1fr)} }
       @media(max-width:520px){ .thumbs{grid-template-columns:repeat(2,1fr)} }
     </style>
   </head>
@@ -119,10 +122,10 @@
 				</button>
 				<div class="collapse navbar-collapse" id="mainNav">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink0" class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink1" class="nav-link" href="showreel.html">Showreel</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink2" class="nav-link" href="lavori.html">Lavori</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink3" class="nav-link" href="contatti.html">Contatti</a></li>
 					</ul>
 				</div>
 			</div>
@@ -149,18 +152,48 @@
 		<!-- Footer -->
 		<footer class="py-4 mt-5">
 			<div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-				<div class="small">
+        <div id="footerCopyright" class="small">
 					© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati
 				</div>
 				<div class="d-flex gap-3 small">
-					<a href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-					<a href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+          <a id="footerSocial0" href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+          <a id="footerSocial1" href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
 				</div>
 			</div>
 		</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script src="data/text-data.js"></script>
   <script>
+    function applySharedText(){
+      const shared = (window.TEXT_DATA && window.TEXT_DATA.shared) || {};
+      const nav = Array.isArray(shared.nav) ? shared.nav : [];
+      nav.forEach((item, idx) => {
+        const link = document.getElementById('navLink' + idx);
+        if(!link || !item) return;
+        if(item.label) link.textContent = item.label;
+        if(item.href) link.href = item.href;
+      });
+
+      const footer = shared.footer || {};
+      const footerCopy = document.getElementById('footerCopyright');
+      if(footerCopy){
+        const owner = footer.owner || 'Fabrizio Arrigo';
+        const rights = footer.rights || 'Tutti i diritti riservati';
+        footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights;
+      }
+
+      const socials = Array.isArray(footer.social) ? footer.social : [];
+      socials.forEach((social, idx) => {
+        const link = document.getElementById('footerSocial' + idx);
+        if(!link || !social) return;
+        if(social.href) link.href = social.href;
+        link.setAttribute('aria-label', social.platform || 'Social');
+      });
+    }
+
+    applySharedText();
     document.getElementById('year').textContent = new Date().getFullYear();
     document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.add('page-animate--visible');
@@ -170,10 +203,30 @@
       // URL helpers
       function readSlug(){ const p=new URLSearchParams(window.location.search); return p.get('slug') || ''; }
 
+      function resolveAssetPath(basePath, assetPath){
+        const value = String(assetPath || '');
+        if(!value) return '';
+        if(/^(?:https?:)?\/\//i.test(value) || value.startsWith('data:') || value.startsWith('./') || value.startsWith('../') || value.startsWith('/')){
+          return value;
+        }
+        return String(basePath || '') + value;
+      }
+
       // data loader: try JSON fetch then fallback to JS global for file://
       async function loadDetails(){
         try{ const r = await fetch('data/showreel-details.json', {cache:'no-store'}); if(r.ok) return await r.json(); }catch(e){}
   try{ await new Promise((res,rej)=>{ const s=document.createElement('script'); s.src='data/showreel-data.js'; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); return window.SHOWREEL_DETAILS || []; }catch(e){ return []; }
+      }
+
+      function initPlyr(videoEl){
+        if(!videoEl || typeof Plyr === 'undefined') return;
+        try{
+          new Plyr(videoEl, {
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
+            settings: ['speed'],
+            speed: { selected: 1, options: [0.75, 1, 1.25, 1.5, 2] }
+          });
+        }catch(e){ /* fallback to native controls */ }
       }
 
       // lightbox
@@ -182,13 +235,15 @@
       function renderItem(item){
         if(!item){ document.querySelector('main').innerHTML = '<div class="container text-center py-5"><p class="lead">Elemento non trovato.</p><p><a class="text-muted" href="showreel.html">← Torna allo showreel</a></p></div>'; return; }
 
+        document.title = 'Showreel • ' + (item.year || 'dettaglio');
         document.getElementById('title').textContent = item.title || '';
         document.getElementById('subtitle').textContent = [item.year, (item.categories||[]).join(' • ')].filter(Boolean).join(' — ');
         document.getElementById('description').innerHTML = item.description || '';
+        const basePath = item.rel_path || '';
 
   // player (centered)
   const anchor = document.getElementById('playerAnchor'); anchor.innerHTML = '';
-  if(item.video && item.video.length){ const wrapper = document.createElement('div'); wrapper.style.maxWidth='980px'; wrapper.style.margin='0 auto'; const v = document.createElement('video'); v.controls=true; v.playsInline=true; v.muted=false; v.style.width='100%'; v.style.height='100%'; const s = document.createElement('source'); s.src = item.video[0]; s.type='video/mp4'; v.appendChild(s); wrapper.appendChild(v); anchor.appendChild(wrapper); }
+  if(item.video && item.video.length){ const wrapper = document.createElement('div'); wrapper.style.maxWidth='980px'; wrapper.style.margin='0 auto'; const v = document.createElement('video'); v.controls=true; v.playsInline=true; v.muted=false; v.style.width='100%'; v.style.height='100%'; const s = document.createElement('source'); s.src = resolveAssetPath(basePath, item.video[0]); s.type='video/mp4'; v.appendChild(s); wrapper.appendChild(v); anchor.appendChild(wrapper); initPlyr(v); }
   else { const wrapper = document.createElement('div'); wrapper.style.maxWidth='980px'; wrapper.style.margin='0 auto'; const img = document.createElement('img'); img.alt = item.title||''; img.src = item.poster || 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900"><rect width="100%" height="100%" fill="#f8fafc"/><text x="50%" y="50%" fill="#64748b" font-family="Arial" font-size="36" text-anchor="middle">Video non disponibile</text></svg>'); wrapper.appendChild(img); anchor.appendChild(wrapper); }
       }
 

@@ -6,6 +6,7 @@
     <title>Progetto • Dettagli</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
     <style>
       /* Minimal, clean page styles matching other pages */
@@ -19,48 +20,79 @@
   /* Layout: 4 quadrants using CSS Grid */
   .project-hero{ 
     display: grid; 
-    grid-template-columns: 1.5fr 1fr; 
+    grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr); 
     grid-template-rows: auto auto; 
     gap: 1.5rem; 
     width: 100%;
     min-height: 80vh;
+    align-items: start;
   }
   
   /* Top-left: Video */
   .quadrant-video{ 
     grid-column: 1; 
     grid-row: 1; 
+    width: 100%;
   }
   
   /* Top-right: Info */
   .quadrant-info{ 
     grid-column: 2; 
     grid-row: 1; 
+    min-width: 0;
   }
   
   /* Bottom-left: Cast & Crew */
   .quadrant-cast{ 
     grid-column: 1; 
     grid-row: 2; 
+    width: 100%;
   }
   
   /* Bottom-right: Awards */
   .quadrant-awards{ 
     grid-column: 2; 
     grid-row: 2; 
+    min-width: 0;
   }
   
   @media (max-width:900px){ 
     .project-hero{ 
-      grid-template-columns: 1fr; 
-      grid-template-rows: auto auto auto auto;
+      display: flex;
+      flex-direction: column;
       gap:1rem; 
       min-height: auto;
     } 
-    .quadrant-video{ grid-column: 1; grid-row: 1; }
-    .quadrant-info{ grid-column: 1; grid-row: 2; }
-    .quadrant-cast{ grid-column: 1; grid-row: 3; }
-    .quadrant-awards{ grid-column: 1; grid-row: 4; }
+    .quadrant-video,
+    .quadrant-info,
+    .quadrant-cast,
+    .quadrant-awards{
+      grid-column: auto;
+      grid-row: auto;
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 900px) {
+    main.container{
+      max-width: 100%;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .panel-container{
+      padding: 1rem;
+      overflow-y: visible;
+    }
+
+    .panel-title{
+      margin-bottom: 0.9rem;
+    }
+
+    .media-stage{
+      max-height: 52vh;
+    }
   }
 
       /* Media stage: clean, edge, and gentle radius */
@@ -74,10 +106,15 @@
     display:flex; 
     align-items:center; 
     justify-content:center; 
-    height: 100%;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: 72vh;
   }
   .media-stage > *{ width:100%; height:auto; display:block; }
   .media-stage img, .media-stage video{ width:100%; height:100%; object-fit:contain; max-height:100%; }
+  .media-stage .plyr{ width:100%; height:100%; }
+  .media-stage .plyr video{ object-fit:contain; }
   /* ensure carousel images fill stage while preserving center crop */
   .carousel-img{ width:100%; height:100%; object-fit:cover; }
       .carousel-img{ width:100%; height:100%; object-fit:cover; }
@@ -90,6 +127,7 @@
     padding: 1.25rem; 
     height: auto;
     overflow-y: auto;
+    min-height: 0;
   }
   
   @media (max-width: 900px) {
@@ -208,6 +246,12 @@
     display: flex;
     gap: 1rem;
     transition: transform 0.3s ease;
+  }
+
+  @media (max-width: 900px) {
+    .carousel-track {
+      gap: 0.75rem;
+    }
   }
   
   .carousel-item-card {
@@ -471,10 +515,10 @@
 				</button>
 				<div class="collapse navbar-collapse" id="mainNav">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink0" class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink1" class="nav-link" href="showreel.html">Showreel</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink2" class="nav-link" href="lavori.html">Lavori</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink3" class="nav-link" href="contatti.html">Contatti</a></li>
 					</ul>
 				</div>
 			</div>
@@ -522,12 +566,12 @@
 		<!-- Footer -->
 		<footer class="py-4 mt-5">
 			<div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-				<div class="small">
+        <div id="footerCopyright" class="small">
 					© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati
 				</div>
 				<div class="d-flex gap-3 small">
-					<a href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-					<a href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+          <a id="footerSocial0" href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+          <a id="footerSocial1" href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
 				</div>
 			</div>
 		</footer>
@@ -544,9 +588,41 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- load projects data so window.PROJECTS and window.PROJECTS_BY_SLUG are available -->
-  <script src="data/projects-data.js"></script>
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+  <script src="data/text-data.js"></script>
+  <!-- load people and projects data globals -->
+  <script src="data/persone-data.js"></script>
+  <script src="data/lavori-data.js"></script>
   <script>
+    function applySharedText(){
+      const shared = (window.TEXT_DATA && window.TEXT_DATA.shared) || {};
+      const nav = Array.isArray(shared.nav) ? shared.nav : [];
+      nav.forEach((item, idx) => {
+        const link = document.getElementById('navLink' + idx);
+        if(!link || !item) return;
+        if(item.label) link.textContent = item.label;
+        if(item.href) link.href = item.href;
+      });
+
+      const footer = shared.footer || {};
+      const footerCopy = document.getElementById('footerCopyright');
+      if(footerCopy){
+        const owner = footer.owner || 'Fabrizio Arrigo';
+        const rights = footer.rights || 'Tutti i diritti riservati';
+        footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights;
+      }
+
+      const socials = Array.isArray(footer.social) ? footer.social : [];
+      socials.forEach((social, idx) => {
+        const link = document.getElementById('footerSocial' + idx);
+        if(!link || !social) return;
+        if(social.href) link.href = social.href;
+        link.setAttribute('aria-label', social.platform || 'Social');
+      });
+    }
+
+    applySharedText();
+
 		// set footer year & trigger page animation
 		document.getElementById('year').textContent = new Date().getFullYear();
 		document.addEventListener('DOMContentLoaded', () => {
@@ -586,10 +662,31 @@
       });
     }
 
+    function resolveAssetPath(basePath, assetPath){
+      const value = String(assetPath || '');
+      if(!value) return '';
+      if(/^(?:https?:)?\/\//i.test(value) || value.startsWith('data:') || value.startsWith('./') || value.startsWith('../') || value.startsWith('/')){
+        return value;
+      }
+      return String(basePath || '') + value;
+    }
+
+    function initPlyr(videoEl){
+      if(!videoEl || typeof Plyr === 'undefined') return;
+      try{
+        new Plyr(videoEl, {
+          controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
+          settings: ['speed'],
+          speed: { selected: 1, options: [0.75, 1, 1.25, 1.5, 2] }
+        });
+      }catch(e){ /* fallback to native controls */ }
+    }
+
     function renderMedia(project, container){
       container.innerHTML='';
 
       const media = project.media || {};
+      const basePath = project.rel_path || '';
       const normalizeMediaList = (value)=>{
         if(!value) return [];
         const arr = Array.isArray(value) ? value : [value];
@@ -607,11 +704,16 @@
       // priority: video if present, otherwise images (carousel if multiple)
       if(media.video && media.video.length){
         const v = document.createElement('video');
-        v.controls = true; v.playsInline = true; v.muted = false; v.style.width='100%';
+        v.controls = true; v.playsInline = true; v.muted = false;
+        v.style.display = 'block';
+        v.style.width = '100%';
+        v.style.maxWidth = '100%';
+        v.style.height = '100%';
         media.video.forEach(src => {
-          const s = document.createElement('source'); s.src = src; v.appendChild(s);
+          const s = document.createElement('source'); s.src = resolveAssetPath(basePath, src); v.appendChild(s);
         });
         container.appendChild(v);
+        initPlyr(v);
         return;
       }
       const imgs = media.images || [];
@@ -622,7 +724,7 @@
         const inner = document.createElement('div'); inner.className='carousel-inner';
         imgs.forEach((u,i)=>{
           const it = document.createElement('div'); it.className = 'carousel-item' + (i===0? ' active':'');
-          const img = document.createElement('img'); img.src = u; img.className='d-block w-100 carousel-img'; img.alt = project.title + ' image ' + (i+1);
+          const img = document.createElement('img'); img.src = resolveAssetPath(basePath, u); img.className='d-block w-100 carousel-img'; img.alt = project.title + ' image ' + (i+1);
           it.appendChild(img); inner.appendChild(it);
         });
         wrap.appendChild(inner);
@@ -642,7 +744,7 @@
         return;
       }
       if(imgs && imgs.length===1){
-        const img = document.createElement('img'); img.src = imgs[0]; img.alt = project.title; img.style.width='100%'; img.style.borderRadius='6px';
+        const img = document.createElement('img'); img.src = resolveAssetPath(basePath, imgs[0]); img.alt = project.title; img.style.width='100%'; img.style.borderRadius='6px';
         img.style.cursor = 'zoom-in';
         img.addEventListener('click', ()=> openImageModal(img.src));
         container.appendChild(img); return;
@@ -753,8 +855,12 @@
     // Render awards panel
     function renderAwardsPanel(project, container){
       container.innerHTML = '';
+
+      const rawAwards = project.awards || {};
+      const wins = (rawAwards.wins || []).filter(item => String(item || '').trim() !== '');
+      const nominations = (rawAwards.nominations || []).filter(item => String(item || '').trim() !== '');
       
-      if(!project.awards || (!project.awards.wins?.length && !project.awards.nominations?.length)){
+      if(!wins.length && !nominations.length){
         return false;
       }
       
@@ -765,7 +871,7 @@
       let itemIndex = 0;
       
       // Wins
-      if(project.awards.wins && project.awards.wins.length){
+      if(wins.length){
         const item = document.createElement('div');
         item.className = 'accordion-item';
         
@@ -783,7 +889,7 @@
         button.setAttribute('data-bs-target', '#' + collapseId);
         button.setAttribute('aria-expanded', 'true');
         button.setAttribute('aria-controls', collapseId);
-        button.innerHTML = '<i class="bi bi-trophy-fill me-2"></i>Vinti (' + project.awards.wins.length + ')';
+        button.innerHTML = '<i class="bi bi-trophy-fill me-2"></i>Vinti (' + wins.length + ')';
         
         header.appendChild(button);
         
@@ -799,7 +905,7 @@
         const ul = document.createElement('ul');
         ul.style.paddingLeft = '1.25rem';
         ul.style.margin = '0';
-        project.awards.wins.forEach(w => {
+        wins.forEach(w => {
           const li = document.createElement('li');
           li.textContent = w;
           li.style.marginBottom = '0.5rem';
@@ -815,7 +921,7 @@
       }
       
       // Nominations
-      if(project.awards.nominations && project.awards.nominations.length){
+      if(nominations.length){
         const item = document.createElement('div');
         item.className = 'accordion-item';
         
@@ -833,7 +939,7 @@
         button.setAttribute('data-bs-target', '#' + collapseId);
         button.setAttribute('aria-expanded', itemIndex === 0 ? 'true' : 'false');
         button.setAttribute('aria-controls', collapseId);
-        button.innerHTML = '<i class="bi bi-award me-2"></i>Nomination (' + project.awards.nominations.length + ')';
+        button.innerHTML = '<i class="bi bi-award me-2"></i>Nomination (' + nominations.length + ')';
         
         header.appendChild(button);
         
@@ -849,7 +955,7 @@
         const ul = document.createElement('ul');
         ul.style.paddingLeft = '1.25rem';
         ul.style.margin = '0';
-        project.awards.nominations.forEach(n => {
+        nominations.forEach(n => {
           const li = document.createElement('li');
           li.textContent = n;
           li.style.marginBottom = '0.5rem';
@@ -865,6 +971,33 @@
       
       container.appendChild(accordion);
       return true;
+    }
+
+    function resolvePersonEntry(item){
+      if(!item) return null;
+      if(typeof item === 'string'){
+        return { name: item };
+      }
+
+      const personId = item.personId || item.id || null;
+      const registry = window.PEOPLE_BY_ID || {};
+      const person = personId ? registry[personId] : null;
+      const merged = Object.assign({}, person || {});
+
+      if(!merged.name && item.name) merged.name = item.name;
+      if(!merged.link && (item.link || item.url || item.profile)){
+        merged.link = item.link || item.url || item.profile;
+      }
+
+      const imageValue = merged.image || item.image || item.photo || null;
+      if(imageValue){
+        const imageStr = String(imageValue);
+        const isAbsolute = /^(https?:)?\/\//i.test(imageStr) || imageStr.startsWith('/') || imageStr.startsWith('./');
+        merged.photo = isAbsolute ? imageStr : ('./data/assets/persone/' + imageStr);
+      }
+
+      if(item.role) merged.role = item.role;
+      return merged;
     }
 
     // Render cast and crew panel with carousels
@@ -917,13 +1050,14 @@
       
       // Add items
       items.forEach(item => {
+        const person = resolvePersonEntry(item) || {};
         const card = document.createElement('div');
         card.className = 'carousel-item-card';
         
         const thumb = document.createElement('div');
         thumb.className = 'person-thumb';
-        const nameVal = typeof item === 'string' ? item : (item.name || '');
-        const photo = (typeof item === 'object' && item.photo) ? item.photo : null;
+        const nameVal = person.name || '';
+        const photo = person.photo || null;
         if(photo){
           thumb.style.backgroundImage = `url(${photo})`;
           thumb.textContent = '';
@@ -937,7 +1071,7 @@
         content.className = 'person-content';
 
         // If a profile link is provided, render the name as an anchor
-        const profileUrl = (typeof item === 'object') ? (item.link || item.url || item.profile) : null;
+        const profileUrl = person.link || null;
         let nameEl;
         if(profileUrl){
           const a = document.createElement('a');
@@ -955,10 +1089,10 @@
         }
         content.appendChild(nameEl);
         
-        if(typeof item === 'object' && item.role){
+        if(person.role){
           const role = document.createElement('div');
           role.className = 'carousel-item-role';
-          role.textContent = item.role;
+          role.textContent = person.role;
           content.appendChild(role);
         }
 
@@ -1003,63 +1137,96 @@
       const track = carousel.querySelector(`[data-carousel-track="${id}"]`);
       const prevBtn = carousel.querySelector('[data-carousel-action="prev"]');
       const nextBtn = carousel.querySelector('[data-carousel-action="next"]');
+      const viewport = track ? track.parentElement : null;
       
-      if(!track || !prevBtn || !nextBtn) return;
+      if(!track || !prevBtn || !nextBtn || !viewport) return;
       
       const items = track.querySelectorAll('.carousel-item-card');
       if(items.length === 0) return;
       
-      let currentIndex = 0;
+      let currentPage = 0;
       
       // Calculate items per page based on available width
       function getItemsPerPage(){
-        // breakpoint-based sizing by screen width: mobile 1, medium 2, large 4
-        // aligned with Bootstrap-ish breakpoints: md=768, lg=992
-        const w = window.innerWidth || document.documentElement.clientWidth || 0;
-        if(w >= 992) return 4;
-        if(w >= 768) return 2;
-        return 1;
+        const firstItem = items[0];
+        if(!firstItem) return 1;
+
+        const itemRect = firstItem.getBoundingClientRect();
+        const itemWidth = itemRect.width || firstItem.offsetWidth || 1;
+        const gap = parseFloat(window.getComputedStyle(track).gap || '16') || 16;
+        const fullCardWidth = itemWidth + gap;
+
+        const viewportRect = viewport.getBoundingClientRect();
+        const availableWidth = viewportRect.width || viewport.clientWidth || 0;
+        if(!availableWidth || !fullCardWidth) return 1;
+
+        // Keep card count predictable on small screens.
+        const widthBasedCap = window.innerWidth < 900
+          ? 2
+          : Number.MAX_SAFE_INTEGER;
+
+        // Floor ensures no half-visible cards.
+        const computedCount = Math.max(1, Math.floor((availableWidth + gap) / fullCardWidth));
+        return Math.max(1, Math.min(computedCount, widthBasedCap));
       }
       
       function updateCarousel(){
         const itemsPerPage = getItemsPerPage();
-        const maxIndex = Math.max(0, items.length - itemsPerPage);
+        const canScroll = items.length > itemsPerPage;
+        const visibleItems = canScroll ? itemsPerPage : Math.max(1, items.length);
+        const totalPages = canScroll ? Math.ceil(items.length / itemsPerPage) : 1;
+        const maxPage = Math.max(0, totalPages - 1);
         
-        // Clamp current index
-        currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
+        // Clamp current page after responsive recalculation.
+        currentPage = Math.max(0, Math.min(currentPage, maxPage));
         
-        // Calculate offset
+        // Calculate geometry.
         const rect = items[0].getBoundingClientRect();
         const itemWidth = rect.width || items[0].offsetWidth || 240;
         const gap = parseFloat(window.getComputedStyle(track).gap || '16') || 16;
+        const fullCardWidth = itemWidth + gap;
+        const pageWidth = (visibleItems * itemWidth) + (Math.max(0, visibleItems - 1) * gap);
 
-        // Constrain viewport so we always show exactly itemsPerPage cards per "page"
-        // even if the container is wide enough to display more.
-        const viewport = track.parentElement;
-        const viewportWidth = (itemsPerPage * itemWidth) + (Math.max(0, itemsPerPage - 1) * gap);
-        viewport.style.maxWidth = viewportWidth + 'px';
-        viewport.style.marginLeft = 'auto';
-        viewport.style.marginRight = 'auto';
+        // Keep viewport aligned to full cards so each page shows complete cards only.
+        const isMobileLayout = window.innerWidth < 900;
+        if(isMobileLayout){
+          viewport.style.width = pageWidth + 'px';
+          viewport.style.maxWidth = '100%';
+          viewport.style.marginLeft = 'auto';
+          viewport.style.marginRight = 'auto';
+        } else {
+          viewport.style.width = '';
+          viewport.style.maxWidth = canScroll ? (pageWidth + 'px') : '100%';
+          viewport.style.marginLeft = 'auto';
+          viewport.style.marginRight = 'auto';
+        }
 
-        const offset = currentIndex * (itemWidth + gap);
+        const startIndex = currentPage * itemsPerPage;
+        const desiredOffset = startIndex * fullCardWidth;
+        const maxOffset = Math.max(0, track.scrollWidth - viewport.clientWidth);
+        const offset = Math.min(desiredOffset, maxOffset);
         
         track.style.transform = `translateX(-${offset}px)`;
+        track.style.justifyContent = canScroll ? 'flex-start' : 'center';
+
+        prevBtn.style.display = canScroll ? '' : 'none';
+        nextBtn.style.display = canScroll ? '' : 'none';
         
         // Update button states
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= maxIndex;
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage >= maxPage;
       }
       
       prevBtn.addEventListener('click', () => {
-        const itemsPerPage = getItemsPerPage();
-        currentIndex = Math.max(0, currentIndex - itemsPerPage);
+        currentPage = Math.max(0, currentPage - 1);
         updateCarousel();
       });
       
       nextBtn.addEventListener('click', () => {
         const itemsPerPage = getItemsPerPage();
-        const maxIndex = Math.max(0, items.length - itemsPerPage);
-        currentIndex = Math.min(maxIndex, currentIndex + itemsPerPage);
+        const totalPages = Math.ceil(items.length / itemsPerPage);
+        const maxPage = Math.max(0, totalPages - 1);
+        currentPage = Math.min(maxPage, currentPage + 1);
         updateCarousel();
       });
       
@@ -1116,11 +1283,12 @@
       }
 
       if(!project){
-        // Render a simple not-found page like showreel-item.html
+        // Render a simple not-found page like dettagli-showreel.html
         document.querySelector('main').innerHTML = '<div class="container text-center py-5"><p class="lead">Progetto non trovato.</p><p><a class="text-muted" href="lavori.html">← Torna a Lavori</a></p></div>';
         return;
       }
 
+      document.title = 'Progetto • ' + (project.title || 'Dettagli');
       document.getElementById('projTitle').textContent = project.title || 'Progetto';
       
       // Render media in top-left quadrant

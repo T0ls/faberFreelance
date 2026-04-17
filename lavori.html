@@ -41,8 +41,8 @@
         font-family: "Inria Serif", serif;
         font-weight: 700;
         /* F alta ~ due righe */
-        font-size: 2.5em;
-        line-height: .85;
+        font-size: 2.55em;
+        line-height: .84;
         margin-right:.05rem;
       }
       .logo-stack{
@@ -88,6 +88,27 @@
           .filters{ justify-content:center; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:0 .5rem; }
           .filters::-webkit-scrollbar{ height:6px; }
           .filters::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.06); border-radius:3px; }
+        }
+
+        .toolbar-row{
+          display:flex;
+          flex-wrap:wrap;
+          gap:.6rem;
+          justify-content:center;
+          align-items:center;
+          margin-top:.8rem;
+        }
+        .toolbar-row .form-control,
+        .toolbar-row .form-select{
+          max-width:260px;
+          font-size:.92rem;
+          border-radius:999px;
+        }
+        .clear-chip{
+          border-radius:999px;
+          font-size:.86rem;
+          padding:.25rem .75rem;
+          line-height:1.2;
         }
 
   /* grid: centered flow but tighter columns and cinematic cards */
@@ -163,22 +184,31 @@
 				</button>
 				<div class="collapse navbar-collapse" id="mainNav">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink0" class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink1" class="nav-link" href="showreel.html">Showreel</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink2" class="nav-link" href="lavori.html">Lavori</a></li>
+            <li class="nav-item hvr-grow"><a id="navLink3" class="nav-link" href="contatti.html">Contatti</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 
-    <header class="page-hero text-center bg-light pb-2">
+    <header class="page-hero text-center bg-light">
       <div class="container">
-        <h1 class="display-6">LAVORI</h1>
-        <p class="lead">Portfolio — selezione dei progetti recenti. Un racconto visivo per ogni lavoro: immagini, ritmo e scelte di montaggio.</p>
+        <h1 id="lavoriHeroTitle" class="display-6">LAVORI</h1>
+        <p id="lavoriHeroSubtitle" class="lead concept-blurb">Una raccolta mirata dei progetti a cui ho preso parte: cinema, lavoro e tutto ciò che sta in mezzo.</p>
   <div class="filters pt-2" role="toolbar" aria-label="Filtri progetti">
           <button class="btn btn-outline-secondary btn-sm tag" data-filter="all">Tutti</button>
           <!-- Filter buttons will be dynamically generated from tags -->
+        </div>
+        <div class="toolbar-row" aria-label="Ricerca e ordinamento progetti">
+          <input id="projectSearch" class="form-control form-control-sm" type="search" placeholder="Cerca un lavoro..." aria-label="Cerca lavori" />
+          <select id="projectSort" class="form-select form-select-sm" aria-label="Ordina lavori">
+            <option value="recent">Più recenti</option>
+            <option value="oldest">Più vecchi</option>
+            <option value="az">Ordine alfabetico</option>
+          </select>
+          <button id="clearFiltersChip" type="button" class="btn btn-outline-secondary btn-sm clear-chip">Pulisci filtri</button>
         </div>
       </div>
     </header>
@@ -186,7 +216,7 @@
     <main class="py-5">
       <div class="container">
         <div class="gallery-wrap" id="projectsContainer" aria-hidden="false">
-          <!-- project cards will be rendered from data/projects-data.js -->
+          <!-- project cards will be rendered from data/lavori-data.js -->
           <div id="noMatches" class="no-matches" style="display:none">Nessun risultato per il filtro selezionato.</div>
         </div>
       </div>
@@ -194,16 +224,55 @@
 
     <footer class="py-4 mt-5">
       <div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-        <div class="small">© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati</div>
+        <div id="footerCopyright" class="small">© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati</div>
         <div class="d-flex gap-3 small">
-          <a href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-          <a href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+          <a id="footerSocial0" href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+          <a id="footerSocial1" href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
         </div>
       </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data/text-data.js"></script>
     <script>
+      function applySharedText(){
+        const shared = (window.TEXT_DATA && window.TEXT_DATA.shared) || {};
+        const nav = Array.isArray(shared.nav) ? shared.nav : [];
+        nav.forEach((item, idx) => {
+          const link = document.getElementById('navLink' + idx);
+          if(!link || !item) return;
+          if(item.label) link.textContent = item.label;
+          if(item.href) link.href = item.href;
+        });
+
+        const footer = shared.footer || {};
+        const footerCopy = document.getElementById('footerCopyright');
+        if(footerCopy){
+          const owner = footer.owner || 'Fabrizio Arrigo';
+          const rights = footer.rights || 'Tutti i diritti riservati';
+          footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights;
+        }
+
+        const socials = Array.isArray(footer.social) ? footer.social : [];
+        socials.forEach((social, idx) => {
+          const link = document.getElementById('footerSocial' + idx);
+          if(!link || !social) return;
+          if(social.href) link.href = social.href;
+          link.setAttribute('aria-label', social.platform || 'Social');
+        });
+      }
+
+      function applyLavoriPageText(){
+        const pageText = (window.TEXT_DATA && window.TEXT_DATA.lavori) || {};
+        const title = document.getElementById('lavoriHeroTitle');
+        if(title && pageText.heroTitle) title.textContent = pageText.heroTitle;
+        const subtitle = document.getElementById('lavoriHeroSubtitle');
+        if(subtitle && pageText.heroSubtitle) subtitle.textContent = pageText.heroSubtitle;
+      }
+
+      applySharedText();
+      applyLavoriPageText();
+
       document.getElementById('year').textContent = new Date().getFullYear();
       document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('page-animate--visible');
@@ -211,162 +280,284 @@
     </script>
 
     <!-- load projects data (global) -->
-    <script src="data/projects-data.js"></script>
+    <script src="data/lavori-data.js"></script>
 
     <script>
-  // data-driven client-side multi-select filtering for lavori
+  // Data-driven filtering, search and sorting for lavori
   window.addEventListener('load', function(){
     const container = document.getElementById('projectsContainer');
     const filtersContainer = document.querySelector('.filters');
+    const noMatches = document.getElementById('noMatches');
+    const searchInput = document.getElementById('projectSearch');
+    const sortSelect = document.getElementById('projectSort');
+    const clearFiltersChip = document.getElementById('clearFiltersChip');
     let projects = Array.from(document.querySelectorAll('.proj'));
 
-    // active filters (excluding 'all')
     const active = new Set();
 
-    // if no static projects exist, render from data/projects-data.js (window.PROJECTS)
+    function toToken(value){
+      return String(value || '').trim().toLowerCase().replace(/\s+/g, '-');
+    }
+
+    function projectHref(slug){
+      return slug ? 'dettagli-lavoro.html?slug=' + encodeURIComponent(slug) : '#';
+    }
+
+    function resolveAssetPath(basePath, assetPath){
+      const value = String(assetPath || '');
+      if(!value) return '';
+      if(/^(?:https?:)?\/\//i.test(value) || value.startsWith('data:') || value.startsWith('./') || value.startsWith('../') || value.startsWith('/')){
+        return value;
+      }
+      return String(basePath || '') + value;
+    }
+
+    function buildProjectCard(project){
+      const p = project || {};
+      const info = p.info || {};
+      const title = p.title || 'Progetto';
+      const year = info.year || '';
+      const orderData = p.order_data || 0;
+      const shortDescription = p.description_short || info.description || '';
+
+      const article = document.createElement('article');
+      article.className = 'proj';
+
+      const tokens = (p.tags || []).map(toToken).filter(Boolean);
+      article.dataset.cats = tokens.join(' ');
+      article.dataset.title = String(title).toLowerCase();
+      article.dataset.desc = String(shortDescription).toLowerCase();
+      article.dataset.year = String(year);
+      article.dataset.orderData = String(orderData);
+
+      const thumbLink = document.createElement('a');
+      thumbLink.className = 'thumb';
+      thumbLink.href = projectHref(p.slug);
+
+      const img = document.createElement('img');
+      img.src = resolveAssetPath(p.rel_path, p.thumbnail);
+      img.alt = title;
+      thumbLink.appendChild(img);
+
+      const label = document.createElement('div');
+      label.className = 'overlay-label';
+
+      const strong = document.createElement('strong');
+      strong.textContent = title;
+      label.appendChild(strong);
+
+      if(year){
+        const yearEl = document.createElement('span');
+        yearEl.textContent = ' • ' + year;
+        label.appendChild(yearEl);
+      }
+
+      thumbLink.appendChild(label);
+      article.appendChild(thumbLink);
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const textWrap = document.createElement('div');
+      const text = document.createElement('p');
+      text.className = 'card-text';
+      text.textContent = shortDescription;
+      textWrap.appendChild(text);
+      body.appendChild(textWrap);
+
+      const actions = document.createElement('div');
+      actions.className = 'card-actions';
+      const openLink = document.createElement('a');
+      openLink.className = 'project-link';
+      openLink.href = projectHref(p.slug);
+      openLink.textContent = 'Apri progetto →';
+      actions.appendChild(openLink);
+      body.appendChild(actions);
+
+      article.appendChild(body);
+      return article;
+    }
+
     if((!projects || !projects.length) && window.PROJECTS && Array.isArray(window.PROJECTS)){
-      // Collect all unique tags from all projects
-      const allTags = new Set();
+      const tagsMap = new Map();
       window.PROJECTS.forEach(p => {
-        (p.tags || []).forEach(tag => allTags.add(tag.toLowerCase()));
+        (p.tags || []).forEach(tag => {
+          const token = toToken(tag);
+          if(token && !tagsMap.has(token)) tagsMap.set(token, tag);
+        });
       });
 
-      // Generate filter buttons dynamically
-      const sortedTags = Array.from(allTags).sort();
-      sortedTags.forEach(tag => {
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-outline-secondary btn-sm tag';
-        btn.setAttribute('data-filter', tag);
-        btn.textContent = tag.charAt(0).toUpperCase() + tag.slice(1);
-        filtersContainer.appendChild(btn);
+      Array.from(tagsMap.entries())
+        .sort((a, b) => String(a[1]).localeCompare(String(b[1]), 'it', { sensitivity: 'base' }))
+        .forEach(([token, label]) => {
+          const btn = document.createElement('button');
+          btn.className = 'btn btn-outline-secondary btn-sm tag';
+          btn.setAttribute('data-filter', token);
+          btn.textContent = label;
+          filtersContainer.appendChild(btn);
+        });
+
+      (window.PROJECTS || []).forEach((project) => {
+        container.insertBefore(buildProjectCard(project), noMatches);
       });
 
-      // Render projects
-      (window.PROJECTS||[]).forEach((p, i)=>{
-        const art = document.createElement('article');
-        art.className = 'proj';
-        // set only tags on the element for client-side filtering
-        const tags = (p.tags||[]).map(t => t.toLowerCase());
-        art.dataset.cats = tags.join(' ');
-
-        const a = document.createElement('a');
-        a.className = 'thumb';
-        a.href = "project-item.html?slug=" + p.slug || '#';
-
-        const img = document.createElement('img');
-        img.src = p.thumbnail || '';
-        img.alt = p.title || '';
-        a.appendChild(img);
-
-        const info = p.info || {};
-        const label = document.createElement('div');
-        label.className = 'overlay-label';
-        label.innerHTML = `<strong>${p.title}</strong><span> • ${info.year || ''}</span>`;
-        a.appendChild(label);
-
-        art.appendChild(a);
-
-        const body = document.createElement('div');
-        body.className = 'card-body';
-        body.innerHTML = `
-          <div>
-            <p class="card-text">${p.description_short || info.description || ''}</p>
-          </div>
-          <div class="card-actions">
-            <a class="project-link" href="${"project-item.html?slug=" + p.slug || '#'}">Apri progetto →</a>
-          </div>`;
-        art.appendChild(body);
-
-        container.insertBefore(art, document.getElementById('noMatches'));
-      });
-      // re-query projects
       projects = Array.from(document.querySelectorAll('.proj'));
     }
 
-    // Re-query filters after dynamic generation
-    const filters = Array.from(document.querySelectorAll('.filters [data-filter]'));
+    projects.forEach((projectCard) => {
+      const titleEl = projectCard.querySelector('.card-title, .overlay-label strong');
+      const descEl = projectCard.querySelector('.card-text');
+      if(!projectCard.dataset.title) projectCard.dataset.title = (titleEl ? titleEl.textContent : '').toLowerCase();
+      if(!projectCard.dataset.desc) projectCard.dataset.desc = (descEl ? descEl.textContent : '').toLowerCase();
 
-    // apply filtering: show items that match ANY selected filter (OR). If no filters selected -> show all
-    function applyFilters(){
-      const selected = Array.from(active);
-      let visible = 0;
-      projects.forEach((p, i)=>{
-        const cats = (p.dataset.cats||'').toLowerCase().split(/\s+/).map(s=>s.trim()).filter(Boolean);
-        const match = selected.length === 0 || selected.some(f => cats.includes(f));
-        if(match){
-          p.style.display = '';
-          setTimeout(()=> p.classList.add('show'), 40 + i*30);
-          visible++;
-        } else {
-          p.classList.remove('show');
-          setTimeout(()=> p.style.display = 'none', 240);
-        }
-      });
-      const nm = document.getElementById('noMatches');
-      if(nm){ nm.style.display = visible? 'none':'block'; }
+      const catsRaw = (projectCard.dataset.cats || '').split(/\s+/).filter(Boolean);
+      projectCard.dataset.cats = catsRaw.map(toToken).join(' ');
+    });
+
+    function filterButtons(){
+      return Array.from(document.querySelectorAll('.filters [data-filter]'));
     }
 
-    // update visual state of filter buttons according to `active` Set
     function updateFilterUI(){
-      filters.forEach(btn=>{
-        const f = btn.dataset.filter;
-        if(f === 'all'){
-          if(active.size === 0){ btn.classList.add('btn-primary'); btn.setAttribute('aria-pressed','true'); }
-          else { btn.classList.remove('btn-primary'); btn.setAttribute('aria-pressed','false'); }
-          // remove any close icon on 'all'
-          const existing = btn.querySelector('.close-x'); if(existing) existing.remove();
-        } else {
-          if(active.has(f)){
-            btn.classList.add('btn-primary'); btn.setAttribute('aria-pressed','true');
-            // ensure a close '×' exists inside the tag
-            if(!btn.querySelector('.close-x')){
-              const close = document.createElement('span');
-              close.className = 'close-x';
-              close.innerHTML = '&times;';
-              close.title = 'Rimuovi filtro ' + f;
-              close.style.marginLeft = '.45rem';
-              close.style.cursor = 'pointer';
-              close.style.fontWeight = '700';
-              close.addEventListener('click', (ev)=>{
-                ev.stopPropagation();
-                active.delete(f);
-                updateFilterUI();
-                applyFilters();
-              });
-              btn.appendChild(close);
-            }
-          } else {
-            btn.classList.remove('btn-primary'); btn.setAttribute('aria-pressed','false');
-            const existing = btn.querySelector('.close-x'); if(existing) existing.remove();
-          }
+      filterButtons().forEach(btn => {
+        const filter = btn.dataset.filter;
+        if(filter === 'all'){
+          const allActive = active.size === 0;
+          btn.classList.toggle('btn-primary', allActive);
+          btn.setAttribute('aria-pressed', allActive ? 'true' : 'false');
+          const existing = btn.querySelector('.close-x');
+          if(existing) existing.remove();
+          return;
+        }
+
+        const isActive = active.has(filter);
+        btn.classList.toggle('btn-primary', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+        const existing = btn.querySelector('.close-x');
+        if(!isActive){
+          if(existing) existing.remove();
+          return;
+        }
+
+        if(!existing){
+          const close = document.createElement('span');
+          close.className = 'close-x';
+          close.innerHTML = '&times;';
+          close.title = 'Rimuovi filtro ' + (btn.textContent || '').replace('×', '').trim();
+          close.style.marginLeft = '.45rem';
+          close.style.cursor = 'pointer';
+          close.style.fontWeight = '700';
+          close.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            active.delete(filter);
+            updateFilterUI();
+            applyFiltersSearchAndSort();
+          });
+          btn.appendChild(close);
         }
       });
     }
 
-    // attach click handlers to filter buttons (toggle behavior)
-    filters.forEach(b=> b.addEventListener('click', ()=>{
-      const f = b.dataset.filter;
-      if(f === 'all'){
-        // clear all other filters
-        active.clear();
-      } else {
-        if(active.has(f)) active.delete(f); else active.add(f);
-      }
-      updateFilterUI();
-      applyFilters();
-    }));
+    function applyFiltersSearchAndSort(){
+      const selected = Array.from(active);
+      const searchTerm = String(searchInput && searchInput.value || '').trim().toLowerCase();
+      const sortMode = String(sortSelect && sortSelect.value || 'recent');
 
-    // init: no filters selected => 'Tutti' active
-    updateFilterUI();
-    applyFilters();
+      const visible = [];
+      projects.forEach((projectCard) => {
+        const cats = (projectCard.dataset.cats || '').split(/\s+/).filter(Boolean);
+        const matchesFilter = selected.length === 0 || selected.some(f => cats.includes(f));
+        const titleOnly = projectCard.dataset.title || '';
+        const matchesSearch = !searchTerm || titleOnly.includes(searchTerm);
 
-    // center filter scroll when overflowing
-    function centerFiltersScroll(){
-      const f = document.querySelector('.filters'); if(!f) return;
-      if(f.scrollWidth > f.clientWidth){ try{ f.scrollLeft = Math.round((f.scrollWidth - f.clientWidth)/2); }catch(e){} }
+        if(matchesFilter && matchesSearch){
+          visible.push(projectCard);
+        }
+      });
+
+      visible.sort((a, b) => {
+        const titleA = a.dataset.title || '';
+        const titleB = b.dataset.title || '';
+        const yearA = parseInt(a.dataset.year || '0', 10) || 0;
+        const yearB = parseInt(b.dataset.year || '0', 10) || 0;
+        const orderA = parseInt(a.dataset.orderData || '0', 10) || 0;
+        const orderB = parseInt(b.dataset.orderData || '0', 10) || 0;
+
+        if(sortMode === 'az') return titleA.localeCompare(titleB, 'it', { sensitivity: 'base' });
+        if(sortMode === 'oldest') return orderB - orderA || yearA - yearB || titleA.localeCompare(titleB, 'it', { sensitivity: 'base' });
+        return orderA - orderB || yearB - yearA || titleA.localeCompare(titleB, 'it', { sensitivity: 'base' });
+      });
+
+      projects.forEach((projectCard) => {
+        projectCard.classList.remove('show');
+        projectCard.style.display = 'none';
+      });
+
+      visible.forEach((projectCard, index) => {
+        container.insertBefore(projectCard, noMatches);
+        projectCard.style.display = '';
+        setTimeout(() => projectCard.classList.add('show'), 35 + index * 24);
+      });
+
+      if(noMatches) noMatches.style.display = visible.length ? 'none' : 'block';
     }
-    centerFiltersScroll(); let _t;
-    window.addEventListener('resize', ()=>{ clearTimeout(_t); _t = setTimeout(centerFiltersScroll, 140); });
+
+    function bindFilterClickHandlers(){
+      filterButtons().forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+          if(filter === 'all'){
+            active.clear();
+          } else if(active.has(filter)){
+            active.delete(filter);
+          } else {
+            active.add(filter);
+          }
+
+          updateFilterUI();
+          applyFiltersSearchAndSort();
+        });
+      });
+    }
+
+    bindFilterClickHandlers();
+
+    if(searchInput){
+      searchInput.addEventListener('input', applyFiltersSearchAndSort);
+    }
+    if(sortSelect){
+      sortSelect.addEventListener('change', applyFiltersSearchAndSort);
+    }
+
+    if(clearFiltersChip){
+      clearFiltersChip.addEventListener('click', () => {
+        active.clear();
+        if(searchInput) searchInput.value = '';
+        if(sortSelect) sortSelect.value = 'recent';
+        updateFilterUI();
+        applyFiltersSearchAndSort();
+      });
+    }
+
+    updateFilterUI();
+    applyFiltersSearchAndSort();
+
+    function centerFiltersScroll(){
+      const filtersBar = document.querySelector('.filters');
+      if(!filtersBar) return;
+      if(filtersBar.scrollWidth > filtersBar.clientWidth){
+        try { filtersBar.scrollLeft = Math.round((filtersBar.scrollWidth - filtersBar.clientWidth) / 2); }
+        catch (e) { /* no-op */ }
+      }
+    }
+
+    centerFiltersScroll();
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(centerFiltersScroll, 140);
+    });
   });
   </script>
   </body>

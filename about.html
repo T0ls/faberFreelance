@@ -43,8 +43,8 @@
         font-family: "Inria Serif", serif;
         font-weight: 700;
         /* F alta ~ due righe */
-        font-size: 2.5em;
-        line-height: .85;
+        font-size: 2.55em;
+        line-height: .84;
         margin-right:.05rem;
       }
       .logo-stack{
@@ -62,6 +62,77 @@
 	  .nav-link{
 		  font-size: 20px;
 	  }
+
+		.skill-board{
+			background:#fff;
+			border:1px solid rgba(15, 23, 42, .1);
+			border-radius:1rem;
+			padding:1.2rem 1rem;
+			box-shadow:0 10px 24px rgba(2, 6, 23, .06);
+			overflow:visible;
+		}
+
+		.skill-row{
+			display:flex;
+			align-items:center;
+			gap:.75rem;
+			margin-bottom:.95rem;
+		}
+
+		.skill-row:last-child{
+			margin-bottom:0;
+		}
+
+		.skill-label{
+			flex:0 0 36%;
+			font-family:"Inria Serif", serif;
+			font-weight:700;
+			font-size:1.25rem;
+			line-height:1;
+			text-align:right;
+			color:#0f172a;
+		}
+
+		.skill-bar-wrap{
+			flex:1;
+			display:flex;
+			justify-content:flex-start;
+			background:#e9edf3;
+			border-radius:999px;
+			overflow:hidden;
+		}
+
+		.skill-bar-wrap.skill-overflow{
+			overflow:visible;
+			margin-right:-30px;
+		}
+
+		.skill-bar{
+			height:1rem;
+			border-radius:999px;
+		}
+
+		@media (max-width: 991px){
+			.skill-label{
+				font-size:1.05rem;
+				flex-basis:36%;
+			}
+			.skill-bar{ height:.9rem; }
+		}
+
+		@media (max-width: 576px){
+			.skill-board{ padding:1rem .75rem; }
+			.skill-row{ gap:.6rem; }
+			.skill-label{ font-size:.92rem; flex-basis:39%; }
+			.skill-bar{ height:.82rem; }
+			.skill-bar-wrap.skill-overflow{ margin-right:-12px; }
+		}
+
+		@media (min-width: 768px){
+			.about-skills-col{
+				padding-top: 3rem;
+			}
+		}
 
 		.page-hero{ padding:4rem 0; }
 
@@ -105,10 +176,10 @@
 				</button>
 				<div class="collapse navbar-collapse" id="mainNav">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink0" class="nav-link" href="about.html">About</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink1" class="nav-link" href="showreel.html">Showreel</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink2" class="nav-link" href="lavori.html">Lavori</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink3" class="nav-link" href="contatti.html">Contatti</a></li>
 					</ul>
 				</div>
 			</div>
@@ -117,8 +188,8 @@
 		<!-- Hero -->
 		<header class="page-hero bg-light text-center">
 			<div class="container">
-				<h1 class="display-6">ABOUT</h1>
-				<p class="lead">Mi chiamo Fabrizio Arrigo — qui una breve introduzione professionale, il concept del lavoro e cosa ti propongo.</p>
+				<h1 id="aboutHeroTitle" class="display-6">ABOUT</h1>
+				<p id="aboutHeroSubtitle" class="lead">Presentazione e guida all'uso per il mercenario in questione.</p>
 			</div>
 		</header>
 
@@ -126,19 +197,45 @@
 		<main class="py-5">
 			<div class="container">
 				<div class="row g-4">
-					<div class="col-12 col-md-4 text-center">
-						<img src="https://picsum.photos/400/400" class="img-fluid rounded shadow" alt="Ritratto">
+					<div class="col-12 col-md-4 text-center about-skills-col">
+						<div id="aboutSkillsBoard" class="skill-board shadow-sm" aria-label="Qualita professionali">
+							<div class="skill-row">
+								<span id="aboutSkill0" class="skill-label">Adattabilità</span>
+								<span id="aboutSkillWrap0" class="skill-bar-wrap"><span id="aboutSkillBar0" class="skill-bar"></span></span>
+							</div>
+							<div class="skill-row">
+								<span id="aboutSkill1" class="skill-label">Creatività</span>
+								<span id="aboutSkillWrap1" class="skill-bar-wrap"><span id="aboutSkillBar1" class="skill-bar"></span></span>
+							</div>
+							<div class="skill-row">
+								<span id="aboutSkill2" class="skill-label">Intuito</span>
+								<span id="aboutSkillWrap2" class="skill-bar-wrap"><span id="aboutSkillBar2" class="skill-bar"></span></span>
+							</div>
+							<div class="skill-row">
+								<span id="aboutSkill3" class="skill-label">Passione</span>
+								<span id="aboutSkillWrap3" class="skill-bar-wrap"><span id="aboutSkillBar3" class="skill-bar"></span></span>
+							</div>
+							<div class="skill-row">
+								<span id="aboutSkill4" class="skill-label">Precisione</span>
+								<span id="aboutSkillWrap4" class="skill-bar-wrap"><span id="aboutSkillBar4" class="skill-bar"></span></span>
+							</div>
+							<div class="skill-row">
+								<span id="aboutSkill5" class="skill-label">Umorismo</span>
+								<span id="aboutSkillWrap5" class="skill-bar-wrap"><span id="aboutSkillBar5" class="skill-bar"></span></span>
+							</div>
+						</div>
 					</div>
 					<div class="col-12 col-md-8">
-						<h2>Chi sono</h2>
-						<p>Regista e video-maker con esperienza in showreel, progetti commerciali e lavori personali. Lavoro su concept, regia, montaggio e post-produzione.</p>
-						<h3>Servizi</h3>
-						<ul>
-							<li>Concept e sceneggiatura</li>
-							<li>Riprese e regia</li>
-							<li>Montaggio e color grading</li>
+						<h2 id="aboutProfileTitle">Chi sono</h2>
+						<p id="aboutParagraph0">Saluti! Sono Fabrizio, ho ventiquattro anni e sono un filmmaker con competenze di ripresa, scrittura e montaggio; ciò mi permette di contribuire a un progetto in diverse fasi a seconda delle necessità. I miei altri armamenti sono la puntualità, la capacità di lavorare in squadra e di improvvisare, il buon gusto (non scontato) e l'etica professionale (ancor meno scontata invero). Per chi si concerne di pergamene, sono laureato con lode in Psicologia della Comunicazione.</p>
+						<p id="aboutParagraph1">Mi piacciono: il cinema, i cani e le sfide.</p>
+						<p id="aboutParagraph2">Non mi piacciono: le barbabietole, i profittatori e chi parcheggia in doppia fila.</p>
+						<h3 id="aboutServicesTitle">Servizi</h3>
+						<ul id="aboutServicesList">
+							<li>Riprese video e presa audio</li>
+							<li>Montaggio, vfx e post-produzione</li>
+							<li>Scrittura per l'audivosivio, storytelling e regia</li>
 						</ul>
-						<p>Per lavori, referenze e contatti vedi la sezione o scrivimi tramite i miei Contatti.</p>
 					</div>
 				</div>
 			</div>
@@ -147,16 +244,121 @@
 		<!-- Footer (copy from template) -->
 		<footer class="py-4 mt-5">
 			<div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-				<div class="small">© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati</div>
+				<div id="footerCopyright" class="small">© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati</div>
 				<div class="d-flex gap-3 small">
-					<a href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-					<a href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+					<a id="footerSocial0" href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+					<a id="footerSocial1" href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
 				</div>
 			</div>
 		</footer>
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="data/text-data.js"></script>
 		<script>
+			const textData = window.TEXT_DATA || {};
+
+			function applySharedText(){
+				const shared = textData.shared || {};
+				const nav = Array.isArray(shared.nav) ? shared.nav : [];
+				nav.forEach((item, idx) => {
+					const link = document.getElementById('navLink' + idx);
+					if(!link || !item) return;
+					if(item.label) link.textContent = item.label;
+					if(item.href) link.href = item.href;
+				});
+
+				const footer = shared.footer || {};
+				const footerCopy = document.getElementById('footerCopyright');
+				if(footerCopy){
+					const owner = footer.owner || 'Fabrizio Arrigo';
+					const rights = footer.rights || 'Tutti i diritti riservati';
+					footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights;
+				}
+
+				const socials = Array.isArray(footer.social) ? footer.social : [];
+				socials.forEach((social, idx) => {
+					const link = document.getElementById('footerSocial' + idx);
+					if(!link || !social) return;
+					if(social.href) link.href = social.href;
+					link.setAttribute('aria-label', social.platform || 'Social');
+				});
+			}
+
+			function applyAboutText(){
+				const about = textData.about || {};
+
+				function getSkillGradient(percent){
+					const clamped = Math.max(0, Math.min(percent, 100));
+					const ratio = clamped / 100;
+					const startHue = Math.round(46 + (ratio * 96));
+					const endHue = Math.min(160, startHue + 12);
+					const startSat = Math.round(68 - (ratio * 6));
+					const endSat = Math.round(74 - (ratio * 6));
+					const startLight = Math.round(57 - (ratio * 18));
+					const endLight = Math.round(64 - (ratio * 10));
+					return 'linear-gradient(90deg, hsl(' + startHue + ', ' + startSat + '%, ' + startLight + '%), hsl(' + endHue + ', ' + endSat + '%, ' + endLight + '%))';
+				}
+
+				const heroTitle = document.getElementById('aboutHeroTitle');
+				if(heroTitle && about.heroTitle) heroTitle.textContent = about.heroTitle;
+
+				const heroSubtitle = document.getElementById('aboutHeroSubtitle');
+				if(heroSubtitle && about.heroSubtitle) heroSubtitle.textContent = about.heroSubtitle;
+
+				const skillsBoard = document.getElementById('aboutSkillsBoard');
+				if(skillsBoard && about.skillsAriaLabel){
+					skillsBoard.setAttribute('aria-label', about.skillsAriaLabel);
+				}
+
+				const skills = Array.isArray(about.skills) ? about.skills : [];
+				skills.forEach((skillItem, idx) => {
+					const skill = (skillItem && typeof skillItem === 'object') ? skillItem : { label: skillItem, percent: 0 };
+					const label = skill.label || '';
+					const percentValue = Number(skill.percent);
+					const percent = Number.isFinite(percentValue) ? Math.max(0, percentValue) : 0;
+
+					const skillLabel = document.getElementById('aboutSkill' + idx);
+					if(skillLabel && label) skillLabel.textContent = label;
+
+					const skillWrap = document.getElementById('aboutSkillWrap' + idx);
+					const skillBar = document.getElementById('aboutSkillBar' + idx);
+					if(skillWrap && skillBar){
+						skillBar.style.width = percent + '%';
+						skillBar.style.background = getSkillGradient(percent);
+						skillWrap.classList.toggle('skill-overflow', percent > 100);
+						skillBar.style.boxShadow = (percent > 100)
+							? '0 0 0 1px rgba(31,143,88,.06), 0 6px 16px rgba(47,185,111,.22)'
+							: 'none';
+					}
+				});
+
+				const profileTitle = document.getElementById('aboutProfileTitle');
+				if(profileTitle && about.profileTitle) profileTitle.textContent = about.profileTitle;
+
+				const paragraphs = Array.isArray(about.paragraphs) ? about.paragraphs : [];
+				paragraphs.forEach((text, idx) => {
+					const paragraph = document.getElementById('aboutParagraph' + idx);
+					if(paragraph && text) paragraph.textContent = text;
+				});
+
+				const servicesTitle = document.getElementById('aboutServicesTitle');
+				if(servicesTitle && about.servicesTitle) servicesTitle.textContent = about.servicesTitle;
+
+				const servicesList = document.getElementById('aboutServicesList');
+				const services = Array.isArray(about.services) ? about.services : [];
+				if(servicesList && services.length){
+					servicesList.innerHTML = '';
+					services.forEach((item) => {
+						const li = document.createElement('li');
+						li.textContent = item;
+						servicesList.appendChild(li);
+					});
+				}
+			}
+
+			applySharedText();
+			applyAboutText();
+
 			document.getElementById('year').textContent = new Date().getFullYear();
 			document.addEventListener('DOMContentLoaded', () => {
 				document.body.classList.add('page-animate--visible');

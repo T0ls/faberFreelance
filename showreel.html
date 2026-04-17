@@ -24,7 +24,7 @@
       }
 
       /* Navbar con sfondo pieno per evitare trasparenza */
-      .navbar { background-color: #fff; }
+      .navbar { background-color: #ffffff; }
 
       /* LOGO */
       .logo-mark{
@@ -41,8 +41,8 @@
         font-family: "Inria Serif", serif;
         font-weight: 700;
         /* F alta ~ due righe */
-        font-size: 2.5em;
-        line-height: .85;
+        font-size: 2.55em;
+        line-height: .84;
         margin-right:.05rem;
       }
       .logo-stack{
@@ -129,7 +129,7 @@
 				text-shadow: 0 4px 18px rgba(0,0,0,0.65);
 			}
 			.overlay-label strong{ font-weight:700; font-size:0.95rem; }
-			.overlay-label span{ opacity:0.85; font-size:0.85rem; }
+			.overlay-label span{ opacity:0.85; font-size:0.95rem; }
 
 			/* entrance animations */
 			@keyframes fadeUp { from{opacity:0; transform:translateY(18px) scale(.985)} to{opacity:1; transform:none} }
@@ -225,10 +225,10 @@
 				</button>
 				<div class="collapse navbar-collapse" id="mainNav">
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item hvr-grow"><a class="nav-link" href="about.html">About</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="showreel.html">Showreel</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="lavori.html">Lavori</a></li>
-						<li class="nav-item hvr-grow"><a class="nav-link" href="contatti.html">Contatti</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink0" class="nav-link" href="about.html">About</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink1" class="nav-link" href="showreel.html">Showreel</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink2" class="nav-link" href="lavori.html">Lavori</a></li>
+						<li class="nav-item hvr-grow"><a id="navLink3" class="nav-link" href="contatti.html">Contatti</a></li>
 					</ul>
 				</div>
 			</div>
@@ -237,9 +237,8 @@
 		<header class="page-hero text-center bg-light">
 			<div class="container">
 				<div class="hero-concept">
-					<h1 class="display-6">SHOWREEL</h1>
-					<h2>Progetti come esperimenti di linguaggio visivo</h2>
-					<p class="lead concept-blurb">Questa raccolta mette a fuoco tono, ritmo e scelta di immagini — non solo 'reel' ma sequenze pensate per esplorare narrazione e atmosfera. Ogni montaggio nasce da un'idea che guida scelte stilistiche e ritmo.</p>
+					<h1 id="showreelHeroTitle" class="display-6">SHOWREEL</h1>
+					<p id="showreelHeroSubtitle" class="lead">Una variegata e spumeggiante panoramica dei miei lavori, condensata in poco più di un minuto.</p>
 				</div>
 
 			</div>
@@ -255,19 +254,58 @@
 
 		<footer class="py-4 mt-5">
 			<div class="container d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-				<div class="small">© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati</div>
+				<div id="footerCopyright" class="small">© <span id="year"></span> Fabrizio Arrigo • Tutti i diritti riservati</div>
 				<div class="d-flex gap-3 small">
-					<a href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-					<a href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
+					<a id="footerSocial0" href="https://www.linkedin.com/in/fabrizio-faber-arrigo-a1b77a22b" target="_blank" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
+					<a id="footerSocial1" href="https://www.instagram.com/faber.arrigo" target="_blank" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
 				</div>
 			</div>
 		</footer>
 
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+			<script src="data/text-data.js"></script>
 
 			<!-- unified data as JS global to avoid fetch (works on file://) -->
 			<script src="data/showreel-data.js"></script>
 		<script>
+		function applySharedText(){
+			const shared = (window.TEXT_DATA && window.TEXT_DATA.shared) || {};
+			const nav = Array.isArray(shared.nav) ? shared.nav : [];
+			nav.forEach((item, idx) => {
+				const link = document.getElementById('navLink' + idx);
+				if(!link || !item) return;
+				if(item.label) link.textContent = item.label;
+				if(item.href) link.href = item.href;
+			});
+
+			const footer = shared.footer || {};
+			const footerCopy = document.getElementById('footerCopyright');
+			if(footerCopy){
+				const owner = footer.owner || 'Fabrizio Arrigo';
+				const rights = footer.rights || 'Tutti i diritti riservati';
+				footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights;
+			}
+
+			const socials = Array.isArray(footer.social) ? footer.social : [];
+			socials.forEach((social, idx) => {
+				const link = document.getElementById('footerSocial' + idx);
+				if(!link || !social) return;
+				if(social.href) link.href = social.href;
+				link.setAttribute('aria-label', social.platform || 'Social');
+			});
+		}
+
+		function applyShowreelPageText(){
+			const pageText = (window.TEXT_DATA && window.TEXT_DATA.showreel) || {};
+			const title = document.getElementById('showreelHeroTitle');
+			if(title && pageText.heroTitle) title.textContent = pageText.heroTitle;
+			const subtitle = document.getElementById('showreelHeroSubtitle');
+			if(subtitle && pageText.heroSubtitle) subtitle.textContent = pageText.heroSubtitle;
+		}
+
+		applySharedText();
+		applyShowreelPageText();
+
 		// set footer year & trigger page animation
 		document.getElementById('year').textContent = new Date().getFullYear();
 		document.addEventListener('DOMContentLoaded', () => {
@@ -277,6 +315,15 @@
 		// Build cards dynamically from JSON and wire interactions
 		window.addEventListener('load', async function(){
 			const container = document.getElementById('cardsContainer');
+
+			function resolveAssetPath(basePath, assetPath){
+				const value = String(assetPath || '');
+				if(!value) return '';
+				if(/^(?:https?:)?\/\//i.test(value) || value.startsWith('data:') || value.startsWith('./') || value.startsWith('../') || value.startsWith('/')){
+					return value;
+				}
+				return String(basePath || '') + value;
+			}
 
 
 
@@ -289,7 +336,8 @@
 				items.forEach((item, i)=>{
 					const a = document.createElement('a');
 					a.className = `card h-100 animated delay-${(i%3)+1}`;
-				    a.href = `showreel-item.html?slug=${encodeURIComponent(item.slug)}`;
+				    a.href = `dettagli-showreel.html?slug=${encodeURIComponent(item.slug)}`;
+					const relPath = item.rel_path || '';
 
 					const thumb = document.createElement('div');
 					thumb.className = 'card-thumb';
@@ -330,7 +378,7 @@
 								try{ video.removeChild(src); }catch(e){}
 								return;
 							}
-							src.src = cands[0];
+							src.src = resolveAssetPath(relPath, cands[0]);
 							src.type = 'video/mp4';
 
 							const onErr = function(){
