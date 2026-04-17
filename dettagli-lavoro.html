@@ -95,6 +95,13 @@
     }
   }
 
+  @media (min-width: 901px) {
+    .quadrant-span-full{
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+  }
+
       /* Media stage: clean, edge, and gentle radius */
   /* Media stage: centered, constrained, and visually calm */
   .media-stage{ 
@@ -779,6 +786,34 @@
       }
     }
 
+    function syncDesktopPanelSpans(){
+      const isDesktop = window.innerWidth > 900;
+      const quadrants = [
+        document.querySelector('.quadrant-video'),
+        document.querySelector('.quadrant-info'),
+        document.querySelector('.quadrant-cast'),
+        document.querySelector('.quadrant-awards')
+      ];
+
+      quadrants.forEach(quadrant => {
+        if(quadrant) quadrant.classList.remove('quadrant-span-full');
+      });
+
+      if(!isDesktop) return;
+
+      const rowPairs = [
+        [document.querySelector('.quadrant-video'), document.querySelector('.quadrant-info')],
+        [document.querySelector('.quadrant-cast'), document.querySelector('.quadrant-awards')]
+      ];
+
+      rowPairs.forEach(pair => {
+        const visible = pair.filter(quadrant => quadrant && getComputedStyle(quadrant).display !== 'none');
+        if(visible.length === 1){
+          visible[0].classList.add('quadrant-span-full');
+        }
+      });
+    }
+
     function renderTabs(project, container){
       // This function is no longer used but kept for compatibility
       container.innerHTML = '';
@@ -1317,7 +1352,9 @@
 
       // sync heights after initial render
       requestAnimationFrame(syncPanelHeights);
+      requestAnimationFrame(syncDesktopPanelSpans);
       setTimeout(syncPanelHeights, 300);
+      setTimeout(syncDesktopPanelSpans, 300);
     });
 
     // Re-sync on resize (debounced)
@@ -1326,6 +1363,7 @@
       window.addEventListener('resize', ()=>{
         if(t) clearTimeout(t);
         t = setTimeout(syncPanelHeights, 120);
+        setTimeout(syncDesktopPanelSpans, 120);
       });
     })();
     </script>
