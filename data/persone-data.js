@@ -1,249 +1,249 @@
-window.PEOPLE = [
+﻿window.PEOPLE = [
   {
-    id: "roberta-sarti",
+    id: "p001",
     name: "Lorem ipsum d",
     image: "https://picsum.photos/seed/roberta-sarti-portrait/600/600.jpg",
-    link: "https://roberta-sarti.etalenta.eu/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "simone-nastasi",
+    id: "p002",
     name: "Lorem ipsum do",
     image: "https://picsum.photos/seed/simone-nastasi-portrait/600/600.jpg",
-    link: "https://www.instagram.com/simo.nasta/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "il-sottoscritto",
+    id: "p003",
     name: "Lorem ipsum dol",
     image: "https://picsum.photos/seed/il-sottoscritto-portrait/600/600.jpg"
   },
   {
-    id: "lorenzo-tortorelli",
+    id: "p004",
     name: "Lorem ipsum dolor ",
     image: "https://picsum.photos/seed/lorenzo-tortorelli-portrait/600/600.jpg",
-    link: "https://www.linkedin.com/in/lorenzo-tortorelli-305a90269/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "lorenzo-codino",
+    id: "p005",
     name: "Lorem ipsum do",
     image: "https://picsum.photos/seed/lorenzo-codino-portrait/600/600.jpg",
-    link: "https://www.instagram.com/quel_cody/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "davide-zibra",
+    id: "p006",
     name: "Lorem ipsum ",
     image: "https://picsum.photos/seed/davide-zibra-portrait/600/600.jpg",
-    link: "https://www.youtube.com/@DavideZibra"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "simone-perali",
+    id: "p007",
     name: "Lorem ipsum d",
     image: "https://picsum.photos/seed/simone-perali-portrait/600/600.jpg",
-    link: "https://simoneperali.weebly.com/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnSqpDKt4PoZg32KdyNL3MFqlVg86jNaMFxjCkzzS_BH6jywg8D9us_LwbWJM_aem_QTM488-nR_kGQ4xQeIHsyA"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "alessandro-bono",
+    id: "p008",
     name: "Lorem ipsum dol",
     image: "https://picsum.photos/seed/alessandro-bono-portrait/600/600.jpg",
-    link: "https://www.instagram.com/ilbonuscultura/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "filippo-fileni",
+    id: "p009",
     name: "Lorem ipsum do",
     image: "https://picsum.photos/seed/filippo-fileni-portrait/600/600.jpg",
-    link: "https://linktr.ee/filippofileni?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnkxZpH4VD_Un2CcEGsTnsJUrJxU-6swnOaffpXEl7TKmp7wlY-fQUZ9NWIPo_aem_DUthr94uEq8SY4UzJ8ukNA"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "tony-dave",
+    id: "p010",
     name: "Lorem ips",
     image: "https://picsum.photos/seed/tony-dave-portrait/600/600.jpg",
-    link: "https://www.youtube.com/channel/UCimlqLk6Vdp-2roM3Xdoj7Q"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "andrea-canfora",
+    id: "p011",
     name: "Lorem ipsum do",
     image: "https://picsum.photos/seed/andrea-canfora-portrait/600/600.jpg",
-    link: "https://www.instagram.com/_.canfo._/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "diana-tavella",
+    id: "p012",
     name: "Lorem ipsum d",
     image: "https://picsum.photos/seed/diana-tavella-portrait/600/600.jpg",
-    link: "https://www.instagram.com/dita.sottili/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "emma-lombardi",
+    id: "p013",
     name: "Lorem ipsum d",
     image: "https://picsum.photos/seed/emma-lombardi-portrait/600/600.jpg",
-    link: "https://www.linkedin.com/in/emmalombardi-filmmaker/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "orso-scaramellini",
+    id: "p014",
     name: "Lorem ipsum dolor",
     image: "https://picsum.photos/seed/orso-scaramellini-portrait/600/600.jpg",
-    link: "https://horsoween.start.page/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnaqWE2zUOMzgtaZXoIsR7NoS16GZZC9oPLd0i0WMq1DbkE1Nwa6DBxOTbPwI_aem_TFXFbLBUpZkzlNmE9BDrHg"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "luca-di-martino",
+    id: "p015",
     name: "Lorem ipsum dol",
     image: "https://picsum.photos/seed/luca-di-martino-portrait/600/600.jpg",
-    link: "https://www.instagram.com/luca.dima.dimartino/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "matteo-ilardo",
+    id: "p016",
     name: "Lorem ipsum d",
     image: "https://picsum.photos/seed/matteo-ilardo-portrait/600/600.jpg",
-    link: "https://www.instagram.com/matteoilardo_/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "giuseppe-de-felice",
+    id: "p017",
     name: "Lorem ipsum dolor ",
     image: "https://picsum.photos/seed/giuseppe-de-felice-portrait/600/600.jpg",
-    link: "https://www.linkedin.com/in/giuseppe-felice-029941125/?originalSubdomain=it"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "alessandro-colombo",
+    id: "p018",
     name: "Lorem ipsum dolor ",
     image: "https://picsum.photos/seed/alessandro-colombo-portrait/600/600.jpg",
-    link: "https://www.instagram.com/daddy_santrino/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "sofia-giampieri",
+    id: "p019",
     name: "Lorem ipsum dol",
     image: "https://picsum.photos/seed/sofia-giampieri-portrait/600/600.jpg",
-    link: "https://www.linkedin.com/in/sofiagiampieri/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "silvia-olivetto",
+    id: "p020",
     name: "Lorem ipsum dol",
     image: "https://picsum.photos/seed/silvia-olivetto-portrait/600/600.jpg",
-    link: "https://www.instagram.com/olivettosilvia/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "giulia-casentini",
+    id: "p021",
     name: "Lorem ipsum dolo",
     image: "https://picsum.photos/seed/giulia-casentini-portrait/600/600.jpg",
-    link: "https://www.linkedin.com/in/giulia-casentini-43aa37273/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "edoardo-fiorito",
+    id: "p022",
     name: "Lorem ipsum dol",
     image: "https://picsum.photos/seed/edoardo-fiorito-portrait/600/600.jpg",
-    link: "https://www.instagram.com/edoardo.fiorito_/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "lorenzo-masci",
+    id: "p023",
     name: "Lorem ipsum d",
     image: "https://picsum.photos/seed/lorenzo-masci-portrait/600/600.jpg",
-    link: "https://www.instagram.com/lorenzo_masci_/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "giulio-giusteschi",
+    id: "p024",
     name: "Lorem ipsum dolor",
     image: "https://picsum.photos/seed/giulio-giusteschi-portrait/600/600.jpg",
-    link: "https://t0ls.github.io/CV/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "francesco-balzano",
+    id: "p025",
     name: "Lorem ipsum dolor",
     image: "https://picsum.photos/seed/francesco-balzano-portrait/600/600.jpg",
-    link: "https://www.facebook.com/OSTfactory/?locale=it_IT"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "cristian-zandonella",
+    id: "p026",
     name: "Lorem ipsum dolor s",
     image: "https://picsum.photos/seed/cristian-zandonella-portrait/600/600.jpg",
-    link: "https://www.instagram.com/cristianzandonella/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "irene-di-francesco",
+    id: "p027",
     name: "Lorem ipsum dolor "
   },
   {
-    id: "nicole-bombardi",
+    id: "p028",
     name: "Lorem ipsum dol"
   },
   {
-    id: "sofia-zurlo",
+    id: "p029",
     name: "Lorem ipsum",
     image: "https://picsum.photos/seed/sofia-zurlo-portrait/600/600.jpg",
-    link: "https://www.instagram.com/cristianzandonella/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "anna-caruso",
+    id: "p030",
     name: "Lorem ipsum",
     image: "https://picsum.photos/seed/anna-caruso-portrait/600/600.jpg",
-    link: "https://www.instagram.com/annaacarusoo/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "federico-cecchini",
+    id: "p031",
     name: "Lorem ipsum dolor",
     image: "https://picsum.photos/seed/federico-cecchini-portrait/600/600.jpg",
-    link: "https://t0ls.github.io/CV/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "james-la-motta",
+    id: "p032",
     name: "Lorem ipsum do",
     image: "https://picsum.photos/seed/james-la-motta-portrait/600/600.jpg",
-    link: "https://www.imdb.com/it/name/nm9015681/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnWVN4cHJuTw95zPoTSTG9Mo8jemRPGh0LVLokyq9Cv_Lm6oHsUW_3pKTH83s_aem_Ma7Bg7sB2uaO14-WL0YRXQ"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "roberto-mercurio",
+    id: "p033",
     name: "Lorem ipsum dolo",
     image: "https://picsum.photos/seed/roberto-mercurio-portrait/600/600.jpg",
-    link: "https://www.instagram.com/robertomerq/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "giulia-melis",
+    id: "p034",
     name: "Lorem ipsum ",
     image: "https://picsum.photos/seed/giulia-melis-portrait/600/600.jpg",
-    link: "https://www.etalenta.eu/members/profile/melis"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "alessandro-davoli",
+    id: "p035",
     name: "Lorem ipsum dolor",
     image: "https://picsum.photos/seed/alessandro-davoli-portrait/600/600.jpg",
-    link: "https://www.etalenta.eu/members/profile/alessandro-davoli"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "giulia-mazzetti",
+    id: "p036",
     name: "Lorem ipsum dol",
     image: "https://picsum.photos/seed/giulia-mazzetti-portrait/600/600.jpg",
-    link: "https://m.imdb.com/it/name/nm14822751/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnwNNfAiaK_pMFzpqpBUK9peRaERLK1kA_kIDAf7n2qhz5bk3yYD8RAHradpE_aem_KwuOBrX0y3bpXXKcRhP5NA"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "elisabetta-fasce",
+    id: "p037",
     name: "Lorem ipsum dolo",
     image: "https://picsum.photos/seed/elisabetta-fasce-portrait/600/600.jpg",
-    link: "https://www.linkedin.com/in/elisabettafasce/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "matteo-dozio",
+    id: "p038",
     name: "Lorem ipsum ",
     image: "https://picsum.photos/seed/matteo-dozio-portrait/600/600.jpg",
-    link: "https://vimeo.com/matteodozio?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnZomCMpr9mUl-7OQOVHBGW2tQDLvcwARCH2hFfuJr0JJ9ZDoiOpTRf-OzHoo_aem_rgBdPykJ8TA2PhKASOmoCw"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "matteo-takhir-gaiani",
+    id: "p039",
     name: "Lorem ipsum dolor si",
     image: "https://picsum.photos/seed/matteo-takhir-gaiani-portrait/600/600.jpg",
-    link: "https://www.linkedin.com/in/takhirmatteogaiani/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "michele-summa",
+    id: "p040",
     name: "Lorem ipsum d",
     image: "https://picsum.photos/seed/michele-summa-portrait/600/600.jpg",
-    link: "https://www.instagram.com/summaseitu/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "yussuf-el-bassri",
+    id: "p041",
     name: "Lorem ipsum dolo",
     image: "https://picsum.photos/seed/yussuf-el-bassri-portrait/600/600.jpg",
-    link: "https://www.yebmovie.com/"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   },
   {
-    id: "karl-casey",
+    id: "p042",
     name: "Lorem ipsu",
-    link: "https://www.youtube.com/@WhiteBatAudio"
+    link: "https://www.youtube.com/watch?v=xvFZjo5PgG0"
   }
 ];
 
@@ -254,3 +254,4 @@ window.PEOPLE_BY_ID = (function(arr){
   });
   return m;
 })(window.PEOPLE);
+
