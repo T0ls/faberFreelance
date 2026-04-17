@@ -40,19 +40,8 @@ This repository contains the source code for [www.faberfreelance.com](http://www
 
 ## How to Run Locally
 
-Since this is a static website, no complex build tools or Node.js dependencies are required.
-
-1. Clone the repository to your local machine.
-2. Open the project folder in your terminal.
-3. Start a local development server to avoid CORS issues when fetching assets. For example, using Python:
-   
-       python3 -m http.server 8000
-   
-   Or using Node.js/npm:
-   
-       npx serve .
-   
-4. Open your browser and navigate to `http://localhost:8000`.
+Since this is a static website, no complex build tools or Node.js are required.
+You can simply open direcly the [index.html](index.html) file. 
 
 ## Content Management
 
