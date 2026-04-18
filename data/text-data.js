@@ -2,6 +2,10 @@ window.TEXT_DATA = {
   shared: {
     nav: [
       {
+        label: "Home",
+        href: "index.html"
+      },
+      {
         label: "About",
         href: "about.html"
       },
