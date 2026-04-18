@@ -275,17 +275,17 @@
 
 					<!-- Immagine sinistra -->
 						<div class="col-12 col-md-3 text-center landing-image-col">
-							<img id="landingImgLeft" src="https://picsum.photos/seed/home-left/800/800.jpg" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine sinistra">
+							<img id="landingImgLeft" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine sinistra">
 					</div>
 
 					<!-- Immagine centrale (più grande) -->
 						<div class="col-12 col-md-4 text-center landing-image-col">
-							<img id="landingImgCenter" src="https://picsum.photos/seed/home-center/800/800.jpg" class="img-fluid rounded shadow pulse-target hero-center-img landing-img" alt="Immagine centrale">
+							<img id="landingImgCenter" class="img-fluid rounded shadow pulse-target hero-center-img landing-img" alt="Immagine centrale">
 					</div>
 
 					<!-- Immagine destra -->
 						<div class="col-12 col-md-3 text-center landing-image-col">
-							<img id="landingImgRight" src="https://picsum.photos/seed/home-right/800/800.jpg" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine destra">
+							<img id="landingImgRight" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine destra">
 					</div>
 
 				</div>
@@ -310,6 +310,17 @@
 		<script src="data/text-data.js"></script>
 		<script>
 		const textData = window.TEXT_DATA || {};
+
+		function resolveLandingImageSrc(src){
+			if(!src || typeof src !== 'string') return src;
+			if(/^(https?:)?\/\//i.test(src) || /^(data:|blob:)/i.test(src)) return src;
+
+			if(src.startsWith('/assets/')) return './data' + src;
+			if(src.startsWith('./assets/')) return './data/' + src.slice(2);
+			if(src.startsWith('assets/')) return './data/' + src;
+
+			return src;
+		}
 
 		function applySharedText(){
 			const shared = textData.shared || {};
@@ -353,10 +364,13 @@
 
 			const images = landing.images || {};
 			const leftImg = document.getElementById('landingImgLeft');
+			if(leftImg && images.leftSrc) leftImg.src = resolveLandingImageSrc(images.leftSrc);
 			if(leftImg && images.leftAlt) leftImg.alt = images.leftAlt;
 			const centerImg = document.getElementById('landingImgCenter');
+			if(centerImg && images.centerSrc) centerImg.src = resolveLandingImageSrc(images.centerSrc);
 			if(centerImg && images.centerAlt) centerImg.alt = images.centerAlt;
 			const rightImg = document.getElementById('landingImgRight');
+			if(rightImg && images.rightSrc) rightImg.src = resolveLandingImageSrc(images.rightSrc);
 			if(rightImg && images.rightAlt) rightImg.alt = images.rightAlt;
 		}
 

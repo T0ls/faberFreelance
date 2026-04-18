@@ -44,6 +44,9 @@ window.TEXT_DATA = {
     heroSubtitle: "Lorem ipsum dolor sit amet consectetur adip",
     scrollButtonAriaLabel: "Lorem ipsum dolor s",
     images: {
+      leftSrc: "/assets/Untitled.png",
+      centerSrc: "https://picsum.photos/seed/home-center/800/800.jpg",
+      rightSrc: "https://picsum.photos/seed/home-right/800/800.jpg",
       leftAlt: "Lorem ipsum dolor",
       centerAlt: "Lorem ipsum dolor",
       rightAlt: "Lorem ipsum dol"
