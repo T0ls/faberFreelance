@@ -25,6 +25,11 @@ window.TEXT_DATA = {
     footer: {
       owner: "Fabrizio Arrigo",
       rights: "Tutti i diritti riservati",
+      legal: {
+        pIva: "14043680967",
+        cf: "RRGFRZ01R08F205A",
+        legalAddress: "Via Valparaiso, 17"
+      },
       social: [
         {
           platform: "LinkedIn",
@@ -44,7 +49,7 @@ window.TEXT_DATA = {
     heroSubtitle: "Lorem ipsum dolor sit amet consectetur adip",
     scrollButtonAriaLabel: "Lorem ipsum dolor s",
     images: {
-      leftSrc: "/assets/Untitled.png",
+      leftSrc: "https://picsum.photos/seed/home-center/800/800.jpg",
       centerSrc: "https://picsum.photos/seed/home-center/800/800.jpg",
       rightSrc: "https://picsum.photos/seed/home-right/800/800.jpg",
       leftAlt: "Lorem ipsum dolor",

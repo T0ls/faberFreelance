@@ -172,7 +172,11 @@
 				if(footerCopy){
 					const owner = footer.owner || 'Fabrizio Arrigo';
 					const rights = footer.rights || 'Tutti i diritti riservati';
-					footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights;
+					const legal = footer.legal || {};
+					const pIva = legal.pIva || '14043680967';
+					const cf = legal.cf || 'RRGFRZ01R08F205A';
+					const legalAddress = legal.legalAddress || 'Via Valparaiso, 17';
+					footerCopy.innerHTML = '&copy; <span id="year"></span> ' + owner + ' • ' + rights + '<br>P.IVA ' + pIva + ' • CF ' + cf + ' • Sede legale: ' + legalAddress;
 				}
 
 				const socials = Array.isArray(footer.social) ? footer.social : [];
