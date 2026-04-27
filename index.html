@@ -255,7 +255,7 @@
 
 		<header class="page-hero text-center bg-light pt-2">
             <div class="container">
-                <video class="hero-video" autoplay loop muted playsinline>
+				<video class="hero-video" autoplay loop muted playsinline preload="metadata">
                     <source src="animazione.mp4" type="video/mp4">
                 </video>
 				<h1 id="landingHeroTitle" class="display-6" style="margin-bottom:-10px">FABRIZIO ARRIGO</h1>
@@ -275,17 +275,17 @@
 
 					<!-- Immagine sinistra -->
 						<div class="col-12 col-md-3 text-center landing-image-col">
-							<img id="landingImgLeft" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine sinistra">
+							<img id="landingImgLeft" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine sinistra" loading="lazy" decoding="async" width="800" height="800" fetchpriority="low">
 					</div>
 
 					<!-- Immagine centrale (più grande) -->
 						<div class="col-12 col-md-4 text-center landing-image-col">
-							<img id="landingImgCenter" class="img-fluid rounded shadow pulse-target hero-center-img landing-img" alt="Immagine centrale">
+							<img id="landingImgCenter" class="img-fluid rounded shadow pulse-target hero-center-img landing-img" alt="Immagine centrale" loading="eager" decoding="async" width="800" height="800" fetchpriority="high">
 					</div>
 
 					<!-- Immagine destra -->
 						<div class="col-12 col-md-3 text-center landing-image-col">
-							<img id="landingImgRight" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine destra">
+							<img id="landingImgRight" class="img-fluid rounded shadow-sm pulse-target landing-img" alt="Immagine destra" loading="lazy" decoding="async" width="800" height="800" fetchpriority="low">
 					</div>
 
 				</div>
@@ -367,13 +367,23 @@
 			}
 
 			const images = landing.images || {};
+			function configureLandingImage(img, options){
+				if(!img) return;
+				const cfg = options || {};
+				img.decoding = 'async';
+				img.loading = cfg.priority ? 'eager' : 'lazy';
+				img.setAttribute('fetchpriority', cfg.priority ? 'high' : 'low');
+			}
 			const leftImg = document.getElementById('landingImgLeft');
+			configureLandingImage(leftImg, { priority: false });
 			if(leftImg && images.leftSrc) leftImg.src = resolveLandingImageSrc(images.leftSrc);
 			if(leftImg && images.leftAlt) leftImg.alt = images.leftAlt;
 			const centerImg = document.getElementById('landingImgCenter');
+			configureLandingImage(centerImg, { priority: true });
 			if(centerImg && images.centerSrc) centerImg.src = resolveLandingImageSrc(images.centerSrc);
 			if(centerImg && images.centerAlt) centerImg.alt = images.centerAlt;
 			const rightImg = document.getElementById('landingImgRight');
+			configureLandingImage(rightImg, { priority: false });
 			if(rightImg && images.rightSrc) rightImg.src = resolveLandingImageSrc(images.rightSrc);
 			if(rightImg && images.rightAlt) rightImg.alt = images.rightAlt;
 		}

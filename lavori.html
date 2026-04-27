@@ -342,6 +342,11 @@
       const img = document.createElement('img');
       img.src = resolveAssetPath(p.rel_path, p.thumbnail);
       img.alt = title;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.width = 1200;
+      img.height = 675;
+      img.setAttribute('fetchpriority', 'low');
       thumbLink.appendChild(img);
 
       const label = document.createElement('div');

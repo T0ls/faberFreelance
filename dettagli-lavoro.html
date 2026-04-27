@@ -589,7 +589,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
         <div class="modal-body p-0" style="background:transparent;">
-          <img id="imageModalImg" src="" alt="" style="width:100%; height:auto; display:block; border-radius:6px;" />
+          <img id="imageModalImg" src="" alt="" decoding="async" style="width:100%; height:auto; display:block; border-radius:6px;" />
         </div>
       </div>
     </div>
@@ -717,12 +717,19 @@
       if(media.video && media.video.length){
         const v = document.createElement('video');
         v.controls = true; v.playsInline = true; v.muted = false;
+        v.preload = 'metadata';
         v.style.display = 'block';
         v.style.width = '100%';
         v.style.maxWidth = '100%';
         v.style.height = '100%';
         media.video.forEach(src => {
-          const s = document.createElement('source'); s.src = resolveAssetPath(basePath, src); v.appendChild(s);
+          const s = document.createElement('source');
+          const resolvedSrc = resolveAssetPath(basePath, src);
+          s.src = resolvedSrc;
+          if(/\.webm(\?|$)/i.test(resolvedSrc)) s.type = 'video/webm';
+          else if(/\.ogg(\?|$)/i.test(resolvedSrc)) s.type = 'video/ogg';
+          else s.type = 'video/mp4';
+          v.appendChild(s);
         });
         container.appendChild(v);
         initPlyr(v);
@@ -737,6 +744,11 @@
         imgs.forEach((u,i)=>{
           const it = document.createElement('div'); it.className = 'carousel-item' + (i===0? ' active':'');
           const img = document.createElement('img'); img.src = resolveAssetPath(basePath, u); img.className='d-block w-100 carousel-img'; img.alt = project.title + ' image ' + (i+1);
+          img.loading = i === 0 ? 'eager' : 'lazy';
+          img.decoding = 'async';
+          img.width = 1600;
+          img.height = 900;
+          img.setAttribute('fetchpriority', i === 0 ? 'high' : 'low');
           it.appendChild(img); inner.appendChild(it);
         });
         wrap.appendChild(inner);
@@ -757,6 +769,11 @@
       }
       if(imgs && imgs.length===1){
         const img = document.createElement('img'); img.src = resolveAssetPath(basePath, imgs[0]); img.alt = project.title; img.style.width='100%'; img.style.borderRadius='6px';
+        img.loading = 'eager';
+        img.decoding = 'async';
+        img.width = 1600;
+        img.height = 900;
+        img.setAttribute('fetchpriority', 'high');
         img.style.cursor = 'zoom-in';
         img.addEventListener('click', ()=> openImageModal(img.src));
         container.appendChild(img); return;

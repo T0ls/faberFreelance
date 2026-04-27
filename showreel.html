@@ -321,6 +321,43 @@
 		window.addEventListener('load', async function(){
 			const container = document.getElementById('cardsContainer');
 
+			function hydratePreviewVideo(video){
+				if(!video || video.dataset.hydrated === 'true') return;
+				const rawCandidates = video.dataset.candidates || '[]';
+				let candidates = [];
+				try { candidates = JSON.parse(rawCandidates); } catch(e) { candidates = []; }
+				if(!candidates.length) return;
+
+				const source = video.querySelector('source') || document.createElement('source');
+				if(!source.parentNode) video.appendChild(source);
+
+				(function attachVideo(cands){
+					if(!cands || !cands.length){
+						try{ video.removeChild(source); }catch(e){}
+						return;
+					}
+
+					source.src = cands[0];
+					source.type = 'video/mp4';
+
+					const onErr = function(){
+						source.onerror = null;
+						video.removeEventListener('error', onErr);
+						cands.shift();
+						if(cands.length) attachVideo(cands);
+						else {
+							try{ video.removeChild(source); }catch(e){}
+						}
+					};
+
+					source.onerror = onErr;
+					video.addEventListener('error', onErr);
+					try{ video.load(); }catch(e){}
+				})(candidates.slice());
+
+				video.dataset.hydrated = 'true';
+			}
+
 			function resolveAssetPath(basePath, assetPath){
 				const value = String(assetPath || '');
 				if(!value) return '';
@@ -363,6 +400,10 @@
 						const img = document.createElement('img');
 						img.className = 'card-video card-poster';
 						img.alt = item.title || 'poster';
+						img.loading = 'lazy';
+						img.decoding = 'async';
+						img.width = 1600;
+						img.height = 900;
 						// use generic inline fallback image (do not use item.poster)
 						img.src = notFoundPoster;
 						mediaEl = img;
@@ -372,34 +413,15 @@
 						video.muted = true;
 						video.setAttribute('playsinline', '');
 						video.autoplay = true; /* attempt autoplay (muted) */
-						video.preload = 'auto';
+						video.preload = 'metadata';
 						video.loop = true;
+						video.width = 1600;
+						video.height = 900;
 
 						const src = document.createElement('source');
 						video.appendChild(src);
-
-						(function attachVideo(cands){
-							if(!cands || !cands.length){
-								try{ video.removeChild(src); }catch(e){}
-								return;
-							}
-							src.src = resolveAssetPath(relPath, cands[0]);
-							src.type = 'video/mp4';
-
-							const onErr = function(){
-								src.onerror = null;
-								video.removeEventListener('error', onErr);
-								cands.shift();
-								if(cands.length) attachVideo(cands);
-									else {
-										try{ video.removeChild(src); }catch(e){}
-									}
-							};
-
-							src.onerror = onErr;
-							video.addEventListener('error', onErr);
-							try{ video.load(); }catch(e){}
-						})(videoCandidates.slice());
+						video.dataset.candidates = JSON.stringify(videoCandidates.map(srcPath => resolveAssetPath(relPath, srcPath)));
+						video.dataset.hydrated = 'false';
 
 						mediaEl = video;
 					}
@@ -423,11 +445,32 @@
 					thumb.appendChild(label);
 					a.appendChild(thumb);
 					container.appendChild(a);
-					// try to start playback immediately for autoplay-capable browsers (only for video elements)
-					if(mediaEl && mediaEl.tagName && mediaEl.tagName.toLowerCase() === 'video'){
-						try{ mediaEl.play(); }catch(e){}
-					}
+					// video sources are hydrated lazily when cards enter the viewport.
 				});
+
+				const previewVideos = Array.from(container.querySelectorAll('video.card-video'));
+				if('IntersectionObserver' in window){
+					const observer = new IntersectionObserver((entries) => {
+						entries.forEach(entry => {
+							const video = entry.target;
+							if(!(video && video.tagName && video.tagName.toLowerCase() === 'video')) return;
+
+							if(entry.isIntersecting){
+								hydratePreviewVideo(video);
+								try{ video.play(); }catch(e){}
+							} else {
+								video.pause();
+							}
+						});
+					}, { root: null, rootMargin: '200px 0px', threshold: 0.2 });
+
+					previewVideos.forEach(video => observer.observe(video));
+				} else {
+					previewVideos.forEach(video => {
+						hydratePreviewVideo(video);
+						try{ video.play(); }catch(e){}
+					});
+				}
 
 				// reveal labels after entrance
 				setTimeout(()=>{
@@ -447,6 +490,7 @@
 						if(label) label.classList.add('show');
 						// only attempt play for actual <video> elements
 						if(mediaEl.tagName && mediaEl.tagName.toLowerCase() === 'video'){
+							hydratePreviewVideo(mediaEl);
 							try { await mediaEl.play(); } catch(e){}
 						}
 					});
